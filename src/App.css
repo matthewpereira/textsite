@@ -1,13 +1,20 @@
 html {
-  scroll-behavior: smooth;
-  background: #eee;
-  
+  background: #f0f0f0;
 }
 
 body {
   padding: 0;
   margin: 0;
-  transition: all 5s ease-in-out;
+}
+
+a:visited {
+  color: blue;
+}
+
+.fakeLink {
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 nav {
@@ -16,9 +23,16 @@ nav {
   align-items: center;
   justify-content: space-between;
   width: calc(100% - 16px);
-  background: #eee;
+  background-color: #f0f0f0;
   padding: 8px;
   font-size: 12px;
+  top: 0;
+  z-index: 500;
+}
+
+nav .homeLink a {
+  text-decoration: none;
+  color: #000;
 }
 
 nav span+span {
@@ -26,40 +40,64 @@ nav span+span {
   margin-left: 16px;
 }
 
+.pagination__gallery__pagination {
+  display: inline-block;
+  margin-right: 16px;
+}
+
+.pagination__gallery__pagination div {
+  display: inline-block;
+  margin-left: 8px;
+}
+
+.about__aboutContainer {
+  margin: 8px;
+  margin-top: 64px;
+}
+
+.about__subtitle {
+  margin-top: 1px;
+  font-size: 12px;
+}
+
+.about__subtitle+.about__subtitle {
+  margin-top: 19px;
+}
+
 .gallery {
   width: 100vw;
   height: 100vh;
+  padding-top: 16px;
 }
 
 .galleryImage {
   width: 100vw;
   height: 100vh;
-  /* background: #fff; */
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .galleryImage:nth-child(2n) {
-  background: #eee;
+  // background: #eee;
 }
 
 .galleryImage img {
-  border: 1px solid red;
+  border: 1px solid #ddd;
   max-height: calc(100vh - 100px);
   max-width: calc(100vw - 100px);
+  width: auto;
+  height: auto;
 }
 
 .shortcuts {
-  position: absolute;
-  top: 100vh;
-  margin-top: -48px;
-  width: 100vw;
-  font-size: 18px;
-  /* background: #fff; */
-  padding: 8px 4px;
+  bottom: 0px;
+  font-size: 12px;
   border-radius: 2px;
   color: #444;
+  z-index: 1000;
+  display: inline-block;
+  margin-left: 16px;
 }
 
 .shortcuts ul {
@@ -84,6 +122,92 @@ nav span+span {
   font-size: 12px;
   display: inline-block;
   position: relative;
-  top: -2px;
-  padding-bottom: 16px;
+}
+
+.shortcutCode {
+  display: inline-block;
+  width: 32px;
+  text-align: right;
+}
+
+.shortcutsPopup {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background: #f0f0f0;
+  opacity: 0.9;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.shortcutsPopup ul {
+  padding: 0;
+  margin: 0;
+}
+
+.shortcutsPopup ul li {
+  line-height: 1.5;
+  list-style: none;
+}
+
+.shortcutsPopup ul li:nth-of-type(2n) {
+  margin-bottom: 16px;
+}
+
+.galleryImage {
+  display: flex;
+  flex-direction: column;
+}
+
+.galleryImage__caption {
+  background: #f9f9f9;
+  padding: 1px 24px 4px;
+  border-radius: 2px;
+  margin-top: 8px;
+  font-style: italic;
+}
+
+.galleryImage__caption div {
+  display: inline-block;
+  font-size: 12px;
+}
+
+.galleryImage__headline {
+  font-weight: bold;
+}
+
+.galleryImage__caption div+div {
+  margin-left: 16px;
+}
+
+.loginButton {
+  cursor: pointer;
+  color: blue;
+  text-decoration: underline;
+}
+
+.pagination__gallery__placeholder {
+  color: #999;
+}
+
+.gallery__titlecard {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.gallery__titlecard-albumname {
+  font-weight: bold;
+}
+
+.gallery__titlecard-description {
+  font-size: 12px;
+  margin-top: 16px;
 }

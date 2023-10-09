@@ -1,5 +1,3 @@
-declare module 'allowedAlbums';
-
 const allowedAlbums = {
   "base gallery": "6Hpyr",
   // 2022

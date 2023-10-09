@@ -1,10 +1,5 @@
-import App from "../App";
+import GalleryWrapper from "./GalleryWrapper";
 
-const DefaultView = () => {
-    const DEFAULTGALLERY = "6Hpyr";
-
-    return <App albumCode={DEFAULTGALLERY}/>
-    
-}
+const DefaultView = () => <GalleryWrapper albumCode="6Hpyr" />;
 
 export default DefaultView;

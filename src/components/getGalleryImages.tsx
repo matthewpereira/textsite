@@ -1,5 +1,4 @@
-const IMGUR_AUTHORIZATION = "0deeb4de7f631f1";
-
+import { IMGUR_AUTHORIZATION } from '../config';
 const DEFAULTGALLERY = "6Hpyr";
 
 const IN_CASE_OF_ERROR = {

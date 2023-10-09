@@ -1,38 +1,74 @@
-import { useEffect }                  from 'react';
-import handleScrollKeypress           from '../helpers/handleScrollKeypress';
-import GalleryImage                   from './GalleryImage.js';
-// import { Album }                   from '../types'; 
+import { useEffect } from 'react';
+import { useLocation } from "react-router-dom";
 
-interface GalleryType {
-  captions: string,
-  loadedImages: []
-}
+import GalleryImage from './GalleryImage.js';
+import { usePaginationContext } from '../context/PaginationContext.js';
 
-const Gallery = ({captions, loadedImages }: GalleryType) => {
+import handleKeypress from '../helpers/handleKeypress';
+import removeHashFromHashString from '../helpers/removeHashFromHashString.js';
 
-  let eventListenerAdded = false;
+import { IMAGES_PER_PAGE } from '../config';
 
-    useEffect(() => {
-        if (!eventListenerAdded) {
-            eventListenerAdded = true;
-            document.addEventListener('keydown', handleScrollKeypress);
-        }
-    }, []);
+let eventListenerAdded = false;
 
-  if (!loadedImages || !loadedImages.length) {
+const Gallery = (galleryObject: any) => {
+
+  const location          = useLocation();
+  const { numberOfPages } = usePaginationContext();
+
+  const keypressWrapper = (event) => {
+    handleKeypress(event, numberOfPages);
+  }
+
+  useEffect(() => {
+    if (!eventListenerAdded && numberOfPages !== 0) {
+      eventListenerAdded = true;
+      document.addEventListener('keydown', keypressWrapper);
+    }
+  }, [numberOfPages]);
+
+  if (!galleryObject.galleryObject.loadedImages || !galleryObject.galleryObject.loadedImages.length) {
     return null;
   }
 
-  // const hash = location.hash.replace(/#/, '');
-  // const pageNumber = hash.length && hash > 0 ? hash : 1;
-  
-  let currentImages = loadedImages;
+  const handlePagination = (array: [], currentPage: number, itemsPerGroup: number) => {
+    return filterArrayToPage(array, currentPage, itemsPerGroup);
+  }
+
+  const filterArrayToPage = (array: [], pageNumber: number, itemsPerGroup: number) => {
+    if (pageNumber < 0) {
+      return array;
+    }
+
+    const startIndex = pageNumber === 0 ? 0 : pageNumber * itemsPerGroup;
+    const endIndex   = (pageNumber + 1) * itemsPerGroup;
+
+    return array.slice(startIndex, endIndex);
+  }
+
+  const currentPage = Number(removeHashFromHashString(location.hash)) - 1;
+
+  const thisPageImages = handlePagination(galleryObject.galleryObject.loadedImages, currentPage, IMAGES_PER_PAGE);
+
+  // Don't show the album name and description on default gallery
+  const firstPage = () => (
+    (location.search.length !== 0 && location.hash === "#1") ||
+    (location.search.length !== 0 && location.hash === "")
+  );
+
+  const titleCard = firstPage() ?
+    <TitleCard
+      albumName={galleryObject.galleryObject.albumName}
+      description={galleryObject.galleryObject.description}
+    /> :
+    null;
 
   return (
-    <div>
-      {currentImages.map((image:any, index: number) =>
+    <div className="gallery">
+      {titleCard}
+      {thisPageImages.map((image: any, index: number) =>
         <GalleryImage
-          captions={captions}
+          captions={galleryObject.galleryObject.captions}
           height={image.height}
           image={image}
           index={index}
@@ -43,6 +79,15 @@ const Gallery = ({captions, loadedImages }: GalleryType) => {
       )}
     </div>
   )
+}
+
+const TitleCard = (props: { albumName?: any, description?: any }) => {
+  return (
+    <div className="gallery__titlecard">
+      <div className="gallery__titlecard-albumname">{props.albumName}</div>
+      <div className="gallery__titlecard-description">{props.description}</div>
+    </div>
+  );
 }
 
 export default Gallery;

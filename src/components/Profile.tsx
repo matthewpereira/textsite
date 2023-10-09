@@ -1,8 +1,4 @@
-import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Link } from "react-router-dom";
-import LogoutButton from "./LogoutButton";
-import styles from "./Profile.module.scss";
 
 const Profile = () => {
   const { user, isAuthenticated, isLoading } = useAuth0();
@@ -11,7 +7,7 @@ const Profile = () => {
     return <div>...</div>;
   }
 
-  const displayTextWidth = (text, font) => {
+  const displayTextWidth = (text: string, font: string): number => {
     const canvas = displayTextWidth.canvas || (displayTextWidth.canvas = document.createElement("canvas"));
     const context = canvas.getContext("2d");
     
@@ -34,10 +30,6 @@ const Profile = () => {
           <img src={user.picture} alt={user.name} />
           <p style={{ width: userLength + 'px' }} className={styles.username}>{user.name}</p>
           <p style={{ width: emailLength + 'px' }} className={styles.email}>{user.email}</p>
-          <Link className={styles.albums} to={`/albums`}>
-            Albums
-          </Link>
-          <LogoutButton />
         </div>
       </div>
     )
