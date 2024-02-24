@@ -21,7 +21,7 @@ const providerConfig = {
   domain: config.domain,
   clientId: config.clientId,
   ...(config.audience ? { audience: config.audience } : null),
-  redirect_uri: window.location.origin,
+  authorizationParams.redirect_uri: window.location.origin,
   onRedirectCallback,
 };
 

@@ -1,7 +1,10 @@
 const configJson = {
   domain: "dev-a1lpbdbz.us.auth0.com",
   clientId: "lngkoS4TEZxodhg4p8rgj3cNvc5d1kxN",
-  audience: "",
+  authorizationParams={
+    redirect_uri: window.location.origin
+  },
+  audience:""
 };
 
 export const IMAGES_PER_PAGE = 20;
