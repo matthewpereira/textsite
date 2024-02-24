@@ -16,7 +16,11 @@ const Gallery = (galleryObject: any) => {
   const location          = useLocation();
   const { numberOfPages } = usePaginationContext();
 
-  const keypressWrapper = (event) => {
+  const keypressWrapper = (event: KeyboardEvent) => {
+    if (!numberOfPages) {
+      return null;
+    }
+
     handleKeypress(event, numberOfPages);
   }
 

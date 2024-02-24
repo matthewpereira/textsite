@@ -3,9 +3,9 @@ import React, { createContext, useContext } from 'react';
 // Define the context
 export interface PaginationContextType {
   children: React.ReactNode,
-  numberOfPages: number,
-  pathName: string,
-  currentPage: number
+  numberOfPages?: number,
+  pathName?: string,
+  currentPage?: number
   // Add other properties or methods you need here
 }
 
@@ -25,7 +25,7 @@ export function usePaginationContext() {
 
 export function PaginationContextProvider({ children, numberOfPages, pathName, currentPage }: PaginationContextType) {
   return (
-    <PaginationContext.Provider value={{ numberOfPages, pathName, currentPage }}>
+    <PaginationContext.Provider value={{ children, numberOfPages, pathName, currentPage }}>
       {children}
     </PaginationContext.Provider>
   );

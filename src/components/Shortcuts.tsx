@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import { useState, useEffect } from "react"
 
 const ShortcutsPopup = ({ setShowShortcuts }: any) => {
   return (
@@ -19,7 +19,9 @@ const ShortcutsPopup = ({ setShowShortcuts }: any) => {
 const ShortcutsHint = ({ setShowShortcuts }: any) => {
   let hotkey = "^";
 
-  if (navigator.platform.indexOf("Mac") != -1) {
+  const userAgent = window.navigator.userAgent;
+  
+  if (userAgent.includes("Macintosh")) {
     hotkey = "⌘";
   }
 
@@ -33,13 +35,17 @@ const ShortcutsHint = ({ setShowShortcuts }: any) => {
 const Shortcuts = () => {
   const [showShortcuts, setShowShortcuts] = useState(false);
 
+  const keypressWrapper = (event: KeyboardEvent) => {
+    handleShortcutKeypress(event, showShortcuts);
+  }
+
   // Add event listener when the component mounts
   useEffect(() => {
-    window.addEventListener("keydown", handleShortcutKeypress);
+    window.addEventListener("keydown", keypressWrapper);
 
     // Remove the event listener when the component unmounts
     return () => {
-      window.removeEventListener("keydown", handleShortcutKeypress);
+      window.removeEventListener("keydown", keypressWrapper);
     };
   }, []); // Empty dependency array ensures this effect runs once on mount
 

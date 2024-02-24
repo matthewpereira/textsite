@@ -1,6 +1,3 @@
-import React from "react";
-import { usePaginationContext } from '../context/PaginationContext';
-
 const changePage = (modifier:number, numberOfPages: number) => {
   const search = location.search;
   const hash = location.hash.replace("#", "");
@@ -88,11 +85,11 @@ const HandleScrollKeypress = (event: KeyboardEvent, numberOfPages: number) => {
   }
   
   if (event.code === "ArrowRight") {
-    const location = changePage(1, numberOfPages);
+    changePage(1, numberOfPages);
   }
   
   if (event.code === "ArrowLeft") {
-    const location = changePage(-1, numberOfPages);
+    changePage(-1, numberOfPages);
   }
 
 }

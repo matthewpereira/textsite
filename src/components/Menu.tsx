@@ -2,7 +2,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Pagination from "./Pagination.tsx";
 import Profile from "./Profile.tsx";
 import Shortcuts from "./Shortcuts.tsx";
-import { usePaginationContext } from '../context/PaginationContext';
 
 const Menu = (loadedImages: any) => {
 
@@ -11,8 +10,6 @@ const Menu = (loadedImages: any) => {
   const Login = () => <span><a className="loginButton" onClick={() => loginWithRedirect()}>Login</a></span>;
 
   const Logout = () => <span><a onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>Logout</a></span>;
-
- const { numberOfPages } = usePaginationContext();
 
  return (
     <nav>

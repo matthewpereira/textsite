@@ -79,7 +79,7 @@ nav span+span {
 }
 
 .galleryImage:nth-child(2n) {
-  // background: #eee;
+  /* background: #eee; */
 }
 
 .galleryImage img {
@@ -135,7 +135,6 @@ nav span+span {
   width: 100vw;
   height: 100vh;
   background: #f0f0f0;
-  opacity: 0.9;
   top: 0;
   left: 0;
   display: flex;
