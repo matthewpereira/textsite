@@ -1,10 +1,7 @@
 const configJson = {
   domain: "dev-a1lpbdbz.us.auth0.com",
   clientId: "lngkoS4TEZxodhg4p8rgj3cNvc5d1kxN",
-  authorizationParams={
-    redirect_uri: window.location.origin
-  },
-  audience:""
+  audience:"https://matthewpereira.com/api/"
 };
 
 export const IMAGES_PER_PAGE = 20;
