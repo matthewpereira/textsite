@@ -7,7 +7,7 @@ export default defineConfig(( {command }) => {
 
 const config = {
     plugins: [react(), viteTsconfigPaths()],
-    base: '/',
+    base: '/textsite/',
   }
 
   if (command !== 'serve') {
