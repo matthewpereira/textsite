@@ -17,9 +17,6 @@ const onRedirectCallback = (appState: any) => {
 // for a full list of the available properties on the provider
 const config = getConfig();
 
-console.log(config);
-
-
 const providerConfig = {
   domain: config.domain,
   clientId: config.clientId,
@@ -28,16 +25,16 @@ const providerConfig = {
   onRedirectCallback,
 };
 
-if (
-  window.location.hostname === "localhost" ||
-  window.location.hostname === "127.0.0.1"
-) {
-  ReactDOM.createRoot(document.getElementById("root")!).render(
-    <React.StrictMode>
-      <AppRouter />
-    </React.StrictMode>
-  );
-} else {
+// if (
+//   window.location.hostname === "localhost" ||
+//   window.location.hostname === "127.0.0.1"
+// ) {
+//   ReactDOM.createRoot(document.getElementById("root")!).render(
+//     <React.StrictMode>
+//       <AppRouter />
+//     </React.StrictMode>
+//   );
+// } else {
   ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
       <Auth0Provider {...providerConfig}>
@@ -45,4 +42,4 @@ if (
       </Auth0Provider>
     </React.StrictMode>
   );
-};
+// };
