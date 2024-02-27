@@ -30,7 +30,7 @@ const router = createBrowserRouter([
       path: "/about",
       element: <AboutView />,
     },
-  ]);
+  ], basename: "/textsite/");
 
   
 
