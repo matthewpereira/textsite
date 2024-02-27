@@ -30,9 +30,7 @@ const router = createBrowserRouter([
       path: "/about",
       element: <AboutView />,
     },
-  ], basename: "/textsite/");
-
-  
+  ], { basename: import.meta.env.DEV ? '/' : "/textsite/" });
 
 const AppRouter = () => (
         <div>
