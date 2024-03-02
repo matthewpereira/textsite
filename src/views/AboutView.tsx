@@ -3,8 +3,6 @@ import Menu from '../components/Menu.tsx';
 import { PaginationContextProvider } from '../context/PaginationContext.tsx';
 import detectLocal from "../helpers/detectLocal.ts";
 
-const basepath = detectLocal() ? window.location.origin : window.location.origin + '/textsite';
-
 const AboutPage = () => (
   <PaginationContextProvider>
   <div>
