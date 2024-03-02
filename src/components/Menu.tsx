@@ -4,7 +4,7 @@ import Profile from "./Profile.tsx";
 import Shortcuts from "./Shortcuts.tsx";
 import detectLocal from "../helpers/detectLocal.ts";
 
-const basepath = detectLocal() ? window.location.origin : window.location.origin + '/textsite';
+const basepath = detectLocal() ? '' : '/textsite';
 
 const Menu = (loadedImages: any) => {
 
@@ -18,7 +18,7 @@ const Menu = (loadedImages: any) => {
     <nav>
       <div className="nav-left">
         <span className="homeLink"><a href={ basepath + "/" }>Matthew Pereira</a></span>
-        <span><a href={ basepath + "/about" }>About</a></span>
+        <span><a href={ "/about" }>About</a></span>
         {isAuthenticated ? <span><a href={ basepath + "/albums" }>Albums</a></span> : null}
         <span><a href="mailto:mail@matthewpereira.com">Email</a></span>
         <Shortcuts />

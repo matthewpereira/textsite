@@ -1,10 +1,9 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
-import DefaultView from "./views/DefaultView.tsx";
-import AlbumView from "./views/AlbumView.tsx";
-import AboutView from "./views/AboutView.tsx";
-import AlbumList from "./components/AlbumList.tsx";
-import detectLocal from "./helpers/detectLocal.ts"
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import DefaultView from './views/DefaultView.tsx';
+import AlbumView from './views/AlbumView.tsx';
+import AboutView from './views/AboutView.tsx';
+import AlbumList from './components/AlbumList.tsx';
+import detectLocal from './helpers/detectLocal.ts';
 
 const WrapperComponent = () => {
   const param = new URL(document.location.toString()).searchParams.toString();
@@ -17,29 +16,16 @@ const WrapperComponent = () => {
   return <DefaultView />;
 };
 
-const basename = detectLocal() ? '/' : '/textsite';
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <WrapperComponent />,
-    children: [
-      {
-        path: "/albums",
-        element: <AlbumList />,
-      },
-      {
-        path: "/about",
-        element: <AboutView />,
-      },
-    ]
-  },
-], { basename: basename });
+const basename = detectLocal() ? '/' : '/textsite/';
 
 const AppRouter = () => (
-  <div>
-    <RouterProvider router={router} />
-  </div>
-)
+  <Router basename={basename}>
+    <Routes>
+      <Route path="/" element={<WrapperComponent />} />
+      <Route path="/albums" element={<AlbumList />} />
+      <Route path="/about" element={<AboutView />} />
+    </Routes>
+  </Router>
+);
 
 export default AppRouter;
