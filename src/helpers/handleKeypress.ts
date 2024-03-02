@@ -16,7 +16,9 @@ const changePage = (modifier:number, numberOfPages: number) => {
     return false;
   }
 
-  window.location.href = location.origin + "/" + search + "#" + newHash;
+  const basename = window.location.hostname === '127.0.0.1' ? '/' : '/textsite/';
+
+  window.location.href = location.origin + basename + search + "#" + newHash;
   scrollToTarget(0);
 }
 

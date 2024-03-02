@@ -16,7 +16,7 @@ const WrapperComponent = () => {
   return <DefaultView />;
 };
 
-const basename = window.location.hostname === '127.0.0.1' ? '/' : '/textsite';
+const basename = '/textsite/';
 
 const router = createBrowserRouter([
   {
