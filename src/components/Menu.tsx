@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import Pagination from "./Pagination.tsx";
 import Profile from "./Profile.tsx";
@@ -18,7 +19,7 @@ const Menu = (loadedImages: any) => {
     <nav>
       <div className="nav-left">
         <span className="homeLink"><a href={ basepath + "/" }>Matthew Pereira</a></span>
-        <span><a href={ "/about" }>About</a></span>
+        <span><Link to={ "/about" }>About</Link></span>
         {isAuthenticated ? <span><a href={ basepath + "/albums" }>Albums</a></span> : null}
         <span><a href="mailto:mail@matthewpereira.com">Email</a></span>
         <Shortcuts />

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Menu from '../components/Menu.tsx';
 import { PaginationContextProvider } from '../context/PaginationContext.tsx';
 import detectLocal from "../helpers/detectLocal.ts";
@@ -19,7 +20,7 @@ const AboutPage = () => (
         </div>
         <br/><br/><br/>
         <div className="about__subtitle">
-          Go <a href={ basepath + "/" }>back to the photos</a>
+          Go <Link to={ '..' }>back to the photos</Link>
         </div>
       </div>
     </div>
