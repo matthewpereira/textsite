@@ -1,6 +1,8 @@
 import Menu from '../components/Menu.tsx';
 import { PaginationContextProvider } from '../context/PaginationContext.tsx';
+import detectLocal from "../helpers/detectLocal.ts";
 
+const basepath = detectLocal() ? window.location.origin : window.location.origin + '/textsite';
 
 const AboutPage = () => (
   <PaginationContextProvider>
@@ -17,7 +19,7 @@ const AboutPage = () => (
         </div>
         <br/><br/><br/>
         <div className="about__subtitle">
-          Go <a href="/">back to the photos</a>
+          Go <a href={ basepath + "/" }>back to the photos</a>
         </div>
       </div>
     </div>

@@ -4,6 +4,7 @@ import DefaultView from "./views/DefaultView.tsx";
 import AlbumView from "./views/AlbumView.tsx";
 import AboutView from "./views/AboutView.tsx";
 import AlbumList from "./components/AlbumList.tsx";
+import detectLocal from "./helpers/detectLocal.ts"
 
 const WrapperComponent = () => {
   const param = new URL(document.location.toString()).searchParams.toString();
@@ -16,7 +17,7 @@ const WrapperComponent = () => {
   return <DefaultView />;
 };
 
-const basename = '/textsite/';
+const basename = detectLocal() ? '/' : '/textsite';
 
 const router = createBrowserRouter([
   {
