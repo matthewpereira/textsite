@@ -7,11 +7,11 @@ export default defineConfig(( {command }) => {
 
 const config = {
     plugins: [react(), viteTsconfigPaths()],
-    base: '/',
+    base: './',
   }
 
   if (command !== 'serve') {
-    config.base = '/textsite/'
+    config.base = '/textsite'
   }
 
   return config

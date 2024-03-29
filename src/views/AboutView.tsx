@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import Menu from '../components/Menu.tsx';
 import { PaginationContextProvider } from '../context/PaginationContext.tsx';
-import detectLocal from "../helpers/detectLocal.ts";
 
 const AboutPage = () => (
   <PaginationContextProvider>

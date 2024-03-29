@@ -14,13 +14,13 @@ interface PaginationButtonType {
 const nextPagePath = (pathName: string, currentPage: number) => {
   const increment = currentPage + 1;
 
-  return pathName + "/#" + increment;
+  return pathName + "#" + increment;
 }
 
 const prevPagePath = (pathName: string, currentPage: number) => {
   const decrement = currentPage - 1;
 
-  return pathName + "/#"  + decrement;
+  return pathName + "#"  + decrement;
 }
 
 const PrevButton = ({ currentPage, pathName }: PaginationButtonType) => {
