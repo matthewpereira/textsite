@@ -19,7 +19,7 @@ const AlbumList = () => {
 
   const { isAuthenticated } = useAuth0();
 
-  if (isAuthenticated) {
+  if (!isAuthenticated) {
     return window.location.href = "/";
   }
 
