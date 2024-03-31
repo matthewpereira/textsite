@@ -15,10 +15,7 @@ const changePage = (modifier:number, numberOfPages: number) => {
   if (newHash > numberOfPages) {
     return false;
   }
-
-  const basename = window.location.hostname === '127.0.0.1' ? '/' : '/textsite/';
-
-  window.location.href = location.origin + basename + search + "#" + newHash;
+  window.location.href = location.origin + search + "#" + newHash;
   scrollToTarget(0);
 }
 

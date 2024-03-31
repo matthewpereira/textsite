@@ -10,9 +10,5 @@ const config = {
     base: './',
   }
 
-  if (command !== 'serve') {
-    config.base = '/textsite'
-  }
-
   return config
 })

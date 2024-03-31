@@ -78,6 +78,16 @@ nav span+span {
   align-items: center;
 }
 
+.galleryImage__caption {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.galleryImage img:hover+.galleryImage__caption {
+  opacity: 1;
+  transition: opacity 0.25s ease-in-out;
+}
+
 .galleryImage:nth-child(2n) {
   /* background: #eee; */
 }

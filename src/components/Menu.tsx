@@ -3,9 +3,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Pagination from "./Pagination.tsx";
 import Profile from "./Profile.tsx";
 import Shortcuts from "./Shortcuts.tsx";
-import detectLocal from "../helpers/detectLocal.ts";
-
-const basepath = detectLocal() ? '' : '/textsite';
 
 const Menu = (loadedImages: any) => {
 
@@ -18,9 +15,9 @@ const Menu = (loadedImages: any) => {
   return (
     <nav>
       <div className="nav-left">
-        <span className="homeLink"><a href={ basepath + "/" }>Matthew Pereira</a></span>
+        <span className="homeLink"><a href="/">Matthew Pereira</a></span>
         <span><Link to={ "/about" }>About</Link></span>
-        {isAuthenticated ? <span><a href={ basepath + "/albums" }>Albums</a></span> : null}
+        {isAuthenticated ? <span><a href="/albums">Albums</a></span> : null}
         <span><a href="mailto:mail@matthewpereira.com">Email</a></span>
         <Shortcuts />
       </div>

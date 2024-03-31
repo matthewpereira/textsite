@@ -8,8 +8,6 @@ import { getConfig } from "./config";
 import "./index.css";
 
 const onRedirectCallback = (appState: any) => {
-  console.log(appState);
-  
   history.push(
     appState && appState.returnTo ? appState.returnTo : window.location.pathname
   );
