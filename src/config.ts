@@ -1,6 +1,6 @@
 const configJson = {
   domain: "dev-a1lpbdbz.us.auth0.com",
-  clientId: "lngkoS4TEZxodhg4p8rgj3cNvc5d1kxN",
+  clientId: "1wluyw9Ns1jAfENQfPYfhkwrdyMbDfX7",
   audience:"https://matthewpereira.com/api/"
 };
 

@@ -85,7 +85,8 @@ nav span+span {
 
 .galleryImage img:hover+.galleryImage__caption {
   opacity: 1;
-  transition: opacity 0.25s ease-in-out;
+  transition: opacity 0.5s ease-in-out;
+  transition-delay: 0.75s;
 }
 
 .galleryImage:nth-child(2n) {
