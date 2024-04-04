@@ -221,3 +221,17 @@ nav span+span {
   font-size: 12px;
   margin-top: 16px;
 }
+
+.profileWrapper {
+  display: inline-flex;
+  margin-right: 16px;
+}
+
+.profileWrapper p {
+  margin: 0;
+  padding: 0;
+}
+
+.logoutButton {
+  cursor: pointer;
+}

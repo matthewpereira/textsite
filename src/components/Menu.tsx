@@ -10,7 +10,7 @@ const Menu = (loadedImages: any) => {
 
   const Login = () => <span><a className="loginButton" onClick={() => loginWithRedirect()}>Login</a></span>;
 
-  const Logout = () => <span><a onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>Logout</a></span>;
+  const Logout = () => <span><a className="logoutButton" onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>Logout</a></span>;
 
   return (
     <nav>

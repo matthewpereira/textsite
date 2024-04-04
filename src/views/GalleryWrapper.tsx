@@ -38,7 +38,7 @@ function GalleryWrapper(props: GalleryWrapperType) {
 
       if (!validateAlbum(album)) {
         // clear the bad query string if it's not on the list of allowed albums
-        window.history.replaceState(null, '', window.location.pathname);
+        // window.history.replaceState(null, '', window.location.pathname);
 
         const data = await getGalleryImages("6Hpyr");
 
