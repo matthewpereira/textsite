@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
+import { PaginationContextProvider } from '../context/PaginationContext.tsx';
 import Menu from '../components/Menu.tsx';
 import Gallery from '../components/Gallery.tsx';
 import getGalleryImages from "../components/getGalleryImages.jsx";
-import { PaginationContextProvider } from '../context/PaginationContext.tsx';
 import validateAlbum from "../helpers/validateAlbum.js";
 
 import { IMAGES_PER_PAGE } from "../config";

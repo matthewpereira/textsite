@@ -11,10 +11,8 @@ a:visited {
   color: blue;
 }
 
-.fakeLink {
-  color: blue;
-  cursor: pointer;
-  text-decoration: underline;
+.shortcutsPopup .fakeLink {
+  margin-left: 16px;
 }
 
 nav {
@@ -87,10 +85,6 @@ nav span+span {
   opacity: 1;
   transition: opacity 0.5s ease-in-out;
   transition-delay: 0.75s;
-}
-
-.galleryImage:nth-child(2n) {
-  /* background: #eee; */
 }
 
 .galleryImage img {

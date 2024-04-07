@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
+import { withAuthenticationRequired } from "@auth0/auth0-react";
 
 import { PaginationContextProvider } from '../context/PaginationContext.tsx'; 
 import Menu from './Menu.tsx';
-import ThumbnailGallery from "./ThumbnailGallery.tsx";
 import AlbumSelector from "./AlbumSelector";
 
 import allowedAlbums from "../allowedAlbums";
@@ -16,13 +15,6 @@ const stripFirstAlbum = (originalObject: any) =>
   );
 
 const AlbumList = () => {
-
-  const { isAuthenticated } = useAuth0();
-
-  if (!isAuthenticated) {
-    return window.location.href = "/";
-  }
-
   const [albumCovers, setAlbumCovers] = useState([]);
 
   useEffect(() => {
@@ -37,7 +29,9 @@ const AlbumList = () => {
     for (let i = 0; i < Object.values(allowedAlbums).length; i) {
       const albumsToFetch = Object.values(remainingAlbums).slice(0, COHORT_SIZE);
 
-      remainingAlbums = Object.values(remainingAlbums).slice(COHORT_SIZE, Object.values(remainingAlbums).length);
+      remainingAlbums = Object
+                        .values(remainingAlbums)
+                        .slice(COHORT_SIZE, Object.values(remainingAlbums).length);
 
       // Increase the counter
       i = i + COHORT_SIZE;
@@ -92,11 +86,11 @@ const AlbumList = () => {
   return (
     <div>
       <PaginationContextProvider numberOfPages={numberOfPages}>
-        <Menu /> 
+        <Menu />
         <AlbumSelector />
-        <ThumbnailGallery albumCovers={albumCovers} />
       </PaginationContextProvider>
     </div>
   );
 };
-export default AlbumList;
+
+export default withAuthenticationRequired(AlbumList);

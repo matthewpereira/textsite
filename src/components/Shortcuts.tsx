@@ -10,7 +10,7 @@ const ShortcutsPopup = ({ setShowShortcuts }: any) => {
         <li><span className="shortcutCode">← </span><span>Previous Page</span></li>
         <li><span className="shortcutCode">⌥↓</span><span>Top</span></li>
         <li><span className="shortcutCode">⌥↑</span><span>Bottom</span></li>
-        <li><span className="shortcutCode">⌘K</span><span className="fakeLink" onClick={() => setShowShortcuts(false)}>Show/hide Hotkeys</span></li>
+        <li><span className="shortcutCode">⌘K</span><a className="fakeLink" href="#" onClick={() => setShowShortcuts(false)}>Show/hide Hotkeys</a></li>
       </ul>
     </div>
   )
@@ -27,7 +27,7 @@ const ShortcutsHint = ({ setShowShortcuts }: any) => {
 
   return (
     <div className="shortcuts">
-      <span className="fakeLink" onClick={() => setShowShortcuts(true)}>Hotkeys</span> ({hotkey}K)
+      <a className="fakeLink" href="#" onClick={() => setShowShortcuts(true)}>Hotkeys</a> ({hotkey}K)
     </div>
   )
 }

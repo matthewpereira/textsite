@@ -36,7 +36,6 @@ const AlbumSelector = () => {
     >
       Select an album
       <select onChange={onAlbumListChange}>{albumListItems()}</select>
-      or scroll down:
     </div>
   );
 };

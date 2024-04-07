@@ -30,9 +30,9 @@ const Thumbnail = (album: any, key: number) => {
 
 const ThumbnailGallery = ({ albumCovers }:any) => (
   <div className="thumbnail__albumList">
-    {albumCovers.map((album: Album, iterator: number) => (
+    {albumCovers ? albumCovers.map((album: Album, iterator: number) => (
       <Thumbnail album={album} key={iterator} />
-    ))}
+    )) : null}
   </div>
 );
 

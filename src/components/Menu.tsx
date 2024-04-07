@@ -8,9 +8,19 @@ const Menu = (loadedImages: any) => {
 
   const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
 
-  const Login = () => <span><a className="loginButton" onClick={() => loginWithRedirect()}>Login</a></span>;
+  const handleLogin = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    loginWithRedirect();
+    event.preventDefault;
+  }
 
-  const Logout = () => <span><a className="logoutButton" onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>Logout</a></span>;
+  const Login = () => <span><a className="loginButton" href="#" onClick={handleLogin}>Login</a></span>;
+
+  const handleLogout = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    logout({ logoutParams: { returnTo: window.location.origin } });
+    event.preventDefault();
+  }
+
+  const Logout = () => <span><a className="logoutButton" href="#" onClick={handleLogout}>Logout</a></span>;
 
   return (
     <nav>
