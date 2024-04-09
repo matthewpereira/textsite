@@ -56,8 +56,8 @@ const Gallery = (galleryObject: any) => {
 
   // Don't show the album name and description on default gallery
   const firstPage = () => (
-    (location.search.length !== 0 && location.hash === "#1") ||
-    (location.search.length !== 0 && location.hash === "")
+    currentPage === 0 &&
+    location.search.length > 0
   );
 
   const titleCard = firstPage() ?
