@@ -1,19 +1,32 @@
 import { useEffect } from 'react';
-import { useLocation } from "react-router-dom";
+import { Search, useLocation } from "react-router-dom";
 
-import GalleryImage from './GalleryImage.js';
-import { usePaginationContext } from '../context/PaginationContext.js';
+import GalleryImage from './GalleryImage';
+import { usePaginationContext } from '../context/PaginationContext';
 
 import handleKeypress from '../helpers/handleKeypress';
-import removeHashFromHashString from '../helpers/removeHashFromHashString.js';
+import removeHashFromHashString from '../helpers/removeHashFromHashString';
 
 import { IMAGES_PER_PAGE } from '../config';
+
+// Don't show the album name and description on default gallery
+export const isAlbumPage = (search: Search) => (
+  search.length !== 0 &&
+  search.indexOf('code') === -1
+);
+
+export const filterArrayToPage = (array: {}[], pageNumber: number, itemsPerGroup: number) => {
+  const startIndex = pageNumber === 0 ? 0 : pageNumber * itemsPerGroup;
+  const endIndex = (pageNumber + 1) * itemsPerGroup;
+
+  return array.slice(startIndex, endIndex);
+}
 
 let eventListenerAdded = false;
 
 const Gallery = (galleryObject: any) => {
 
-  const location          = useLocation();
+  const location = useLocation();
   const { numberOfPages } = usePaginationContext();
 
   const keypressWrapper = (event: KeyboardEvent) => {
@@ -36,40 +49,23 @@ const Gallery = (galleryObject: any) => {
   }
 
   const handlePagination = (array: [], currentPage: number, itemsPerGroup: number) => {
+    console.log(array, currentPage, itemsPerGroup)
     return filterArrayToPage(array, currentPage, itemsPerGroup);
   }
 
-  const filterArrayToPage = (array: [], pageNumber: number, itemsPerGroup: number) => {
-    if (pageNumber < 0) {
-      return array;
-    }
-
-    const startIndex = pageNumber === 0 ? 0 : pageNumber * itemsPerGroup;
-    const endIndex   = (pageNumber + 1) * itemsPerGroup;
-
-    return array.slice(startIndex, endIndex);
-  }
-
-  const currentPage = Number(removeHashFromHashString(location.hash)) - 1;
+  const pageHash = Number(removeHashFromHashString(location.hash)) - 1;
+  const currentPage = pageHash > 0 ? pageHash : 0;
 
   const thisPageImages = handlePagination(galleryObject.galleryObject.loadedImages, currentPage, IMAGES_PER_PAGE);
 
-  // Don't show the album name and description on default gallery
-  const firstPage = () => (
-    currentPage === 0 &&
-    location.search.length > 0
-  );
-
-  const titleCard = firstPage() ?
-    <TitleCard
-      albumName={galleryObject.galleryObject.albumName}
-      description={galleryObject.galleryObject.description}
-    /> :
-    null;
 
   return (
     <div className="gallery">
-      {titleCard}
+      {currentPage === 0 && isAlbumPage(location.search) ?
+        <TitleCard
+          albumName={galleryObject.galleryObject.albumName}
+          description={galleryObject.galleryObject.description}
+        /> : null}
       {thisPageImages.map((image: any, index: number) =>
         <GalleryImage
           captions={galleryObject.galleryObject.captions}
