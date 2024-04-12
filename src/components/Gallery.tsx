@@ -49,7 +49,7 @@ const Gallery = (galleryObject: any) => {
   }
 
   const handlePagination = (array: [], currentPage: number, itemsPerGroup: number) => {
-    console.log(array, currentPage, itemsPerGroup)
+    
     return filterArrayToPage(array, currentPage, itemsPerGroup);
   }
 

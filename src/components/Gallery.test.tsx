@@ -202,7 +202,7 @@ const filteredArray = [{
     }
 ];
 
-describe('album tests', () => {
+describe('what type of page', () => {
   test('detects home page', () => {
     expect(isAlbumPage('')).toBeFalsy();
   });
