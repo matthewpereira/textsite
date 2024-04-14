@@ -58,7 +58,7 @@ const GalleryImage = ({ image, type, width, height }: GalleryImageType) => {
   const altText = image.description ? image.description : "photograph";
 
   const Caption = () => {
-    if (!image.title) {
+    if (!image.description) {
       return null;
     }
     

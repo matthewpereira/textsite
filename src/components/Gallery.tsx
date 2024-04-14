@@ -58,9 +58,14 @@ const Gallery = (galleryObject: any) => {
 
   const thisPageImages = handlePagination(galleryObject.galleryObject.loadedImages, currentPage, IMAGES_PER_PAGE);
 
+  let galleryClass = ['gallery'];
+  
+  if (isAlbumPage(location.search)) {
+    galleryClass.push('gallery_album');
+  }
 
   return (
-    <div className="gallery">
+    <div className={galleryClass.join(' ')}>
       {currentPage === 0 && isAlbumPage(location.search) ?
         <TitleCard
           albumName={galleryObject.galleryObject.albumName}

@@ -81,6 +81,10 @@ nav span+span {
   transition: opacity 1s ease-in-out;
 }
 
+.gallery_album .galleryImage__caption {
+  opacity: 1
+}
+
 .galleryImage img:hover+.galleryImage__caption {
   opacity: 1;
   transition: opacity 0.5s ease-in-out;

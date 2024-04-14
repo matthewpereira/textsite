@@ -89,6 +89,18 @@ const HandleScrollKeypress = (event: KeyboardEvent, numberOfPages: number) => {
   
   if (event.code === "ArrowLeft") {
     changePage(-1, numberOfPages);
+
+    // const body = document.body,
+    //       html = document.documentElement;
+    // const maxHeight = Math.max(
+    //   body.scrollHeight,
+    //   body.offsetHeight,
+    //   html.clientHeight,
+    //   html.scrollHeight,
+    //   html.offsetHeight
+    // );
+
+    // scrollToTarget(maxHeight);
   }
 
 }
