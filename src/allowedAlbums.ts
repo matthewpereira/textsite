@@ -1,5 +1,7 @@
 const allowedAlbums = {
   "base gallery": "6Hpyr",
+  // 2023
+  "February Snowfall, Nat Sutton": "nwr6nY2",
   // 2022
   "Pascal, Flo, and Timbits visit Halifax": "ydSWlZR",
   "Ian and Diana's cottage in New Brunswick": "DYKOfBE",
