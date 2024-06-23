@@ -1,6 +1,11 @@
 const allowedAlbums = {
   "base gallery": "6Hpyr",
+  // 2024
+  "Assemble24 in Cancun": "xCgKbyn",
   // 2023
+  "Pereira Visit to Halifax": "pereira-visit-to-halifax-eb28wY0",
+  "Hurricane Lee": "hurricane-lee-sf0mqdQ",
+  "McCabe and Freake Visit 2023": "OR7jIGa",
   "February Snowfall, Nat Sutton": "nwr6nY2",
   // 2022
   "Pascal, Flo, and Timbits visit Halifax": "ydSWlZR",
