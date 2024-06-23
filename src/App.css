@@ -50,16 +50,19 @@ nav span+span {
 
 .about__aboutContainer {
   margin: 8px;
-  margin-top: 64px;
 }
 
 .about__subtitle {
-  margin-top: 1px;
+  padding-top: 48px;
   font-size: 12px;
 }
 
 .about__subtitle+.about__subtitle {
-  margin-top: 19px;
+  padding-top: 24px;
+}
+
+.about__subtitle p {
+  line-height: 2;
 }
 
 .gallery {

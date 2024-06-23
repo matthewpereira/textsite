@@ -1,4 +1,4 @@
-import emojify  from 'node-emojify';
+import emojify from "./emojiConverter";
 
 const mdLinkGlobal = /\[([\w\s\d'"]+)\]\((https?:\/\/[\w\d./?=#]+)\)/g;
 const mdLink = /\[([\w\s\d'"]+)\]\((https?:\/\/[\w\d./?=#]+)\)/;
@@ -8,13 +8,11 @@ interface LinkObject {
   original: string;
 }
 
-const hydrateLinkElement = (linkText: string, url: string): JSX.Element => (
-  <a href={url} key={linkText.substr(0, 4)}>
+export const hydrateLinkElement = (linkText: string, url: string): JSX.Element => (
+  <a href={url} key={linkText.substring(0, 4)}>
     {linkText}
   </a>
 );
-
-const stripArrayToString = (array: string[]): string => (Array.isArray(array) ? array[0] : array);
 
 const formatLinkObject = (matches: RegExpMatchArray): LinkObject[] => {
   const output: LinkObject[] = [];
@@ -41,41 +39,39 @@ const hydrateLinkElements = (cleanCaption: string): false | LinkObject[] => {
   return matches ? formatLinkObject(matches) : false;
 };
 
-const formatCaption = (caption: string, links: LinkObject[]): JSX.Element[] => {
-    const output: JSX.Element[] = [];
-  
-    let remainingCaption = caption;
-  
-    links.forEach((element) => {
-      const parts = remainingCaption.split(element.original);
-      output.push(emojify(parts[0])); // Convert plain text before link to JSX
-      output.push(element.linkElement);
-      remainingCaption = parts.slice(1).join(element.original); // Reconstruct the remaining caption
-    });
-  
-    // Add the final part of the caption after the last link
-    output.push(emojify(remainingCaption));
-  
-    return output;
-  };
+const reconstructCaption = (caption: string, links: LinkObject[]): JSX.Element[] => {
+  const output: any[] = [];
+
+  let remainingCaption = caption;
+
+  links.forEach((element) => {
+    const parts = remainingCaption.split(element.original);
+    output.push(emojify(parts[0])); // Convert plain text before link to JSX
+    output.push(element.linkElement);
+    remainingCaption = parts.slice(1).join(element.original); // Reconstruct the remaining caption
+  });
+
+  // Add the final part of the caption after the last link
+  output.push(emojify(remainingCaption));
+
+  return output;
+};
   
 
-const parseStringForLinks = (caption: string): JSX.Element[] => {
-  const cleanCaption = stripArrayToString([caption]);
-
-  const linkElements = hydrateLinkElements(cleanCaption);
+export const formatCaption = (caption: string): string | JSX.Element => {
+  const linkElements = hydrateLinkElements(caption);
 
   if (!linkElements) {
-    return [emojify(cleanCaption)];
+    return emojify(caption);
   }
 
-  const formattedCaption = formatCaption(cleanCaption, linkElements);
+  const reconstructedCaption = reconstructCaption(caption, linkElements);
 
-  const formattedCaptionWithEmoji = formattedCaption.map((captionFragment) =>
+  const reconstructedCaptionWithEmoji = reconstructedCaption.map((captionFragment) =>
     typeof captionFragment === 'string' ? emojify(captionFragment) : captionFragment
   );
 
-  return formattedCaptionWithEmoji;
+  return reconstructedCaptionWithEmoji[0];
 };
 
-export default parseStringForLinks;
+export default formatCaption;

@@ -1,5 +1,5 @@
-import emojify from "node-emojify";
-import parseStringForLinks from "../helpers/textLinks.tsx";
+import emojify from "../helpers/emojiConverter";
+import formatCaption from "../helpers/textLinks.tsx";
 
 interface GalleryImageType {
   image: any;
@@ -12,7 +12,6 @@ interface GalleryImageType {
 
 const GalleryImage = ({ image, type, width, height }: GalleryImageType) => {
 
-  
   // Detect youtube videos
   if (image.description && image.description.indexOf("youtube") > -1) {
     return (
@@ -24,7 +23,6 @@ const GalleryImage = ({ image, type, width, height }: GalleryImageType) => {
             width="1280"
             height="720"
             src={image.description.split(" ").join("")}
-            frameBorder="0"
             data-allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           />
@@ -69,7 +67,7 @@ const GalleryImage = ({ image, type, width, height }: GalleryImageType) => {
         ) : null}
         {image.description ? (
           <div className="galleryImage__subtitle">
-            {parseStringForLinks(image.description)}
+            {formatCaption(emojify(image.description))}
           </div>
         ) : null}
         {image.info ? (

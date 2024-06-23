@@ -1,6 +1,12 @@
-const changePage = (modifier:number, numberOfPages: number) => {
+const getHash = () => location.hash.replace("#", "");
+
+const isScrolledToTop = () => (document.documentElement.scrollTop || document.body.scrollTop) === 0;
+
+const isScrolledToBottom = () => (window.innerHeight + window.scrollY) >= document.body.scrollHeight;
+
+const changePage = (modifier: number, numberOfPages: number) => {
   const search = location.search;
-  const hash = location.hash.replace("#", "");
+  const hash = getHash();
 
   if (hash.length === 0 && modifier === -1) {
     return false;
@@ -15,8 +21,24 @@ const changePage = (modifier:number, numberOfPages: number) => {
   if (newHash > numberOfPages) {
     return false;
   }
+  
   window.location.href = location.origin + search + "#" + newHash;
-  scrollToTarget(0);
+  
+  if (modifier === -1) {
+    const body = document.body,
+      html = document.documentElement;
+
+    const maxHeight = Math.max(
+      body.scrollHeight,
+      body.offsetHeight,
+      html.clientHeight,
+      html.scrollHeight,
+      html.offsetHeight
+    );
+    scrollToTarget(maxHeight);
+  } else {
+    scrollToTarget(0);
+  }
 }
 
 const findAmountToScroll = (sectionHeight: number): number => {
@@ -57,7 +79,7 @@ const HandleScrollKeypress = (event: KeyboardEvent, numberOfPages: number) => {
 
   if (event.key === "ArrowDown" && event.altKey) {
     const body = document.body,
-          html = document.documentElement;
+      html = document.documentElement;
     const maxHeight = Math.max(
       body.scrollHeight,
       body.offsetHeight,
@@ -74,19 +96,27 @@ const HandleScrollKeypress = (event: KeyboardEvent, numberOfPages: number) => {
   if (event.code === "ArrowDown") {
     scrollToTarget(amountToScroll + sectionHeight);
 
-    return event.preventDefault();
-  }
-  
-  if (event.code === "ArrowUp") {
-    scrollToTarget(amountToScroll - sectionHeight);
+    if (isScrolledToBottom()) {
+      changePage(1, numberOfPages);
+    }
 
     return event.preventDefault();
   }
-  
+
+  if (event.code === "ArrowUp") {
+    scrollToTarget(amountToScroll - sectionHeight);
+
+    if (isScrolledToTop()) {
+      changePage(-1, numberOfPages);
+    }
+
+    return event.preventDefault();
+  }
+
   if (event.code === "ArrowRight") {
     changePage(1, numberOfPages);
   }
-  
+
   if (event.code === "ArrowLeft") {
     changePage(-1, numberOfPages);
 
