@@ -35,6 +35,7 @@ const allowedAlbums = {
   "Peggy's Cove and Robin's trip to Halifax": "tGpBKEp",
   "Dartmouth Cherry Blossoms": "20eRlF2",
   "Moving to Halifax": "OxhevKZ",
+  "McCabe Visit": "PzjT0KI",
   "Ma Goodbye": "DQVKOAV",
   "Lily Turns Two": "9fmi2GI",
   // 2021
