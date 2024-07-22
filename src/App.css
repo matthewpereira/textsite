@@ -107,6 +107,12 @@ nav span+span {
   height: auto;
 }
 
+@media only screen and (max-width: 600px) {
+  .galleryImage img {
+    max-width: 100vw;
+  }
+}
+
 .shortcuts {
   bottom: 0px;
   font-size: 12px;
