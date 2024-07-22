@@ -4,7 +4,7 @@ const configJson = {
   audience:"https://matthewpereira.com/api/"
 };
 
-export const IMAGES_PER_PAGE = 20;
+export const IMAGES_PER_PAGE = 50;
 export const IMGUR_AUTHORIZATION = "0deeb4de7f631f1";
 
 export function getConfig() {

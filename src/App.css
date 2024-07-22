@@ -109,7 +109,7 @@ nav span+span {
 
 @media only screen and (max-width: 600px) {
   .galleryImage img {
-    max-width: 100vw;
+    max-width: calc(100vw - 4px);
   }
 }
 

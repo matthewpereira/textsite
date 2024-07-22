@@ -58,6 +58,7 @@ const HandleScrollKeypress = (event: KeyboardEvent, numberOfPages: number) => {
   if (event.key === "ArrowDown" && event.altKey) {
     const body = document.body,
           html = document.documentElement;
+
     const maxHeight = Math.max(
       body.scrollHeight,
       body.offsetHeight,
