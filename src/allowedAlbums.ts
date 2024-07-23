@@ -4,7 +4,7 @@ const allowedAlbums = {
   "Assemble24 in Cancun": "xCgKbyn",
   "FGA Offsite and Hamilton trip": "lhtbj19",
   // 2023
-  "Pereira Visit to Halifax": "pereira-visit-to-halifax-eb28wY0",
+  "Pereira Visit to Halifax": "eb28wY0",
   "Hurricane Lee": "hurricane-lee-sf0mqdQ",
   "Bryan and Molly visit Halifax": "FO8aglb",
   "Point Pleasant Park": "OatEkRp",
