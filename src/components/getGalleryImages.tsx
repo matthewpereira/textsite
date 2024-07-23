@@ -30,7 +30,7 @@ const getGalleryImages= async (albumId:string) : Promise<any> => {
 
 const hydrateGalleryState = (data: any) => {
   const captions = styleCaptions(data.data.id);
-  const loadedImages = data.data.images;
+  const loadedImages = data.data.images || [];
   const description = data.data.description || "";
 
   const albumName = data.data.title || "Matthew Pereira";
