@@ -1,7 +1,7 @@
 const allowedAlbums = {
   "base gallery": "6Hpyr",
   // 2024
-  "McCabe Halifax": "hdXDVZ2",
+  "McCabe Halifax": "4YHX7ib",
   "Azores": "29blBGK",
   "Assemble24 in Cancun": "xCgKbyn",
   "FGA Offsite and Hamilton trip": "lhtbj19",
