@@ -1,15 +1,4 @@
 const changePage = (modifier:number, numberOfPages: number) => {
-  const body = document.body,
-        html = document.documentElement;
-
-  const maxHeight = Math.max(
-    body.scrollHeight,
-    body.offsetHeight,
-    html.clientHeight,
-    html.scrollHeight,
-    html.offsetHeight
-  );
-
   const search = location.search;
   const hash = location.hash.replace("#", "");
 
