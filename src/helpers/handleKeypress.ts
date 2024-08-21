@@ -1,4 +1,15 @@
 const changePage = (modifier:number, numberOfPages: number) => {
+  const body = document.body,
+        html = document.documentElement;
+
+  const maxHeight = Math.max(
+    body.scrollHeight,
+    body.offsetHeight,
+    html.clientHeight,
+    html.scrollHeight,
+    html.offsetHeight
+  );
+
   const search = location.search;
   const hash = location.hash.replace("#", "");
 
@@ -16,7 +27,14 @@ const changePage = (modifier:number, numberOfPages: number) => {
     return false;
   }
   window.location.href = location.origin + search + "#" + newHash;
-  scrollToTarget(0);
+  
+  setTimeout(() => {
+    if (modifier === -1) {
+      scrollToTarget(1000000)
+    } else {
+      scrollToTarget(0);
+    }
+  }, 1);
 }
 
 const findAmountToScroll = (sectionHeight: number): number => {
@@ -47,7 +65,20 @@ const scrollToTarget = (newScrollTop: number): number =>
 const HandleScrollKeypress = (event: KeyboardEvent, numberOfPages: number) => {
   const sectionHeight = window.innerHeight;
 
-  const amountToScroll = findAmountToScroll(sectionHeight)
+  const amountToScroll = findAmountToScroll(sectionHeight);
+    
+  const body = document.body,
+        html = document.documentElement;
+
+  const maxHeight = Math.max(
+        body.scrollHeight,
+        body.offsetHeight,
+        html.clientHeight,
+        html.scrollHeight,
+        html.offsetHeight
+      );
+      
+  const hash = location.hash.replace("#", "");
 
   if (event.key === "ArrowUp" && event.altKey) {
     scrollToTarget(0);
@@ -56,29 +87,26 @@ const HandleScrollKeypress = (event: KeyboardEvent, numberOfPages: number) => {
   }
 
   if (event.key === "ArrowDown" && event.altKey) {
-    const body = document.body,
-          html = document.documentElement;
-
-    const maxHeight = Math.max(
-      body.scrollHeight,
-      body.offsetHeight,
-      html.clientHeight,
-      html.scrollHeight,
-      html.offsetHeight
-    );
-
     scrollToTarget(maxHeight);
 
     return event.preventDefault();
   }
 
   if (event.code === "ArrowDown") {
+    if (amountToScroll >= (maxHeight - sectionHeight - sectionHeight)) {
+      return changePage(1, numberOfPages);
+    }
+    
     scrollToTarget(amountToScroll + sectionHeight);
 
     return event.preventDefault();
   }
   
   if (event.code === "ArrowUp") {
+    if (amountToScroll <= 0 && hash !== "1" && hash !== "") {
+      return changePage(-1, numberOfPages);
+    }
+
     scrollToTarget(amountToScroll - sectionHeight);
 
     return event.preventDefault();
@@ -90,18 +118,6 @@ const HandleScrollKeypress = (event: KeyboardEvent, numberOfPages: number) => {
   
   if (event.code === "ArrowLeft") {
     changePage(-1, numberOfPages);
-
-    // const body = document.body,
-    //       html = document.documentElement;
-    // const maxHeight = Math.max(
-    //   body.scrollHeight,
-    //   body.offsetHeight,
-    //   html.clientHeight,
-    //   html.scrollHeight,
-    //   html.offsetHeight
-    // );
-
-    // scrollToTarget(maxHeight);
   }
 
 }

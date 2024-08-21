@@ -1,4 +1,5 @@
 import { IMGUR_AUTHORIZATION } from '../config';
+import jsonData from './galleryImagesResponse.json' assert { type: 'json' };
 
 const DEFAULTGALLERY = "6Hpyr";
 
@@ -31,19 +32,34 @@ const styleCaptions = (albumId: string): string => {
   return !albumId || albumId === DEFAULTGALLERY ? "right" : "bottom";
 };
 
-const getGalleryImages = async (albumId: string): Promise<GalleryState> => {  
+const getGalleryImages = async (albumId: string): Promise<GalleryState> => { 
+  if (window.location.href === 'http://localhost:5173/' || window.location.href === 'https://localhost:5173/') {
+    // The browser is at localhost:5173
+    return hydrateGalleryState(jsonData);
+  }
+
+
+  const apiUrl = `https://api.imgur.com/3/album/${albumId}`;
+  
   const details = {
+    method: 'GET',
     headers: {
-      Authorization: `Client-ID ${IMGUR_AUTHORIZATION}`,
+      'Authorization': `Client-ID ${IMGUR_AUTHORIZATION}`,
+      'Accept': 'application/json',
     },
   };
 
   try {
-    const response = await fetch(`https://api.imgur.com/3/album/${albumId}`, details);
+    const response = await fetch(apiUrl, details);
+    
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      const errorBody = await response.text();
+      console.error(`Error response body: ${errorBody}`);
+      throw new Error(`HTTP error! status: ${response.status}, body: ${errorBody}`);
     }
+
     const data: GalleryData = await response.json();
+
     return hydrateGalleryState(data);
   } catch (error) {
     console.error("Failed to fetch gallery images:", error);

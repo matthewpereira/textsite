@@ -91,7 +91,7 @@ const Pagination = ({ loadedImages }: any) => {
   let pageNumbers = [];
   let currentPage = Number(removeHashFromHashString(location.hash));
   
-  const numberOfPages = Math.round(loadedImages.loadedImages.length / IMAGES_PER_PAGE);
+  const numberOfPages = Math.ceil(loadedImages.loadedImages.length / IMAGES_PER_PAGE);
 
   if (numberOfPages) {
     for (let i = 0; i < numberOfPages; i++) {
