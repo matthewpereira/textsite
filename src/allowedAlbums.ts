@@ -37,7 +37,7 @@ const allowedAlbums = {
   "Mark McCabe visits Halifax": "aT31Iye",
   "Kanata Day 2022 in Halifax": "gFI8IPz",
   "Peggy's Cove and Robin's trip to Halifax": "tGpBKEp",
-  "Dartmouth Cherry Blossoms": "20eRlF2",
+  "May 24 - Dartmouth Cherry Blossoms": "20eRlF2",
   "First spring in Halifax": "ctryLFl",
   "Moving to Halifax": "OxhevKZ",
   "McCabe Visit": "PzjT0KI",

@@ -10,7 +10,6 @@ const AlbumSelector = () => {
 
   const albumListItems = () => {
     const albums = Object.keys(allowedAlbums).slice(1);
-
     const dropdown = ["Click here"].concat(albums);
 
     return dropdown.map((album, iterator) => (
