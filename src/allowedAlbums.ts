@@ -1,6 +1,7 @@
 const allowedAlbums = {
   "base gallery": "6Hpyr",
   // 2024
+  "Halloween 2024 - Medusa": "Y8K8Kcx",
   "McCabe Halifax": "cveGVlY",
   "Calheta and Ponta del Sol": "Q5LA70U",
   "Madeira - Funchal - Ponta del Sol": "IniT3Ix",
