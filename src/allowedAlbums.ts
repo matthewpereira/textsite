@@ -1,6 +1,7 @@
 const allowedAlbums = {
   "base gallery": "6Hpyr",
   // 2024
+  "McCabe Prints": "KqQ78cK",
   "Halloween 2024 - Medusa": "Y8K8Kcx",
   "McCabe Halifax": "cveGVlY",
   "Calheta and Ponta del Sol": "Q5LA70U",
@@ -9,6 +10,7 @@ const allowedAlbums = {
   "Assemble24 in Cancun": "xCgKbyn",
   "FGA Offsite and Hamilton trip": "lhtbj19",
   // 2023
+  "Bellevue Offsite": "GlpCDLc",
   "Pereira Visit to Halifax": "eb28wY0",
   "Hurricane Lee": "hurricane-lee-sf0mqdQ",
   "Bryan and Molly visit Halifax": "FO8aglb",
@@ -36,6 +38,7 @@ const allowedAlbums = {
   "Sailing and Hot Pot": "JFfL22Y",
   "Hurricane Fiona": "ThpMbQ5",
   "Mark McCabe visits Halifax": "aT31Iye",
+  "Richard Pereira": "NEYAQns",
   "Kanata Day 2022 in Halifax": "gFI8IPz",
   "Peggy's Cove and Robin's trip to Halifax": "tGpBKEp",
   "May 24 - Dartmouth Cherry Blossoms": "20eRlF2",
@@ -45,6 +48,9 @@ const allowedAlbums = {
   "Ma Goodbye": "DQVKOAV",
   "Lily Turns Two": "9fmi2GI",
   // 2021
+  "Winter Hike": "nXFUt8p",
+  "McCabe Christmas": "QYgJYED",
+  "Winter Snapshots": "lZl8mjS",
   "James and Krishna": "g0gQ2NO",
   "Weekend at Phil and Nikki's": "2VyHuWv",
   "Algonquin Camping 2021": "xy0BP18",
