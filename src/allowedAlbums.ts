@@ -1,6 +1,7 @@
 const allowedAlbums = {
   "base gallery": "6Hpyr",
   // 2024
+  "Cape Breton": "rEhn9Cy",
   "McCabe Prints": "KqQ78cK",
   "Halloween 2024 - Medusa": "Y8K8Kcx",
   "McCabe Halifax": "cveGVlY",
