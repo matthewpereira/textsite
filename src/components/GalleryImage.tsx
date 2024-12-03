@@ -43,11 +43,12 @@ const GalleryImage = ({ image, type, width, height }: GalleryImageType) => {
           {image.info ? <div>{image.info}</div> : null}
         </div>
         <video
-          width={width || 640}
-          height={height || 480}
-          autoPlay={true}
+          width={width || 1280}
+          height={height || 960}
+          autoPlay={false}
           controls={true}
           loop={true}
+          muted={true}
         >
           <source src={image.link} type="video/mp4" />
         </video>
