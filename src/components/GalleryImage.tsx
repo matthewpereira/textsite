@@ -49,6 +49,7 @@ const GalleryImage = ({ image, type, width, height }: GalleryImageType) => {
           controls={true}
           loop={true}
           muted={true}
+          style={{"maxWidth": "100%"}}
         >
           <source src={image.link} type="video/mp4" />
         </video>
