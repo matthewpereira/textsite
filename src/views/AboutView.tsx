@@ -9,15 +9,15 @@ const AboutPage = () => (
     <div className="about__aboutContainer">
       <div className="about__aboutInner">
         <div className="about__subtitle">
-          <p>Principal Product Designer at <a href="https://okta.com" target="_blank">Okta</a> Customer Identity Cloud (née <a href="https://auth0.com" target="_blank">Auth0</a>).</p>
-          <p>Formerly at <a href="http://vmware.com" target="_blank">VMware</a> and <a href="https://en.wikipedia.org/wiki/Pivotal_Software" target="_blank">Pivotal Software</a>.</p>
+          <p>Staff Product Designer focused on balancing risk, platform efficiency, and customer experience at <a href="https://mercury.com" target="_blank">Mercury</a>.</p>
+          <p>Formerly designing identity and security for the internet at <a href="https://okta.com" target="_blank">Okta</a> (née <a href="https://auth0.com/" target="_blank">Auth0</a>), and cloud-native software delivery and automation at <a href="https://vmware.com" target="_blank">VMware</a> and <a href="https://en.wikipedia.org/wiki/Pivotal_Software" target="_blank">Pivotal Software</a>.</p>
         </div>
         <div className="about__subtitle">
-          <a className="about__aboutLink" href="https://portfolio.matthewpereira.com/">Visit product design portfolio</a> or <a className="about__aboutLink" href="https://www.linkedin.com/in/matthewpereira/">contact at Linkedin</a>
+          <a className="about__aboutLink" href="https://portfolio.matthewpereira.com/">Visit product design portfolio</a> or <a className="about__aboutLink" href="https://www.linkedin.com/in/matthewpereira/">contact at Linkedin</a>.
         </div>
         <br/><br/><br/>
         <div className="about__subtitle">
-          Go <Link to={ '..' }>back to the photos</Link>
+          Go <Link to={ '..' }>back to the photos</Link>.
         </div>
       </div>
     </div>
