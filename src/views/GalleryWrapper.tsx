@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import "./GalleryWrapper.css";
 import { PaginationContextProvider } from '../context/PaginationContext';
 import Menu from '../components/Menu';
 import Gallery from '../components/Gallery';
@@ -57,7 +58,11 @@ function GalleryWrapper({ albumCode }: GalleryWrapperType) {
   }, []);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div style={{ fontSize: "12px", padding: "8px" }}>
+        Loading<span className="animated-dots">...</span>
+      </div>
+    );
   }
 
   if (error) {

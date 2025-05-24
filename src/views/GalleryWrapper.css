@@ -1,0 +1,22 @@
+@keyframes dots {
+  0%, 20%, 100% {
+    color: rgba(0,0,0,0.4);
+    text-shadow: 0.25em 0 0 rgba(0,0,0,0.4), 0.5em 0 0 rgba(0,0,0,0.4);
+  }
+  40% {
+    color: black;
+    text-shadow: 0.25em 0 0 rgba(0,0,0,0.4), 0.5em 0 0 rgba(0,0,0,0.4);
+  }
+  60% {
+    color: rgba(0,0,0,0.4);
+    text-shadow: 0.25em 0 0 black, 0.5em 0 0 rgba(0,0,0,0.4);
+  }
+  80% {
+    color: rgba(0,0,0,0.4);
+    text-shadow: 0.25em 0 0 rgba(0,0,0,0.4), 0.5em 0 0 black;
+  }
+}
+
+.animated-dots {
+  animation: dots 1.4s steps(5, end) infinite;
+}
