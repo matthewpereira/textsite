@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./GalleryWrapper.css";
 import { PaginationContextProvider } from '../context/PaginationContext';
 import Menu from '../components/Menu';
