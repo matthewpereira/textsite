@@ -1,11 +1,17 @@
 const allowedAlbums = {
   "base gallery": "6Hpyr",
+  // 2025
+  "Celeste Ring Photos": "vQzp7Xc",
+  "New Brunswick Engagement Trip": "5kdNOK4",
+  "Clutchkickers at Gus' Pub": "OYJ7wZB",
   // 2024
   "Winter Hike in Timberlea": "EBr9bLr",
   "Cape Breton": "rEhn9Cy",
   "McCabe Prints": "KqQ78cK",
   "Halloween 2024 - Medusa": "Y8K8Kcx",
   "McCabe Halifax": "cveGVlY",
+  "Funchal and home": "2gyEQze",
+  "Pico to Pico": "mv7KpmZ",
   "Funchal": "0iaGjgw",
   "Vereda da Ponta de Sao Loureco": "rTtaitn",
   "Fanal Forest, Ilhous de Rib": "8NlMb6I",
