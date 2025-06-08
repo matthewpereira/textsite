@@ -1,19 +1,19 @@
 const changePage = (modifier:number, numberOfPages: number) => {
   const hash = location.hash.replace("#", "");
+  const currentPage = hash.length === 0 ? 1 : parseInt(hash);
 
-  if (hash.length === 0 && modifier === -1) {
+  // Don't go backward from page 1
+  if (currentPage <= 1 && modifier === -1) {
     return false;
   }
 
-  if (hash === "1" && modifier === -1) {
+  const newHash = currentPage + modifier;
+
+  // Don't go beyond the last page
+  if (newHash > numberOfPages || newHash < 1) {
     return false;
   }
-
-  const newHash = hash.length !== 0 ? parseInt(hash) + modifier : 2;
-
-  if (newHash > numberOfPages) {
-    return false;
-  }
+  
   window.location.href = location.origin + location.pathname + "#" + newHash;
   
   setTimeout(() => {
