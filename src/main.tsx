@@ -2,16 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { Auth0Provider } from "@auth0/auth0-react";
 import AppRouter from "./AppRouter.tsx";
-import history from "./utils/history";
 import { getConfig } from "./config";
 
 import "./index.css";
 
-const onRedirectCallback = (appState: any) => {
-  history.push(
-    appState && appState.returnTo ? appState.returnTo : window.location.pathname
-  );
-};
+// Let Auth0 handle the redirect callback naturally
 
 // Please see https://auth0.github.io/auth0-react/interfaces/Auth0ProviderOptions.html
 // for a full list of the available properties on the provider
@@ -24,8 +19,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       clientId={config.clientId}
       authorizationParams={{
         redirect_uri: config.redirectUri,
-      }}
-      onRedirectCallback={onRedirectCallback}>
+      }}>
       <AppRouter />
     </Auth0Provider>
   </React.StrictMode>

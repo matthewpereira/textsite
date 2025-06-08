@@ -27,7 +27,7 @@ const Menu = (loadedImages: any) => {
       <div className="nav-left">
         <span className="homeLink"><a href="/">Matthew Pereira</a></span>
         <span><Link to={ "/about" }>About</Link></span>
-        {isAuthenticated ? <span><a href="/albums">Albums</a></span> : null}
+        {isAuthenticated ? <span><Link to="/albums">Albums</Link></span> : null}
         <span><a href="mailto:mail@matthewpereira.com">Email</a></span>
         <Shortcuts />
       </div>
