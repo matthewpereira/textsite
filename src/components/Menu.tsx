@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import Pagination from "./Pagination.tsx";
-import Profile from "./Profile.tsx";
 import Shortcuts from "./Shortcuts.tsx";
 
 const Menu = (loadedImages: any) => {
@@ -34,7 +33,6 @@ const Menu = (loadedImages: any) => {
       <div className="nav-right">
         <Pagination loadedImages={loadedImages} />
         {!isAuthenticated ? <Login /> : null}
-        {isAuthenticated ? <Profile /> : null}
         {isAuthenticated ? <Logout /> : null}
       </div>
     </nav>
