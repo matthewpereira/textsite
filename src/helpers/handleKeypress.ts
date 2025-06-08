@@ -1,5 +1,4 @@
 const changePage = (modifier:number, numberOfPages: number) => {
-  const search = location.search;
   const hash = location.hash.replace("#", "");
 
   if (hash.length === 0 && modifier === -1) {
@@ -15,7 +14,7 @@ const changePage = (modifier:number, numberOfPages: number) => {
   if (newHash > numberOfPages) {
     return false;
   }
-  window.location.href = location.origin + search + "#" + newHash;
+  window.location.href = location.origin + location.pathname + "#" + newHash;
   
   setTimeout(() => {
     if (modifier === -1) {
