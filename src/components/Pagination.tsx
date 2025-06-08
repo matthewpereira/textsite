@@ -72,8 +72,6 @@ const PageNumber = ({
   );
 };
 
-const removeSlashes = (string: string) => string.replace(/\//g, '');
-
 const Pagination = ({ loadedImages }: any) => {
 
   // Protects /about page and other routes that don't have loaded images
@@ -85,8 +83,8 @@ const Pagination = ({ loadedImages }: any) => {
   const [pathName, setPathName] = useState("");
 
   useEffect(() => {
-    setPathName(removeSlashes(location.search) + removeSlashes(location.pathname))
-  }, [removeSlashes(location.search) + removeSlashes(location.pathname)]);
+    setPathName(location.pathname)
+  }, [location.pathname]);
 
   let pageNumbers = [];
   let currentPage = Number(removeHashFromHashString(location.hash));

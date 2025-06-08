@@ -7,7 +7,7 @@ import viteTsconfigPaths from 'vite-tsconfig-paths';
 export default defineConfig(({ command }) => {
   const config = {
     plugins: [react(), viteTsconfigPaths()],
-    base: './',
+    base: '/',
     server: {
       historyApiFallback: true
     }

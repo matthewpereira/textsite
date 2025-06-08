@@ -10,7 +10,7 @@ const Menu = (loadedImages: any) => {
 
   const handleLogin = (event: React.MouseEvent<HTMLAnchorElement>) => {
     loginWithRedirect();
-    event.preventDefault;
+    event.preventDefault();
   }
 
   const Login = () => <span><a className="loginButton" href="#" onClick={handleLogin}>Login</a></span>;
