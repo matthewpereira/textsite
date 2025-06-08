@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import allowedAlbums from "../allowedAlbums.js";
 
 const AlbumSelector = () => {
   const navigate = useNavigate();
+  const [filter, setFilter] = useState("");
 
   const handleAlbumClick = (albumTitle: string) => {
     // Find the album ID by title
@@ -15,7 +17,10 @@ const AlbumSelector = () => {
     }
   };
 
-  const albumTitles = Object.keys(allowedAlbums).slice(1); // Skip first entry
+  const allAlbumTitles = Object.keys(allowedAlbums).slice(1); // Skip first entry
+  const albumTitles = allAlbumTitles.filter(title => 
+    title.toLowerCase().includes(filter.toLowerCase())
+  );
 
   return (
     <div
@@ -25,6 +30,62 @@ const AlbumSelector = () => {
         padding: "0 20px",
       }}
     >
+      <div
+        style={{
+          position: "sticky",
+          top: "0",
+          zIndex: "10",
+          paddingTop: "36px",
+          background: "#F0F0F0",
+        }}
+      >
+        <div style={{ position: "relative" }}>
+          <input
+            type="text"
+            placeholder="Type to filter albums..."
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            style={{
+              width: "100%",
+              padding: "12px 40px 12px 16px",
+              border: "1px solid #ccc",
+              borderRadius: "8px",
+              fontSize: "14px",
+              boxSizing: "border-box",
+            }}
+          />
+          {filter && (
+            <button
+              onClick={() => setFilter("")}
+              style={{
+                position: "absolute",
+                right: "12px",
+                top: "50%",
+                transform: "translateY(-60%)",
+                background: "none",
+                border: "none",
+                fontSize: "24px",
+                cursor: "pointer",
+                color: "#6c757d",
+                padding: "0",
+                width: "20px",
+                height: "20px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = "#000";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = "#6c757d";
+              }}
+            >
+              ×
+            </button>
+          )}
+        </div>
+      </div>
       <ul
         style={{
           listStyle: "none",
@@ -44,17 +105,13 @@ const AlbumSelector = () => {
               borderRadius: "8px",
               cursor: "pointer",
               transition: "all 0.2s ease",
-              fontSize: "16px",
+              fontSize: "14px",
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = "#e9ecef";
-              e.currentTarget.style.transform = "translateY(-1px)";
-              e.currentTarget.style.boxShadow = "0 2px 8px rgba(0,0,0,0.1)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.backgroundColor = "#f8f9fa";
-              e.currentTarget.style.transform = "translateY(0)";
-              e.currentTarget.style.boxShadow = "none";
             }}
           >
             {albumTitle}
