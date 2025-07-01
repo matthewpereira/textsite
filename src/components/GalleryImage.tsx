@@ -15,7 +15,6 @@ interface GalleryImageType {
 const GalleryImage = ({ image, type, width, height, isPrivate }: GalleryImageType) => {
 
   if (isPrivate) {
-    console.log('omitting private image', image.description);
     return null;
   }
 
