@@ -1,5 +1,6 @@
 import emojify from "node-emojify";
 import parseStringForLinks from "../helpers/textLinks.tsx";
+import decodeHtmlEntities from "../helpers/decodeHtmlEntities.ts";
 
 interface GalleryImageType {
   image: any;
@@ -8,11 +9,16 @@ interface GalleryImageType {
   width: number;
   height: string;
   captions: string;
+  isPrivate: boolean;
 }
 
-const GalleryImage = ({ image, type, width, height }: GalleryImageType) => {
+const GalleryImage = ({ image, type, width, height, isPrivate }: GalleryImageType) => {
 
-  
+  if (isPrivate) {
+    console.log('omitting private image', image.description);
+    return null;
+  }
+
   // Detect youtube videos
   if (image.description && image.description.indexOf("youtube") > -1) {
     return (
@@ -38,7 +44,7 @@ const GalleryImage = ({ image, type, width, height }: GalleryImageType) => {
     return (
       <div className="galleryImage galleryImage_video">
         <div>
-          {image.title ? <div>{image.title}</div> : null}
+          {image.title ? <div>{decodeHtmlEntities(image.title)}</div> : null}
           {image.description ? <div>{image.description}</div> : null}
           {image.info ? <div>{image.info}</div> : null}
         </div>
@@ -57,25 +63,26 @@ const GalleryImage = ({ image, type, width, height }: GalleryImageType) => {
     );
   }
 
-  const altText = image.description ? image.description : "photograph";
+  const imageCaption = image.description ? image.description.replace(/\[PRIVATE\]/gi, '').trim() : null;
+  const altText = imageCaption ? imageCaption : "Photograph";
 
   const Caption = () => {
-    if (!image.description) {
+    if (!imageCaption) {
       return null;
     }
     
     return (
       <div className="galleryImage__caption">
         {image.title ? (
-          <div className="galleryImage__headline">{emojify(image.title)}</div>
+          <div className="galleryImage__headline">{emojify(decodeHtmlEntities(image.title))}</div>
         ) : null}
-        {image.description ? (
+        {imageCaption ? (
           <div className="galleryImage__subtitle">
-            {parseStringForLinks(image.description)}
+            {parseStringForLinks(decodeHtmlEntities(imageCaption))}
           </div>
         ) : null}
         {image.info ? (
-          <div className="galleryImage__moreInfo">{emojify(image.info)}</div>
+          <div className="galleryImage__moreInfo">{emojify(decodeHtmlEntities(image.info))}</div>
         ) : null}
       </div>
     );
@@ -85,7 +92,7 @@ const GalleryImage = ({ image, type, width, height }: GalleryImageType) => {
   return (
     <div className="galleryImage">
       <img
-        alt={altText}
+        alt={decodeHtmlEntities(altText)}
         src={image.link}
         height={image.height}
         width={image.width}

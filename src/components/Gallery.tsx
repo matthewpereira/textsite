@@ -9,6 +9,8 @@ import removeHashFromHashString from '../helpers/removeHashFromHashString';
 
 import { IMAGES_PER_PAGE } from '../config';
 
+import { useAuth0 } from "@auth0/auth0-react";
+
 // Don't show the album name and description on default gallery
 export const isAlbumPage = (search: Search) => (
   search.length !== 0 &&
@@ -25,6 +27,8 @@ export const filterArrayToPage = (array: {}[], pageNumber: number, itemsPerGroup
 let eventListenerAdded = false;
 
 const Gallery = (galleryObject: any) => {
+
+  const { isAuthenticated } = useAuth0();
 
   const location = useLocation();
   const { numberOfPages } = usePaginationContext();
@@ -71,9 +75,10 @@ const Gallery = (galleryObject: any) => {
           albumName={galleryObject.galleryObject.albumName}
           description={galleryObject.galleryObject.description}
         /> : null}
-      {thisPageImages.map((image: any, index: number) =>
+      {thisPageImages.map((image: any, index: number) => 
         <GalleryImage
           captions={galleryObject.galleryObject.captions}
+          isPrivate={image.description && image.description.indexOf("[PRIVATE]") > -1 && !isAuthenticated}
           height={image.height}
           image={image}
           index={index}
