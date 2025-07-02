@@ -62,13 +62,17 @@ const GalleryImage = ({ image, type, width, height, isPrivate }: GalleryImageTyp
     );
   }
 
+  // Remove private tag from description
   const imageCaption = image.description ? image.description.replace(/\[PRIVATE\]/gi, '').trim() : null;
+
+  // Use description as alt text if available
   const altText = imageCaption ? imageCaption : "Photograph";
 
   const Caption = () => {
     if (!imageCaption) {
       return null;
     }
+
     
     return (
       <div className="galleryImage__caption">
