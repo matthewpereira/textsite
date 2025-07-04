@@ -2,6 +2,7 @@ const allowedAlbums = {
   "base gallery": "6Hpyr",
   // 2025
   "Mercury EPDD week": "MQIW9VE",
+  "Angela and Jennifer's birthdays at the cottage": "3KnK95v",
   "Risk and LT Offsites in SF": "gLTnN6D",
   "Celeste Ring Photos": "vQzp7Xc",
   "New Brunswick Engagement Trip": "5kdNOK4",
