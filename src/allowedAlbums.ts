@@ -7,6 +7,7 @@ const allowedAlbums = {
   "Celeste Ring Photos": "vQzp7Xc",
   "New Brunswick Engagement Trip": "5kdNOK4",
   "Clutchkickers at Gus' Pub": "OYJ7wZB",
+  "Easter Egg Hunt": "RlsziFz",
   // 2024
   "Winter Hike in Timberlea": "EBr9bLr",
   "Cape Breton": "rEhn9Cy",

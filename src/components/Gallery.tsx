@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Search, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import GalleryImage from './GalleryImage';
 import { usePaginationContext } from '../context/PaginationContext';
@@ -12,9 +12,8 @@ import { IMAGES_PER_PAGE } from '../config';
 import { useAuth0 } from "@auth0/auth0-react";
 
 // Don't show the album name and description on default gallery
-export const isAlbumPage = (search: Search) => (
-  search.length !== 0 &&
-  search.indexOf('code') === -1
+export const isAlbumPage = (pathname: string) => (
+  pathname.startsWith('/a/')
 );
 
 export const filterArrayToPage = (array: {}[], pageNumber: number, itemsPerGroup: number) => {
@@ -64,13 +63,13 @@ const Gallery = (galleryObject: any) => {
 
   let galleryClass = ['gallery'];
   
-  if (isAlbumPage(location.search)) {
+  if (isAlbumPage(location.pathname)) {
     galleryClass.push('gallery_album');
   }
 
   return (
     <div className={galleryClass.join(' ')}>
-      {currentPage === 0 && isAlbumPage(location.search) ?
+      {currentPage === 0 && isAlbumPage(location.pathname) ?
         <TitleCard
           albumName={galleryObject.galleryObject.albumName}
           description={galleryObject.galleryObject.description}
