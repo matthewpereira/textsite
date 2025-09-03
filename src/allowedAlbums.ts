@@ -1,6 +1,8 @@
 const allowedAlbums = {
   "base gallery": "6Hpyr",
   // 2025
+  "McCabe Freake Visit": "LMrRDN3",
+  "Walton Drive Parties 2025": "caYMPIK",
   "Mercury EPDD week": "MQIW9VE",
   "Angela and Jennifer's birthdays at the cottage": "3KnK95v",
   "Risk and LT Offsites in SF": "gLTnN6D",
