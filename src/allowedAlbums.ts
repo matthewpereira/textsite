@@ -1,6 +1,7 @@
 const allowedAlbums = {
   "base gallery": "6Hpyr",
   // 2025
+  "Prince Edward Island": "btFGMAF",
   "McCabe Freake Visit": "LMrRDN3",
   "Walton Drive Parties 2025": "caYMPIK",
   "Mercury EPDD week": "MQIW9VE",
