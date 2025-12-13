@@ -1,11 +1,11 @@
 const configJson = {
-  domain: "dev-a1lpbdbz.us.auth0.com",
-  clientId: "1wluyw9Ns1jAfENQfPYfhkwrdyMbDfX7",
-  audience:"https://matthewpereira.com/api/"
+  domain: import.meta.env.VITE_AUTH0_DOMAIN,
+  clientId: import.meta.env.VITE_AUTH0_CLIENT_ID,
+  audience: import.meta.env.VITE_AUTH0_AUDIENCE
 };
 
-export const IMAGES_PER_PAGE = 50;
-export const IMGUR_AUTHORIZATION = "0deeb4de7f631f1";
+export const IMAGES_PER_PAGE = parseInt(import.meta.env.VITE_IMAGES_PER_PAGE || '50', 10);
+export const IMGUR_AUTHORIZATION = import.meta.env.VITE_IMGUR_CLIENT_ID;
 
 export function getConfig() {
   // Configure the audience here. By default, it will take whatever is in the config
