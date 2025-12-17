@@ -1,6 +1,7 @@
 import emojify from "node-emojify";
 import parseStringForLinks from "../helpers/textLinks.tsx";
 import decodeHtmlEntities from "../helpers/decodeHtmlEntities.ts";
+import { validateYouTubeUrl, extractYouTubeVideoId, createSafeYouTubeEmbedUrl } from "../helpers/validateYouTubeUrl";
 
 interface GalleryImageType {
   image: any;
@@ -18,24 +19,40 @@ const GalleryImage = ({ image, type, width, height, isPrivate }: GalleryImageTyp
     return null;
   }
 
-  // Detect youtube videos
-  if (image.description && image.description.indexOf("youtube") > -1) {
-    return (
-      <div className="galleryImage galleryImage_youtube">
-        <div></div>
-        <div>
-          <iframe
-            title="Video"
-            width="1280"
-            height="720"
-            src={image.description.split(" ").join("")}
-            frameBorder="0"
-            data-allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
+  // Detect and validate YouTube videos
+  if (image.description && image.description.toLowerCase().indexOf("youtube") > -1) {
+    // Remove spaces and validate the URL
+    const potentialUrl = image.description.split(" ").join("");
+    const validation = validateYouTubeUrl(potentialUrl);
+
+    if (validation.isValid && validation.sanitizedUrl) {
+      // Try to extract video ID for cleaner embed URL
+      const videoId = extractYouTubeVideoId(validation.sanitizedUrl);
+      const embedUrl = videoId
+        ? createSafeYouTubeEmbedUrl(videoId)
+        : validation.sanitizedUrl;
+
+      return (
+        <div className="galleryImage galleryImage_youtube">
+          <div></div>
+          <div>
+            <iframe
+              title="Video"
+              width="1280"
+              height="720"
+              src={embedUrl}
+              frameBorder="0"
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
+
+    // Invalid YouTube URL - log warning and skip rendering
+    console.warn('Invalid YouTube URL detected in image description:', potentialUrl);
+    return null;
   }
 
   // Detect imgur videos

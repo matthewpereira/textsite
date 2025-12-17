@@ -1,18 +1,35 @@
 import emojify  from 'node-emojify';
+import { validateMarkdownUrl, sanitizeLinkText } from './validateMarkdownUrl';
 
-const mdLinkGlobal = /\[([\w\s\d'"]+)\]\((https?:\/\/[\w\d./?=#]+)\)/g;
-const mdLink = /\[([\w\s\d'"]+)\]\((https?:\/\/[\w\d./?=#]+)\)/;
+// Improved regex to match markdown links with better URL pattern
+// Matches: [link text](url)
+// Link text: Any characters except ]
+// URL: Any non-whitespace characters except )
+const mdLinkGlobal = /\[([^\]]+)\]\(([^\s)]+)\)/g;
+const mdLink = /\[([^\]]+)\]\(([^\s)]+)\)/;
 
 interface LinkObject {
   linkElement: JSX.Element;
   original: string;
 }
 
-const hydrateLinkElement = (linkText: string, url: string): JSX.Element => (
-  <a href={url} key={linkText.substr(0, 4)}>
-    {linkText}
-  </a>
-);
+const hydrateLinkElement = (linkText: string, url: string): JSX.Element | null => {
+  // Validate URL for security
+  if (!validateMarkdownUrl(url)) {
+    console.warn('Invalid or unsafe URL detected in markdown link:', url);
+    // Return plain text instead of link for security
+    return <span key={linkText.substring(0, 4)}>{sanitizeLinkText(linkText)}</span>;
+  }
+
+  // Sanitize link text to prevent XSS
+  const safeLinkText = sanitizeLinkText(linkText);
+
+  return (
+    <a href={url} key={linkText.substring(0, 4)} rel="noopener noreferrer" target="_blank">
+      {safeLinkText}
+    </a>
+  );
+};
 
 const stripArrayToString = (array: string[]): string => (Array.isArray(array) ? array[0] : array);
 
@@ -25,10 +42,13 @@ const formatLinkObject = (matches: RegExpMatchArray): LinkObject[] => {
     if (linkArray) {
       const linkElement = hydrateLinkElement(linkArray[1], linkArray[2]);
 
-      output.push({
-        linkElement,
-        original: linkArray[0],
-      });
+      // Only add if linkElement is not null (passed validation)
+      if (linkElement) {
+        output.push({
+          linkElement,
+          original: linkArray[0],
+        });
+      }
     }
   });
 
