@@ -87,8 +87,35 @@ const Pagination = ({ loadedImages }: any) => {
   }, [location.pathname]);
 
   let pageNumbers = [];
-  let currentPage = Number(removeHashFromHashString(location.hash));
-  
+
+  // Extract photo ID from URL hash (e.g., #p/abc123)
+  const photoIdMatch = location.hash.match(/#p\/([^/?#]+)/);
+  const targetPhotoId = photoIdMatch ? photoIdMatch[1] : null;
+
+  // Find which page contains the target photo
+  const findPageForPhoto = (photoId: string): number | null => {
+    const allImages = loadedImages.loadedImages;
+    const imageIndex = allImages.findIndex((img: any) => img.id === photoId);
+
+    if (imageIndex === -1) return null;
+
+    return Math.floor(imageIndex / IMAGES_PER_PAGE);
+  };
+
+  // Determine current page
+  let currentPage = 0;
+
+  if (targetPhotoId) {
+    // If viewing a specific photo, find its page
+    const photoPage = findPageForPhoto(targetPhotoId);
+    if (photoPage !== null) {
+      currentPage = photoPage + 1; // +1 because pagination displays 1-indexed pages
+    }
+  } else {
+    // Otherwise, parse page number from hash (e.g., #2)
+    currentPage = Number(removeHashFromHashString(location.hash));
+  }
+
   const numberOfPages = Math.ceil(loadedImages.loadedImages.length / IMAGES_PER_PAGE);
 
   if (numberOfPages) {
