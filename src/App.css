@@ -101,6 +101,7 @@ nav span+span {
 }
 
 .galleryImage {
+  position: relative;
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -302,5 +303,68 @@ nav span+span {
 @media only screen and (max-width: 600px) {
   .profile-desktop-only {
     display: none;
+  }
+}
+
+/* Permalink Share Button */
+.galleryImage__share-button {
+  position: absolute;
+  top: calc(50% - 48px);
+  right: 0px;
+  background: transparent;
+  color: #999;
+  border: none;
+  border-radius: 64px;
+  padding: 8px;
+  cursor: pointer;
+  z-index: 100;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  
+}
+
+.galleryImage__share-button:hover {
+  background: #f0f0f0;
+  color: #666;
+}
+
+.galleryImage__share-button:active {
+  transform: scale(0.95);
+}
+
+.galleryImage__share-button svg {
+  display: block;
+}
+
+@media only screen and (max-width: 600px) {
+  .galleryImage__share-button {
+    top: 60px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    padding: 6px;
+  }
+
+  .galleryImage__share-button svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* Highlighted Image Animation */
+.galleryImage--highlighted {
+  animation: highlight-pulse 2s ease-in-out;
+}
+
+@keyframes highlight-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(255, 215, 0, 0);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
   }
 }

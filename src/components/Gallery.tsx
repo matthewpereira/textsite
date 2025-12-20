@@ -30,6 +30,20 @@ const Gallery = (galleryObject: any) => {
   const location = useLocation();
   const { numberOfPages } = usePaginationContext();
 
+  // Extract photo ID from URL hash (e.g., #p/abc123)
+  const photoIdMatch = location.hash.match(/#p\/([^/?#]+)/);
+  const targetPhotoId = photoIdMatch ? photoIdMatch[1] : null;
+
+  // Find which page contains the target photo
+  const findPageForPhoto = (photoId: string): number | null => {
+    const allImages = galleryObject.galleryObject.loadedImages;
+    const imageIndex = allImages.findIndex((img: any) => img.id === photoId);
+
+    if (imageIndex === -1) return null;
+
+    return Math.floor(imageIndex / IMAGES_PER_PAGE);
+  };
+
   useEffect(() => {
     // Only add listener if there are pages to navigate
     if (!numberOfPages || numberOfPages === 0) {
@@ -49,17 +63,65 @@ const Gallery = (galleryObject: any) => {
     };
   }, [numberOfPages]);
 
+  // Auto-scroll to target photo
+  useEffect(() => {
+    if (!targetPhotoId) return;
+
+    // Wait for images to render and load
+    const scrollToImage = () => {
+      const imageElement = document.getElementById(`image-${targetPhotoId}`);
+
+      if (imageElement) {
+        // Calculate center position
+        const elementRect = imageElement.getBoundingClientRect();
+        const absoluteElementTop = elementRect.top + window.pageYOffset;
+        const middle = absoluteElementTop - (window.innerHeight / 2) + (elementRect.height / 2);
+
+        // Smooth scroll to center the image
+        window.scrollTo({
+          top: Math.max(0, middle),
+          behavior: 'smooth'
+        });
+
+        // Add visual highlight
+        imageElement.classList.add('galleryImage--highlighted');
+        const timer = setTimeout(() => {
+          imageElement.classList.remove('galleryImage--highlighted');
+        }, 2000);
+
+        return () => clearTimeout(timer);
+      }
+    };
+
+    // Delay to ensure images are loaded
+    const timer = setTimeout(scrollToImage, 300);
+
+    return () => clearTimeout(timer);
+  }, [targetPhotoId, location.pathname]);
+
   if (!galleryObject.galleryObject.loadedImages || !galleryObject.galleryObject.loadedImages.length) {
     return null;
   }
 
   const handlePagination = (array: [], currentPage: number, itemsPerGroup: number) => {
-    
+
     return filterArrayToPage(array, currentPage, itemsPerGroup);
   }
 
-  const pageHash = Number(removeHashFromHashString(location.hash)) - 1;
-  const currentPage = pageHash > 0 ? pageHash : 0;
+  // Determine current page
+  let currentPage = 0;
+
+  // If viewing a specific photo, find its page
+  if (targetPhotoId) {
+    const photoPage = findPageForPhoto(targetPhotoId);
+    if (photoPage !== null) {
+      currentPage = photoPage;
+    }
+  } else {
+    // Otherwise, parse page number from hash (e.g., #2)
+    const pageHash = Number(removeHashFromHashString(location.hash)) - 1;
+    currentPage = pageHash > 0 ? pageHash : 0;
+  }
 
   const thisPageImages = handlePagination(galleryObject.galleryObject.loadedImages, currentPage, IMAGES_PER_PAGE);
 
@@ -76,10 +138,11 @@ const Gallery = (galleryObject: any) => {
           albumName={galleryObject.galleryObject.albumName}
           description={galleryObject.galleryObject.description}
         /> : null}
-      {thisPageImages.map((image: any, index: number) => 
+      {thisPageImages.map((image: any, index: number) =>
         <GalleryImage
           captions={galleryObject.galleryObject.captions}
           isPrivate={image.description && image.description.indexOf("[PRIVATE]") > -1 && !isAuthenticated}
+          isHighlighted={targetPhotoId === image.id}
           height={image.height}
           image={image}
           index={index}
