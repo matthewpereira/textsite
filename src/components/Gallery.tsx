@@ -23,8 +23,6 @@ export const filterArrayToPage = (array: {}[], pageNumber: number, itemsPerGroup
   return array.slice(startIndex, endIndex);
 }
 
-let eventListenerAdded = false;
-
 const Gallery = (galleryObject: any) => {
 
   const { isAuthenticated } = useAuth0();
@@ -32,19 +30,23 @@ const Gallery = (galleryObject: any) => {
   const location = useLocation();
   const { numberOfPages } = usePaginationContext();
 
-  const keypressWrapper = (event: KeyboardEvent) => {
-    if (!numberOfPages) {
-      return null;
-    }
-
-    handleKeypress(event, numberOfPages);
-  }
-
   useEffect(() => {
-    if (!eventListenerAdded && numberOfPages !== 0) {
-      eventListenerAdded = true;
-      document.addEventListener('keydown', keypressWrapper);
+    // Only add listener if there are pages to navigate
+    if (!numberOfPages || numberOfPages === 0) {
+      return;
     }
+
+    const keypressWrapper = (event: KeyboardEvent) => {
+      handleKeypress(event, numberOfPages);
+    };
+
+    // Add event listener
+    document.addEventListener('keydown', keypressWrapper);
+
+    // Cleanup: Remove event listener when component unmounts or numberOfPages changes
+    return () => {
+      document.removeEventListener('keydown', keypressWrapper);
+    };
   }, [numberOfPages]);
 
   if (!galleryObject.galleryObject.loadedImages || !galleryObject.galleryObject.loadedImages.length) {
