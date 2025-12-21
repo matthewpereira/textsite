@@ -22,6 +22,9 @@ const Menu = (loadedImages: any) => {
 
   const Logout = () => <span><a className="logoutButton" href="#" onClick={handleLogout}>Logout</a></span>;
 
+  // Check if there are images to display
+  const hasImages = loadedImages?.loadedImages && loadedImages.loadedImages.length > 0;
+
   return (
     <nav>
       <div className="nav-left">
@@ -29,10 +32,10 @@ const Menu = (loadedImages: any) => {
         <span><Link to={ "/about" }>About</Link></span>
         {isAuthenticated ? <span><Link to="/albums">Albums</Link></span> : null}
         <span><a href="mailto:mail@matthewpereira.com">Email</a></span>
-        <Shortcuts />
+        {hasImages ? <Shortcuts /> : null}
       </div>
       <div className="nav-right">
-        <Pagination loadedImages={loadedImages} />
+        {hasImages ? <Pagination loadedImages={loadedImages} /> : null}
         {!isAuthenticated ? <Login /> : null}
         {isAuthenticated ? <div className="profile-desktop-only"><Profile /></div> : null}
         {isAuthenticated ? <Logout /> : null}

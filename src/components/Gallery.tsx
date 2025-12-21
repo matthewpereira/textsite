@@ -44,6 +44,21 @@ const Gallery = (galleryObject: any) => {
     return Math.floor(imageIndex / IMAGES_PER_PAGE);
   };
 
+  // Determine current page for pagination and keyboard navigation
+  let currentPageNumber = 0;
+
+  if (targetPhotoId) {
+    const photoPage = findPageForPhoto(targetPhotoId);
+    if (photoPage !== null) {
+      currentPageNumber = photoPage + 1; // +1 because pagination displays 1-indexed pages
+    }
+  } else {
+    currentPageNumber = Number(removeHashFromHashString(location.hash));
+    if (isNaN(currentPageNumber) || currentPageNumber <= 0) {
+      currentPageNumber = 1;
+    }
+  }
+
   useEffect(() => {
     // Only add listener if there are pages to navigate
     if (!numberOfPages || numberOfPages === 0) {
@@ -51,7 +66,7 @@ const Gallery = (galleryObject: any) => {
     }
 
     const keypressWrapper = (event: KeyboardEvent) => {
-      handleKeypress(event, numberOfPages);
+      handleKeypress(event, numberOfPages, currentPageNumber);
     };
 
     // Add event listener
@@ -61,7 +76,7 @@ const Gallery = (galleryObject: any) => {
     return () => {
       document.removeEventListener('keydown', keypressWrapper);
     };
-  }, [numberOfPages]);
+  }, [numberOfPages, currentPageNumber]);
 
   // Auto-scroll to target photo
   useEffect(() => {
@@ -108,20 +123,8 @@ const Gallery = (galleryObject: any) => {
     return filterArrayToPage(array, currentPage, itemsPerGroup);
   }
 
-  // Determine current page
-  let currentPage = 0;
-
-  // If viewing a specific photo, find its page
-  if (targetPhotoId) {
-    const photoPage = findPageForPhoto(targetPhotoId);
-    if (photoPage !== null) {
-      currentPage = photoPage;
-    }
-  } else {
-    // Otherwise, parse page number from hash (e.g., #2)
-    const pageHash = Number(removeHashFromHashString(location.hash)) - 1;
-    currentPage = pageHash > 0 ? pageHash : 0;
-  }
+  // Convert 1-indexed currentPageNumber to 0-indexed for array slicing
+  const currentPage = currentPageNumber > 0 ? currentPageNumber - 1 : 0;
 
   const thisPageImages = handlePagination(galleryObject.galleryObject.loadedImages, currentPage, IMAGES_PER_PAGE);
 

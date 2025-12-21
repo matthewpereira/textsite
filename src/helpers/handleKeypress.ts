@@ -1,6 +1,21 @@
-const changePage = (modifier:number, numberOfPages: number) => {
-  const hash = location.hash.replace("#", "");
-  const currentPage = hash.length === 0 ? 1 : parseInt(hash);
+const changePage = (modifier:number, numberOfPages: number, currentPageFromGallery?: number) => {
+  // Use the current page passed from Gallery component (which handles both permalinks and numeric hashes)
+  // If not provided, fall back to parsing the hash
+  let currentPage: number;
+
+  if (currentPageFromGallery !== undefined) {
+    // Gallery component has already calculated the correct page (1-indexed)
+    currentPage = currentPageFromGallery;
+  } else {
+    // Fallback: parse the hash
+    const hash = location.hash.replace("#", "");
+    currentPage = hash.length === 0 ? 1 : parseInt(hash);
+
+    // If parseInt returns NaN, default to page 1
+    if (isNaN(currentPage)) {
+      currentPage = 1;
+    }
+  }
 
   // Don't go backward from page 1
   if (currentPage <= 1 && modifier === -1) {
@@ -13,9 +28,9 @@ const changePage = (modifier:number, numberOfPages: number) => {
   if (newHash > numberOfPages || newHash < 1) {
     return false;
   }
-  
+
   window.location.href = location.origin + location.pathname + "#" + newHash;
-  
+
   setTimeout(() => {
     if (modifier === -1) {
       scrollToTarget(1000000)
@@ -50,11 +65,11 @@ const findAmountToScroll = (sectionHeight: number): number => {
 const scrollToTarget = (newScrollTop: number): number =>
   document.body.scrollTop = document.documentElement.scrollTop = newScrollTop;
 
-const HandleScrollKeypress = (event: KeyboardEvent, numberOfPages: number) => {
+const HandleScrollKeypress = (event: KeyboardEvent, numberOfPages: number, currentPageFromGallery?: number) => {
   const sectionHeight = window.innerHeight;
 
   const amountToScroll = findAmountToScroll(sectionHeight);
-    
+
   const body = document.body,
         html = document.documentElement;
 
@@ -65,7 +80,7 @@ const HandleScrollKeypress = (event: KeyboardEvent, numberOfPages: number) => {
         html.scrollHeight,
         html.offsetHeight
       );
-      
+
   const hash = location.hash.replace("#", "");
 
   if (event.key === "ArrowUp" && event.altKey) {
@@ -82,30 +97,30 @@ const HandleScrollKeypress = (event: KeyboardEvent, numberOfPages: number) => {
 
   if (event.code === "ArrowDown") {
     if (amountToScroll >= (maxHeight - sectionHeight - sectionHeight)) {
-      return changePage(1, numberOfPages);
+      return changePage(1, numberOfPages, currentPageFromGallery);
     }
-    
+
     scrollToTarget(amountToScroll + sectionHeight);
 
     return event.preventDefault();
   }
-  
+
   if (event.code === "ArrowUp") {
     if (amountToScroll <= 0 && hash !== "1" && hash !== "") {
-      return changePage(-1, numberOfPages);
+      return changePage(-1, numberOfPages, currentPageFromGallery);
     }
 
     scrollToTarget(amountToScroll - sectionHeight);
 
     return event.preventDefault();
   }
-  
+
   if (event.code === "ArrowRight") {
-    changePage(1, numberOfPages);
+    changePage(1, numberOfPages, currentPageFromGallery);
   }
-  
+
   if (event.code === "ArrowLeft") {
-    changePage(-1, numberOfPages);
+    changePage(-1, numberOfPages, currentPageFromGallery);
   }
 
 }
