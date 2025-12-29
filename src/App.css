@@ -342,8 +342,9 @@ nav span+span {
 
 @media only screen and (max-width: 600px) {
   .galleryImage__share-button {
-    top: 60px;
-    right: 12px;
+    top: auto;
+    bottom: -40px;
+    right: calc(50% - 24px);
     width: 32px;
     height: 32px;
     padding: 6px;
@@ -366,5 +367,22 @@ nav span+span {
   }
   50% {
     box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+  }
+}
+
+/* YouTube Video Responsive Styling */
+.galleryImage_youtube iframe {
+  max-width: calc(100vw - 100px);
+  max-height: calc(100vh - 100px);
+  width: 1280px;
+  height: 720px;
+}
+
+@media only screen and (max-width: 600px) {
+  .galleryImage_youtube iframe {
+    max-width: calc(100vw - 4px);
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
   }
 }
