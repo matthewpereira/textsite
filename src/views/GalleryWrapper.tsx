@@ -7,6 +7,7 @@ import getGalleryImages from "../components/getGalleryImages";
 
 import { IMAGES_PER_PAGE } from "../config";
 import { logger } from "../utils/logger";
+import { resolveAlbumId } from "../config/albumRedirects";
 
 import '../App.css';
 
@@ -37,12 +38,15 @@ function GalleryWrapper({ albumCode }: GalleryWrapperType) {
       setIsLoading(true);
       setError(null);
       try {
+        // Resolve album ID (handles Imgur -> R2 redirects)
+        const resolvedAlbumId = await resolveAlbumId(albumCode);
+
         // Try to fetch the album directly - if it doesn't exist, fall back to default
         let data;
         try {
-          data = await getGalleryImages(albumCode);
+          data = await getGalleryImages(resolvedAlbumId);
         } catch (err) {
-          logger.warn(`Album ${albumCode} not found, falling back to default`);
+          logger.warn(`Album ${resolvedAlbumId} not found, falling back to default`);
           data = await getGalleryImages("default");
         }
         setGalleryObject(data);

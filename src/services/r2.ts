@@ -48,6 +48,7 @@ export interface R2Album {
   createdAt: string;
   updatedAt: string;
   date?: string;
+  imgurId?: string;
 }
 
 /**
