@@ -6,6 +6,7 @@ import { usePaginationContext } from '../context/PaginationContext';
 
 import handleKeypress from '../helpers/handleKeypress';
 import removeHashFromHashString from '../helpers/removeHashFromHashString';
+import { formatAlbumDate } from '../helpers/formatDate';
 
 import { IMAGES_PER_PAGE } from '../config';
 
@@ -140,6 +141,8 @@ const Gallery = (galleryObject: any) => {
         <TitleCard
           albumName={galleryObject.galleryObject.albumName}
           description={galleryObject.galleryObject.description}
+          date={galleryObject.galleryObject.date}
+          createdAt={galleryObject.galleryObject.createdAt}
         /> : null}
       {thisPageImages.map((image: any, index: number) =>
         <GalleryImage
@@ -158,10 +161,20 @@ const Gallery = (galleryObject: any) => {
   )
 }
 
-const TitleCard = (props: { albumName?: any, description?: any }) => {
+const TitleCard = (props: {
+  albumName?: any;
+  description?: any;
+  date?: string;
+  createdAt?: string;
+}) => {
+  const displayDate = formatAlbumDate(props.date || props.createdAt);
+
   return (
     <div className="gallery__titlecard">
       <div className="gallery__titlecard-albumname">{props.albumName}</div>
+      {displayDate && (
+        <div className="gallery__titlecard-date">{displayDate}</div>
+      )}
       <div className="gallery__titlecard-description">{props.description}</div>
     </div>
   );

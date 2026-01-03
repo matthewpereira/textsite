@@ -277,6 +277,13 @@ nav span+span {
   font-weight: bold;
 }
 
+.gallery__titlecard-date {
+  font-size: 14px;
+  color: #6c757d;
+  margin-top: 8px;
+  font-weight: 400;
+}
+
 .gallery__titlecard-description {
   font-size: 12px;
   margin-top: 16px;

@@ -7,6 +7,12 @@ const configJson = {
 export const IMAGES_PER_PAGE = parseInt(import.meta.env.VITE_IMAGES_PER_PAGE || '50', 10);
 export const IMGUR_AUTHORIZATION = import.meta.env.VITE_IMGUR_CLIENT_ID;
 
+// Storage provider configuration
+export const STORAGE_PROVIDER = import.meta.env.VITE_STORAGE_PROVIDER || 'imgur';
+
+// R2 Worker API URL
+export const R2_API_URL = import.meta.env.VITE_R2_API_URL || 'https://textsite-r2-api.YOUR-SUBDOMAIN.workers.dev';
+
 export function getConfig() {
   // Configure the audience here. By default, it will take whatever is in the config
   // (specified by the `audience` key) unless it's the default value of "YOUR_API_IDENTIFIER" (which

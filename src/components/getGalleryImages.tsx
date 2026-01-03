@@ -1,5 +1,7 @@
-import { IMGUR_AUTHORIZATION } from '../config';
+import { IMGUR_AUTHORIZATION, STORAGE_PROVIDER, IMAGES_PER_PAGE } from '../config';
 import jsonData from './galleryImagesResponse.json' assert { type: 'json' };
+import { fetchR2Album } from '../services/r2';
+import { logger } from '../utils/logger';
 
 const DEFAULTGALLERY = "6Hpyr";
 const CACHE_KEY_PREFIX = 'textsite_gallery_';
@@ -20,6 +22,10 @@ interface GalleryData {
     images: any[];
     title?: string;
     description?: string;
+    createdAt?: string;
+    updatedAt?: string;
+    date?: string;
+    totalImages?: number;
   };
 }
 
@@ -28,6 +34,10 @@ interface GalleryState {
   captions: string;
   description: string;
   loadedImages: any[];
+  createdAt?: string;
+  updatedAt?: string;
+  date?: string;
+  totalImages?: number;
 }
 
 interface CachedGallery {
@@ -69,18 +79,50 @@ const setCachedGallery = (albumId: string, data: GalleryState): void => {
     };
     sessionStorage.setItem(cacheKey, JSON.stringify(cachedData));
   } catch (error) {
-    console.warn('Failed to cache gallery data:', error);
+    logger.warn('Failed to cache gallery data:', error);
   }
+};
+
+/**
+ * Fetch remaining images in batches
+ * @param albumId - Album ID
+ * @param alreadyFetched - Number of images already fetched
+ * @param totalImages - Total number of images in album
+ */
+const fetchRemainingImages = async (
+  albumId: string,
+  alreadyFetched: number,
+  totalImages: number
+): Promise<any[]> => {
+  const remainingImages: any[] = [];
+  const batchSize = IMAGES_PER_PAGE;
+
+  // Fetch remaining images in batches
+  for (let offset = alreadyFetched; offset < totalImages; offset += batchSize) {
+    const limit = Math.min(batchSize, totalImages - offset);
+    logger.log(`[R2] Fetching batch: offset=${offset}, limit=${limit}`);
+
+    try {
+      const batch = await fetchR2Album(albumId, limit, offset);
+      remainingImages.push(...batch.images);
+    } catch (error) {
+      logger.error(`[R2] Failed to fetch batch at offset ${offset}:`, error);
+      // Continue fetching other batches even if one fails
+    }
+  }
+
+  return remainingImages;
 };
 
 const getGalleryImages = async (albumId: string): Promise<GalleryState> => {
   // Check cache first
   const cached = getCachedGallery(albumId);
   if (cached) {
-    console.log(`Using cached data for album ${albumId}`);
+    logger.log(`Using cached data for album ${albumId}`);
     return cached;
   }
 
+  // Local development mode
   if (window.location.href === 'http://localhost:5173/' || window.location.href === 'https://localhost:5173/') {
     // The browser is at localhost:5173
     const data = hydrateGalleryState(jsonData);
@@ -88,27 +130,86 @@ const getGalleryImages = async (albumId: string): Promise<GalleryState> => {
     return data;
   }
 
-  const apiUrl = `https://api.imgur.com/3/album/${albumId}`;
-
-  const details = {
-    method: 'GET',
-    headers: {
-      'Authorization': `Client-ID ${IMGUR_AUTHORIZATION}`,
-      'Accept': 'application/json',
-    },
-  };
+  // Route to appropriate storage provider
+  const provider = STORAGE_PROVIDER.toLowerCase();
+  logger.log(`[Storage] Using provider: ${provider} for album ${albumId}`);
 
   try {
-    console.log(`Fetching album ${albumId} from API`);
-    const response = await fetch(apiUrl, details);
+    let data: GalleryData;
 
-    if (!response.ok) {
-      const errorBody = await response.text();
-      console.error(`Error response body: ${errorBody}`);
-      throw new Error(`HTTP error! status: ${response.status}, body: ${errorBody}`);
+    if (provider === 'r2') {
+      // Fetch from R2 with progressive loading
+      // Strategy: Load 10 images immediately for fast initial render
+      const initialBatch = 10;
+      logger.log(`[R2] Fetching album ${albumId} from R2 (first ${initialBatch} images for fast display)`);
+
+      // First, fetch only a small batch to show something VERY quickly
+      const r2Album = await fetchR2Album(albumId, initialBatch, 0);
+      const totalImages = r2Album.totalImages || r2Album.images.length;
+
+      logger.log(`[R2] Loaded ${r2Album.images.length} of ${totalImages} total images`);
+
+      // If there are more images, fetch them in the background
+      if (totalImages > initialBatch) {
+        // Fetch remaining images asynchronously without blocking
+        fetchRemainingImages(albumId, r2Album.images.length, totalImages).then((remainingImages: any[]) => {
+          // Update cache with all images
+          const allImages = [...r2Album.images, ...remainingImages];
+          const completeGalleryState = hydrateGalleryState({
+            data: {
+              id: r2Album.id,
+              images: allImages,
+              title: r2Album.title,
+              description: r2Album.description,
+              createdAt: r2Album.createdAt,
+              updatedAt: r2Album.updatedAt,
+              date: r2Album.date,
+            },
+          });
+          setCachedGallery(albumId, completeGalleryState);
+          logger.log(`[R2] Background fetch complete: ${allImages.length} total images cached`);
+        }).catch((err: any) => {
+          logger.error('[R2] Failed to fetch remaining images in background:', err);
+        });
+      }
+
+      // Convert R2 format to GalleryData format
+      data = {
+        data: {
+          id: r2Album.id,
+          images: r2Album.images,
+          title: r2Album.title,
+          description: r2Album.description,
+          createdAt: r2Album.createdAt,
+          updatedAt: r2Album.updatedAt,
+          date: r2Album.date,
+          totalImages: totalImages,
+        },
+      };
+    } else {
+      // Default to Imgur
+      logger.log(`[Imgur] Fetching album ${albumId} from Imgur API`);
+      const apiUrl = `https://api.imgur.com/3/album/${albumId}`;
+
+      const details = {
+        method: 'GET',
+        headers: {
+          'Authorization': `Client-ID ${IMGUR_AUTHORIZATION}`,
+          'Accept': 'application/json',
+        },
+      };
+
+      const response = await fetch(apiUrl, details);
+
+      if (!response.ok) {
+        const errorBody = await response.text();
+        logger.error(`[Imgur] Error response body: ${errorBody}`);
+        throw new Error(`HTTP error! status: ${response.status}, body: ${errorBody}`);
+      }
+
+      data = await response.json();
     }
 
-    const data: GalleryData = await response.json();
     const galleryState = hydrateGalleryState(data);
 
     // Cache the successful response
@@ -116,7 +217,7 @@ const getGalleryImages = async (albumId: string): Promise<GalleryState> => {
 
     return galleryState;
   } catch (error) {
-    console.error("Failed to fetch gallery images:", error);
+    logger.error(`[${provider.toUpperCase()}] Failed to fetch gallery images:`, error);
     return hydrateGalleryState(IN_CASE_OF_ERROR);
   }
 };
@@ -132,6 +233,10 @@ const hydrateGalleryState = (data: GalleryData): GalleryState => {
     captions,
     description,
     loadedImages,
+    createdAt: data.data.createdAt,
+    updatedAt: data.data.updatedAt,
+    date: data.data.date,
+    totalImages: data.data.totalImages,
   };
 };
 

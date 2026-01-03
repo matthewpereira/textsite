@@ -4,9 +4,9 @@ import { PaginationContextProvider } from '../context/PaginationContext';
 import Menu from '../components/Menu';
 import Gallery from '../components/Gallery';
 import getGalleryImages from "../components/getGalleryImages";
-import validateAlbum from "../helpers/validateAlbum";
 
 import { IMAGES_PER_PAGE } from "../config";
+import { logger } from "../utils/logger";
 
 import '../App.css';
 
@@ -15,6 +15,7 @@ interface GalleryType {
   loadedImages: any[];
   albumName: string;
   description: string;
+  totalImages?: number;
 }
 
 interface GalleryWrapperType {
@@ -36,11 +37,17 @@ function GalleryWrapper({ albumCode }: GalleryWrapperType) {
       setIsLoading(true);
       setError(null);
       try {
-        const validAlbum = validateAlbum(albumCode) ? albumCode : "6Hpyr";
-        const data = await getGalleryImages(validAlbum);
+        // Try to fetch the album directly - if it doesn't exist, fall back to default
+        let data;
+        try {
+          data = await getGalleryImages(albumCode);
+        } catch (err) {
+          logger.warn(`Album ${albumCode} not found, falling back to default`);
+          data = await getGalleryImages("default");
+        }
         setGalleryObject(data);
       } catch (err) {
-        console.error("Failed to fetch gallery images:", err);
+        logger.error("Failed to fetch gallery images:", err);
         setError("Failed to load gallery images. Please try again later.");
       } finally {
         setIsLoading(false);
@@ -69,7 +76,9 @@ function GalleryWrapper({ albumCode }: GalleryWrapperType) {
     return <div>Error: {error}</div>;
   }
 
-  const numberOfPages = Math.ceil(galleryObject.loadedImages.length / IMAGES_PER_PAGE);
+  // Use totalImages if available (for R2 with progressive loading), otherwise use loadedImages.length
+  const imageCount = galleryObject.totalImages || galleryObject.loadedImages.length;
+  const numberOfPages = Math.ceil(imageCount / IMAGES_PER_PAGE);
 
   return (
     <div>
