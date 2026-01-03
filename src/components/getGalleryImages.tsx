@@ -139,8 +139,8 @@ const getGalleryImages = async (albumId: string): Promise<GalleryState> => {
 
     if (provider === 'r2') {
       // Fetch from R2 with progressive loading
-      // Strategy: Load 10 images immediately for fast initial render
-      const initialBatch = 10;
+      // Strategy: Load first page of images immediately for fast initial render
+      const initialBatch = IMAGES_PER_PAGE;
       logger.log(`[R2] Fetching album ${albumId} from R2 (first ${initialBatch} images for fast display)`);
 
       // First, fetch only a small batch to show something VERY quickly
