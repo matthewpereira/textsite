@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import emojify from "node-emojify";
 import parseStringForLinks from "../helpers/textLinks.tsx";
 import decodeHtmlEntities from "../helpers/decodeHtmlEntities.ts";
@@ -17,6 +17,12 @@ interface GalleryImageType {
 
 const GalleryImage = ({ image, type, width, height, isPrivate, isHighlighted }: GalleryImageType) => {
   const [copySuccess, setCopySuccess] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  // Reset loading state when image changes (e.g., when paging)
+  useEffect(() => {
+    setImageLoaded(false);
+  }, [image.id, image.link]);
 
   if (isPrivate) {
     return null;
@@ -157,18 +163,29 @@ const GalleryImage = ({ image, type, width, height, isPrivate, isHighlighted }: 
   // JPG and GIFs
   return (
     <div
-      className={`galleryImage${isHighlighted ? ' galleryImage--highlighted' : ''}`}
+      className={`galleryImage${isHighlighted ? ' galleryImage--highlighted' : ''}${!imageLoaded ? ' galleryImage--loading' : ''}`}
       id={`image-${image.id}`}
       data-image-id={image.id}
     >
       <ShareButton />
+      {!imageLoaded && (
+        <div className="galleryImage__loading-placeholder" style={{
+          width: image.width ? `${image.width}px` : 'auto',
+          height: image.height ? `${image.height}px` : '400px',
+          maxWidth: '100%'
+        }}>
+          <div className="galleryImage__loading-spinner"></div>
+        </div>
+      )}
       <img
         alt={decodeHtmlEntities(altText)}
         src={image.link}
         height={image.height}
         width={image.width}
+        onLoad={() => setImageLoaded(true)}
+        style={{ display: imageLoaded ? 'block' : 'none' }}
       />
-      <Caption />
+      {imageLoaded && <Caption />}
     </div>
   );
 };

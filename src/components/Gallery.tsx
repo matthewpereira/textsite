@@ -152,7 +152,7 @@ const Gallery = (galleryObject: any) => {
           height={image.height}
           image={image}
           index={index}
-          key={index}
+          key={image.id}
           type={image.type}
           width={image.width}
         />
