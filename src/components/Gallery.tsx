@@ -115,6 +115,45 @@ const Gallery = (galleryObject: any) => {
     return () => clearTimeout(timer);
   }, [targetPhotoId, location.pathname]);
 
+  // Preload images from adjacent pages for smoother navigation
+  // This ensures that when users page forward/back, key images are already cached
+  useEffect(() => {
+    const allImages = galleryObject.galleryObject.loadedImages;
+    if (!allImages || allImages.length === 0) return;
+
+    const currentPage = currentPageNumber > 0 ? currentPageNumber - 1 : 0;
+    const imagesToPreload: string[] = [];
+
+    // Preload first image of next page (if exists)
+    // When user goes forward, this will display immediately
+    const nextPageFirstIndex = (currentPage + 1) * IMAGES_PER_PAGE;
+    if (nextPageFirstIndex < allImages.length) {
+      const nextPageFirstImage = allImages[nextPageFirstIndex];
+      if (nextPageFirstImage?.link) {
+        imagesToPreload.push(nextPageFirstImage.link);
+      }
+    }
+
+    // Preload last image of previous page (if exists)
+    // When user goes back, this will display immediately
+    if (currentPage > 0) {
+      const prevPageLastIndex = currentPage * IMAGES_PER_PAGE - 1;
+      if (prevPageLastIndex >= 0 && prevPageLastIndex < allImages.length) {
+        const prevPageLastImage = allImages[prevPageLastIndex];
+        if (prevPageLastImage?.link) {
+          imagesToPreload.push(prevPageLastImage.link);
+        }
+      }
+    }
+
+    // Preload the images by creating Image objects
+    // Browser will cache them automatically
+    imagesToPreload.forEach(src => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, [currentPageNumber, galleryObject.galleryObject.loadedImages]);
+
   if (!galleryObject.galleryObject.loadedImages || !galleryObject.galleryObject.loadedImages.length) {
     return null;
   }
