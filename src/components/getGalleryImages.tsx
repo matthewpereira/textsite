@@ -1,4 +1,4 @@
-import { IMGUR_AUTHORIZATION, STORAGE_PROVIDER, IMAGES_PER_PAGE } from '../config';
+import { IMGUR_AUTHORIZATION, STORAGE_PROVIDER } from '../config';
 import jsonData from './galleryImagesResponse.json' assert { type: 'json' };
 import { fetchR2Album } from '../services/r2';
 import { logger } from '../utils/logger';
@@ -83,37 +83,6 @@ const setCachedGallery = (albumId: string, data: GalleryState): void => {
   }
 };
 
-/**
- * Fetch remaining images in batches
- * @param albumId - Album ID
- * @param alreadyFetched - Number of images already fetched
- * @param totalImages - Total number of images in album
- */
-const fetchRemainingImages = async (
-  albumId: string,
-  alreadyFetched: number,
-  totalImages: number
-): Promise<any[]> => {
-  const remainingImages: any[] = [];
-  const batchSize = IMAGES_PER_PAGE;
-
-  // Fetch remaining images in batches
-  for (let offset = alreadyFetched; offset < totalImages; offset += batchSize) {
-    const limit = Math.min(batchSize, totalImages - offset);
-    logger.log(`[R2] Fetching batch: offset=${offset}, limit=${limit}`);
-
-    try {
-      const batch = await fetchR2Album(albumId, limit, offset);
-      remainingImages.push(...batch.images);
-    } catch (error) {
-      logger.error(`[R2] Failed to fetch batch at offset ${offset}:`, error);
-      // Continue fetching other batches even if one fails
-    }
-  }
-
-  return remainingImages;
-};
-
 const getGalleryImages = async (albumId: string): Promise<GalleryState> => {
   // Check cache first
   const cached = getCachedGallery(albumId);
@@ -138,40 +107,11 @@ const getGalleryImages = async (albumId: string): Promise<GalleryState> => {
     let data: GalleryData;
 
     if (provider === 'r2') {
-      // Fetch from R2 with progressive loading
-      // Strategy: Load first page of images immediately for fast initial render
-      const initialBatch = IMAGES_PER_PAGE;
-      logger.log(`[R2] Fetching album ${albumId} from R2 (first ${initialBatch} images for fast display)`);
+      // Fetch all images from R2 at once (now fast with parallel metadata fetching)
+      logger.log(`[R2] Fetching album ${albumId} from R2`);
 
-      // First, fetch only a small batch to show something VERY quickly
-      const r2Album = await fetchR2Album(albumId, initialBatch, 0);
-      const totalImages = r2Album.totalImages || r2Album.images.length;
-
-      logger.log(`[R2] Loaded ${r2Album.images.length} of ${totalImages} total images`);
-
-      // If there are more images, fetch them in the background
-      if (totalImages > initialBatch) {
-        // Fetch remaining images asynchronously without blocking
-        fetchRemainingImages(albumId, r2Album.images.length, totalImages).then((remainingImages: any[]) => {
-          // Update cache with all images
-          const allImages = [...r2Album.images, ...remainingImages];
-          const completeGalleryState = hydrateGalleryState({
-            data: {
-              id: r2Album.id,
-              images: allImages,
-              title: r2Album.title,
-              description: r2Album.description,
-              createdAt: r2Album.createdAt,
-              updatedAt: r2Album.updatedAt,
-              date: r2Album.date,
-            },
-          });
-          setCachedGallery(albumId, completeGalleryState);
-          logger.log(`[R2] Background fetch complete: ${allImages.length} total images cached`);
-        }).catch((err: any) => {
-          logger.error('[R2] Failed to fetch remaining images in background:', err);
-        });
-      }
+      const r2Album = await fetchR2Album(albumId); // Fetch all images, no pagination
+      logger.log(`[R2] Loaded ${r2Album.images.length} images`);
 
       // Convert R2 format to GalleryData format
       data = {
@@ -183,7 +123,6 @@ const getGalleryImages = async (albumId: string): Promise<GalleryState> => {
           createdAt: r2Album.createdAt,
           updatedAt: r2Album.updatedAt,
           date: r2Album.date,
-          totalImages: totalImages,
         },
       };
     } else {
