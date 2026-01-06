@@ -70,7 +70,7 @@ function GalleryWrapper({ albumCode }: GalleryWrapperType) {
 
   if (isLoading) {
     return (
-      <div style={{ fontSize: "12px", padding: "8px" }}>
+      <div style={{ fontSize: "12px", padding: "8px", backgroundColor: "transparent" }}>
         Loading<span className="animated-dots">...</span>
       </div>
     );
