@@ -65,6 +65,13 @@ async function getRedirectMap(): Promise<Record<string, string>> {
  * @returns The R2 album ID to use
  */
 export async function resolveAlbumId(albumCode: string): Promise<string> {
+  // If albumCode looks like an R2 album ID (starts with "album_"), skip redirect lookup
+  // This avoids fetching the full album list for direct R2 album access
+  if (albumCode.startsWith('album_') || albumCode === 'default') {
+    return albumCode;
+  }
+
+  // Only fetch redirect map for old Imgur IDs (short codes)
   const redirectMap = await getRedirectMap();
   return redirectMap[albumCode] || albumCode;
 }
