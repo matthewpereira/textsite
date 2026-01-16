@@ -14,6 +14,8 @@ const AlbumSelector = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let ignore = false;
+
     async function loadAlbums() {
       logger.log('[AlbumSelector] Starting to load albums...');
       setIsLoading(true);
@@ -27,6 +29,10 @@ const AlbumSelector = () => {
           // Fetch albums dynamically from R2
           logger.log('[AlbumSelector] Fetching R2 albums...');
           const r2Albums = await fetchR2Albums();
+
+          // Ignore stale response (from React StrictMode double-invoke)
+          if (ignore) return;
+
           logger.log('[AlbumSelector] Fetched albums:', r2Albums);
 
           // Sort albums by date (newest first)
@@ -37,6 +43,9 @@ const AlbumSelector = () => {
           setAlbums(sortedAlbums);
           logger.log('[AlbumSelector] Albums set successfully');
         } else {
+          // Ignore stale response
+          if (ignore) return;
+
           // For Imgur, convert allowedAlbums to R2Album format
           const imgurAlbums = Object.entries(allowedAlbums)
             .slice(1) // Skip first entry
@@ -49,16 +58,23 @@ const AlbumSelector = () => {
           setAlbums(imgurAlbums);
         }
       } catch (err) {
+        if (ignore) return;
         logger.error('[AlbumSelector] Failed to load albums:', err);
         logger.error('[AlbumSelector] Error details:', err instanceof Error ? err.message : String(err));
         setError('Failed to load albums. Please try again later.');
       } finally {
-        logger.log('[AlbumSelector] Setting isLoading to false');
-        setIsLoading(false);
+        if (!ignore) {
+          logger.log('[AlbumSelector] Setting isLoading to false');
+          setIsLoading(false);
+        }
       }
     }
 
     loadAlbums();
+
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   const handleAlbumClick = (albumId: string) => {

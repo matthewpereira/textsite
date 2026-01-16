@@ -51,31 +51,55 @@ export interface R2Album {
   imgurId?: string;
 }
 
+// Cache for albums list to avoid duplicate fetches
+let albumsCache: R2Album[] | null = null;
+let albumsFetchPromise: Promise<R2Album[]> | null = null;
+
 /**
  * Fetch list of all albums from Cloudflare Worker API
  *
  * @returns Array of album data with IDs, titles, and dates
  */
 export async function fetchR2Albums(): Promise<R2Album[]> {
-  try {
-    logger.log('[R2] Fetching albums list from Worker API');
-
-    const response = await fetch(`${R2_API_URL}/api/albums`);
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      logger.error(`[R2] Worker API error (${response.status}):`, errorText);
-      throw new Error(`Failed to fetch albums: ${response.status} ${response.statusText}`);
-    }
-
-    const data = await response.json();
-    logger.log(`[R2] Successfully loaded ${data.albums.length} albums`);
-
-    return data.albums;
-  } catch (error) {
-    logger.error('[R2] Failed to fetch albums:', error);
-    return [];
+  // Return cached albums if available
+  if (albumsCache) {
+    logger.log('[R2] Returning cached albums list');
+    return albumsCache;
   }
+
+  // If a fetch is already in progress, wait for it
+  if (albumsFetchPromise) {
+    logger.log('[R2] Waiting for in-progress albums fetch');
+    return albumsFetchPromise;
+  }
+
+  // Start a new fetch
+  albumsFetchPromise = (async () => {
+    try {
+      logger.log('[R2] Fetching albums list from Worker API');
+
+      const response = await fetch(`${R2_API_URL}/api/albums`);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        logger.error(`[R2] Worker API error (${response.status}):`, errorText);
+        throw new Error(`Failed to fetch albums: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      logger.log(`[R2] Successfully loaded ${data.albums.length} albums`);
+
+      albumsCache = data.albums;
+      return data.albums;
+    } catch (error) {
+      logger.error('[R2] Failed to fetch albums:', error);
+      return [];
+    } finally {
+      albumsFetchPromise = null;
+    }
+  })();
+
+  return albumsFetchPromise;
 }
 
 /**
