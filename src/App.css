@@ -399,9 +399,6 @@ nav span+span {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background: #f9f9f9; */
-  /* border: 1px solid #ddd; */
-  /* border-radius: 2px; */
 }
 
 .galleryImage__loading-spinner {
@@ -416,4 +413,39 @@ nav span+span {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+/* Wrapper: sized by the real photo, blur floats absolutely on top */
+.galleryImage__media {
+  line-height: 0;
+}
+
+.galleryImage__media--blur {
+  position: relative;
+}
+
+/* Blur placeholder: stretched to exactly match the photo beneath it */
+.galleryImage__blur-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  transition: opacity 0.4s ease;
+}
+
+.galleryImage__blur-canvas--hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+/* Fade-in for images with a BlurHash */
+.galleryImage__img--fade {
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+
+.galleryImage__img--ready {
+  opacity: 1;
 }

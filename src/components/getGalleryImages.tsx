@@ -1,5 +1,4 @@
 import { IMGUR_AUTHORIZATION, STORAGE_PROVIDER } from '../config';
-import jsonData from './galleryImagesResponse.json' assert { type: 'json' };
 import { fetchR2Album } from '../services/r2';
 import { logger } from '../utils/logger';
 import { GalleryImage } from '../types';
@@ -90,14 +89,6 @@ const getGalleryImages = async (albumId: string): Promise<GalleryState> => {
   if (cached) {
     logger.log(`Using cached data for album ${albumId}`);
     return cached;
-  }
-
-  // Local development mode
-  if (window.location.href === 'http://localhost:5173/' || window.location.href === 'https://localhost:5173/') {
-    // The browser is at localhost:5173
-    const data = hydrateGalleryState(jsonData);
-    setCachedGallery(albumId, data);
-    return data;
   }
 
   // Route to appropriate storage provider

@@ -1,9 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { decode } from "blurhash";
 import emojify from "node-emojify";
 import parseStringForLinks from "../helpers/textLinks.tsx";
 import decodeHtmlEntities from "../helpers/decodeHtmlEntities.ts";
 import { validateYouTubeUrl, extractYouTubeVideoId, createSafeYouTubeEmbedUrl } from "../helpers/validateYouTubeUrl";
 import { GalleryImage } from "../types";
+import blurHashes from "../data/blurHashes.json";
 
 interface GalleryImageType {
   image: GalleryImage;
@@ -18,11 +20,28 @@ interface GalleryImageType {
 
 const GalleryImage = ({ image, type, width, height, isPrivate, isHighlighted }: GalleryImageType) => {
   const [copySuccess, setCopySuccess] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageReady, setImageReady] = useState(false);
+  const blurHash = image.blurHash ?? (blurHashes as Record<string, string>)[image.id];
+
+  // Decode BlurHash into a data URL so we can use an <img> for consistent sizing
+  const blurDataUrl = useMemo(() => {
+    if (!blurHash) return null;
+    const W = 32;
+    const H = Math.round(32 * (image.height / image.width));
+    const canvas = document.createElement('canvas');
+    canvas.width = W;
+    canvas.height = H;
+    const pixels = decode(blurHash, W, H);
+    const ctx = canvas.getContext('2d')!;
+    const imageData = ctx.createImageData(W, H);
+    imageData.data.set(pixels);
+    ctx.putImageData(imageData, 0, 0);
+    return canvas.toDataURL();
+  }, [blurHash, image.width, image.height]);
 
   // Reset loading state when image changes (e.g., when paging)
   useEffect(() => {
-    setImageLoaded(false);
+    setImageReady(false);
   }, [image.id, image.link]);
 
   if (isPrivate) {
@@ -161,15 +180,19 @@ const GalleryImage = ({ image, type, width, height, isPrivate, isHighlighted }: 
     );
   }
 
+  const handleLoad = () => {
+    requestAnimationFrame(() => requestAnimationFrame(() => setImageReady(true)));
+  };
+
   // JPG and GIFs
   return (
     <div
-      className={`galleryImage${isHighlighted ? ' galleryImage--highlighted' : ''}${!imageLoaded ? ' galleryImage--loading' : ''}`}
+      className={`galleryImage${isHighlighted ? ' galleryImage--highlighted' : ''}${!imageReady ? ' galleryImage--loading' : ''}`}
       id={`image-${image.id}`}
       data-image-id={image.id}
     >
       <ShareButton />
-      {!imageLoaded && (
+      {!imageReady && !blurHash && (
         <div className="galleryImage__loading-placeholder" style={{
           width: image.width ? `${image.width}px` : 'auto',
           height: image.height ? `${image.height}px` : '400px',
@@ -178,15 +201,25 @@ const GalleryImage = ({ image, type, width, height, isPrivate, isHighlighted }: 
           <div className="galleryImage__loading-spinner"></div>
         </div>
       )}
-      <img
-        alt={decodeHtmlEntities(altText)}
-        src={image.link}
-        height={image.height}
-        width={image.width}
-        onLoad={() => setImageLoaded(true)}
-        style={{ display: imageLoaded ? 'block' : 'none' }}
-      />
-      {imageLoaded && <Caption />}
+      <div className={`galleryImage__media${blurDataUrl ? ' galleryImage__media--blur' : ''}`}>
+        {blurDataUrl && (
+          <img
+            src={blurDataUrl}
+            aria-hidden
+            className={`galleryImage__blur-canvas${imageReady ? ' galleryImage__blur-canvas--hidden' : ''}`}
+          />
+        )}
+        <img
+          alt={decodeHtmlEntities(altText)}
+          src={image.link}
+          height={image.height}
+          width={image.width}
+          onLoad={handleLoad}
+          className={blurDataUrl ? `galleryImage__img--fade${imageReady ? ' galleryImage__img--ready' : ''}` : undefined}
+          style={!blurDataUrl ? { display: imageReady ? 'block' : 'none' } : undefined}
+        />
+      </div>
+      {imageReady && <Caption />}
     </div>
   );
 };

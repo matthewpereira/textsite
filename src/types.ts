@@ -17,4 +17,5 @@ export interface GalleryImage {
   datetime?: number;
   animated?: boolean;
   size?: number;
+  blurHash?: string;
 }
