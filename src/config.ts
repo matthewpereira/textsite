@@ -1,3 +1,23 @@
+if (!import.meta.env.VITE_AUTH0_DOMAIN) {
+  console.warn('[config] Missing VITE_AUTH0_DOMAIN — Auth0 authentication will not work.');
+}
+if (!import.meta.env.VITE_AUTH0_CLIENT_ID) {
+  console.warn('[config] Missing VITE_AUTH0_CLIENT_ID — Auth0 authentication will not work.');
+}
+
+const _storageProvider = import.meta.env.VITE_STORAGE_PROVIDER || 'imgur';
+const _r2ApiUrl = import.meta.env.VITE_R2_API_URL || '';
+
+if (_storageProvider === 'r2') {
+  if (!_r2ApiUrl || _r2ApiUrl.includes('YOUR-SUBDOMAIN')) {
+    console.warn('[config] VITE_STORAGE_PROVIDER is "r2" but VITE_R2_API_URL is missing or still contains the placeholder "YOUR-SUBDOMAIN" — R2 storage will not work.');
+  }
+} else {
+  if (!import.meta.env.VITE_IMGUR_CLIENT_ID) {
+    console.warn('[config] VITE_STORAGE_PROVIDER is "imgur" (or default) but VITE_IMGUR_CLIENT_ID is missing — Imgur uploads will not be authorized.');
+  }
+}
+
 const configJson = {
   domain: import.meta.env.VITE_AUTH0_DOMAIN,
   clientId: import.meta.env.VITE_AUTH0_CLIENT_ID,
@@ -20,7 +40,7 @@ export function getConfig() {
   // don't have an API).
   // If this resolves to `null`, the API page changes to show some helpful info about what to do
   // with the audience.
-  
+
   const audience =
     configJson.audience && configJson.audience !== "YOUR_API_IDENTIFIER"
       ? configJson.audience

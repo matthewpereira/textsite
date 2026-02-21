@@ -118,7 +118,7 @@ export async function fetchR2Album(
   id: string;
   title: string;
   description?: string;
-  images: R2Image[];
+  images: (R2Image & { link: string })[];
   createdAt: string;
   updatedAt: string;
   date?: string;
@@ -160,7 +160,7 @@ export async function fetchR2Album(
       id: album.id,
       title: album.title,
       description: album.description,
-      images: mappedImages as any,
+      images: mappedImages,
       createdAt: album.createdAt,
       updatedAt: album.updatedAt,
       date: album.date,

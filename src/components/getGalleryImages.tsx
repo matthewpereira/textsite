@@ -2,6 +2,7 @@ import { IMGUR_AUTHORIZATION, STORAGE_PROVIDER } from '../config';
 import jsonData from './galleryImagesResponse.json' assert { type: 'json' };
 import { fetchR2Album } from '../services/r2';
 import { logger } from '../utils/logger';
+import { GalleryImage } from '../types';
 
 const DEFAULTGALLERY = "6Hpyr";
 const CACHE_KEY_PREFIX = 'textsite_gallery_';
@@ -19,7 +20,7 @@ const IN_CASE_OF_ERROR: GalleryData = {
 interface GalleryData {
   data: {
     id: string;
-    images: any[];
+    images: GalleryImage[];
     title?: string;
     description?: string;
     createdAt?: string;
@@ -33,7 +34,7 @@ interface GalleryState {
   albumName: string;
   captions: string;
   description: string;
-  loadedImages: any[];
+  loadedImages: GalleryImage[];
   createdAt?: string;
   updatedAt?: string;
   date?: string;

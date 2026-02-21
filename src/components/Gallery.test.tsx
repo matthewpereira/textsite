@@ -208,7 +208,7 @@ describe('what type of page', () => {
   });
 
   test('detects album page', () => {
-    expect(isAlbumPage('?EB25A')).toBeTruthy();
+    expect(isAlbumPage('/a/EB25A')).toBeTruthy();
   });
 
   test('detects auth0 querystring', () => {

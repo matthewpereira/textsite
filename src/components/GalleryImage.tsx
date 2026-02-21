@@ -3,13 +3,14 @@ import emojify from "node-emojify";
 import parseStringForLinks from "../helpers/textLinks.tsx";
 import decodeHtmlEntities from "../helpers/decodeHtmlEntities.ts";
 import { validateYouTubeUrl, extractYouTubeVideoId, createSafeYouTubeEmbedUrl } from "../helpers/validateYouTubeUrl";
+import { GalleryImage } from "../types";
 
 interface GalleryImageType {
-  image: any;
+  image: GalleryImage;
   index: number;
   type: string;
   width: number;
-  height: string;
+  height: number;
   captions: string;
   isPrivate: boolean;
   isHighlighted?: boolean;

@@ -11,20 +11,32 @@ import { formatAlbumDate } from '../helpers/formatDate';
 import { IMAGES_PER_PAGE } from '../config';
 
 import { useAuth0 } from "@auth0/auth0-react";
+import { GalleryImage as GalleryImageType } from '../types';
 
 // Don't show the album name and description on default gallery
 export const isAlbumPage = (pathname: string) => (
   pathname.startsWith('/a/')
 );
 
-export const filterArrayToPage = (array: {}[], pageNumber: number, itemsPerGroup: number) => {
+export const filterArrayToPage = (array: GalleryImageType[], pageNumber: number, itemsPerGroup: number) => {
   const startIndex = pageNumber === 0 ? 0 : pageNumber * itemsPerGroup;
   const endIndex = (pageNumber + 1) * itemsPerGroup;
 
   return array.slice(startIndex, endIndex);
 }
 
-const Gallery = (galleryObject: any) => {
+interface GalleryProps {
+  galleryObject: {
+    loadedImages: GalleryImageType[];
+    albumName: string;
+    description: string;
+    date?: string;
+    createdAt?: string;
+    captions: string;
+  };
+}
+
+const Gallery = ({ galleryObject }: GalleryProps) => {
 
   const { isAuthenticated } = useAuth0();
 
@@ -37,8 +49,8 @@ const Gallery = (galleryObject: any) => {
 
   // Find which page contains the target photo
   const findPageForPhoto = (photoId: string): number | null => {
-    const allImages = galleryObject.galleryObject.loadedImages;
-    const imageIndex = allImages.findIndex((img: any) => img.id === photoId);
+    const allImages = galleryObject.loadedImages;
+    const imageIndex = allImages.findIndex(img => img.id === photoId);
 
     if (imageIndex === -1) return null;
 
@@ -118,7 +130,7 @@ const Gallery = (galleryObject: any) => {
   // Preload images from adjacent pages for smoother navigation
   // This ensures that when users page forward/back, key images are already cached
   useEffect(() => {
-    const allImages = galleryObject.galleryObject.loadedImages;
+    const allImages = galleryObject.loadedImages;
     if (!allImages || allImages.length === 0) return;
 
     const currentPage = currentPageNumber > 0 ? currentPageNumber - 1 : 0;
@@ -152,13 +164,13 @@ const Gallery = (galleryObject: any) => {
       const img = new Image();
       img.src = src;
     });
-  }, [currentPageNumber, galleryObject.galleryObject.loadedImages]);
+  }, [currentPageNumber, galleryObject.loadedImages]);
 
-  if (!galleryObject.galleryObject.loadedImages || !galleryObject.galleryObject.loadedImages.length) {
+  if (!galleryObject.loadedImages || !galleryObject.loadedImages.length) {
     return null;
   }
 
-  const handlePagination = (array: [], currentPage: number, itemsPerGroup: number) => {
+  const handlePagination = (array: GalleryImageType[], currentPage: number, itemsPerGroup: number) => {
 
     return filterArrayToPage(array, currentPage, itemsPerGroup);
   }
@@ -166,7 +178,7 @@ const Gallery = (galleryObject: any) => {
   // Convert 1-indexed currentPageNumber to 0-indexed for array slicing
   const currentPage = currentPageNumber > 0 ? currentPageNumber - 1 : 0;
 
-  const thisPageImages = handlePagination(galleryObject.galleryObject.loadedImages, currentPage, IMAGES_PER_PAGE);
+  const thisPageImages = handlePagination(galleryObject.loadedImages, currentPage, IMAGES_PER_PAGE);
 
   let galleryClass = ['gallery'];
   
@@ -178,15 +190,15 @@ const Gallery = (galleryObject: any) => {
     <div className={galleryClass.join(' ')}>
       {currentPage === 0 && isAlbumPage(location.pathname) ?
         <TitleCard
-          albumName={galleryObject.galleryObject.albumName}
-          description={galleryObject.galleryObject.description}
-          date={galleryObject.galleryObject.date}
-          createdAt={galleryObject.galleryObject.createdAt}
+          albumName={galleryObject.albumName}
+          description={galleryObject.description}
+          date={galleryObject.date}
+          createdAt={galleryObject.createdAt}
         /> : null}
-      {thisPageImages.map((image: any, index: number) =>
+      {thisPageImages.map((image, index) =>
         <GalleryImage
-          captions={galleryObject.galleryObject.captions}
-          isPrivate={image.description && image.description.indexOf("[PRIVATE]") > -1 && !isAuthenticated}
+          captions={galleryObject.captions}
+          isPrivate={!!(image.description && image.description.indexOf("[PRIVATE]") > -1 && !isAuthenticated)}
           isHighlighted={targetPhotoId === image.id}
           height={image.height}
           image={image}
@@ -201,8 +213,8 @@ const Gallery = (galleryObject: any) => {
 }
 
 const TitleCard = (props: {
-  albumName?: any;
-  description?: any;
+  albumName?: string;
+  description?: string;
   date?: string;
   createdAt?: string;
 }) => {
