@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import emojify from "node-emojify";
 import parseStringForLinks from "../helpers/textLinks.tsx";
 import decodeHtmlEntities from "../helpers/decodeHtmlEntities.ts";
@@ -19,11 +19,24 @@ interface GalleryImageType {
 const GalleryImage = ({ image, type, width, height, isPrivate, isHighlighted }: GalleryImageType) => {
   const [copySuccess, setCopySuccess] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [showPlaceholder, setShowPlaceholder] = useState(true);
 
   // Reset loading state when image changes (e.g., when paging)
   useEffect(() => {
     setImageLoaded(false);
+    setShowPlaceholder(true);
   }, [image.id, image.link]);
+
+  const handleLoad = () => setImageLoaded(true);
+
+  const handleError = () => {
+    setImageLoaded(true);
+    setShowPlaceholder(false);
+  };
+
+  const handlePlaceholderTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
+    if (e.propertyName === 'opacity') setShowPlaceholder(false);
+  };
 
   if (isPrivate) {
     return null;
@@ -164,28 +177,29 @@ const GalleryImage = ({ image, type, width, height, isPrivate, isHighlighted }: 
   // JPG and GIFs
   return (
     <div
-      className={`galleryImage${isHighlighted ? ' galleryImage--highlighted' : ''}${!imageLoaded ? ' galleryImage--loading' : ''}`}
+      className={`galleryImage${isHighlighted ? ' galleryImage--highlighted' : ''}`}
       id={`image-${image.id}`}
       data-image-id={image.id}
     >
       <ShareButton />
-      {!imageLoaded && (
-        <div className="galleryImage__loading-placeholder" style={{
-          width: image.width ? `${image.width}px` : 'auto',
-          height: image.height ? `${image.height}px` : '400px',
-          maxWidth: '100%'
-        }}>
-          <div className="galleryImage__loading-spinner"></div>
-        </div>
-      )}
-      <img
-        alt={decodeHtmlEntities(altText)}
-        src={image.link}
-        height={image.height}
-        width={image.width}
-        onLoad={() => setImageLoaded(true)}
-        style={{ display: imageLoaded ? 'block' : 'none' }}
-      />
+      <div className="galleryImage__media">
+        <img
+          alt={decodeHtmlEntities(altText)}
+          src={image.link}
+          height={image.height}
+          width={image.width}
+          onLoad={handleLoad}
+          onError={handleError}
+          className={imageLoaded ? 'galleryImage__img--loaded' : 'galleryImage__img--loading'}
+        />
+        {showPlaceholder && (
+          <div
+            className={`galleryImage__placeholder${imageLoaded ? ' galleryImage__placeholder--hidden' : ''}`}
+            onTransitionEnd={handlePlaceholderTransitionEnd}
+            style={{ backgroundColor: image.dominantColor || '#e8e8e8' }}
+          />
+        )}
+      </div>
       {imageLoaded && <Caption />}
     </div>
   );
