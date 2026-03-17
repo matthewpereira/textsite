@@ -1,5 +1,6 @@
 import { IMGUR_AUTHORIZATION, STORAGE_PROVIDER } from '../config';
 import jsonData from './galleryImagesResponse.json' assert { type: 'json' };
+import defaultGalleryData from './defaultGalleryData';
 import { fetchR2Album } from '../services/r2';
 import { logger } from '../utils/logger';
 import { GalleryImage } from '../types';
@@ -85,6 +86,11 @@ const setCachedGallery = (albumId: string, data: GalleryState): void => {
 };
 
 const getGalleryImages = async (albumId: string): Promise<GalleryState> => {
+  // Return hardcoded default gallery without any network call
+  if (albumId === 'default') {
+    return defaultGalleryData;
+  }
+
   // Check cache first
   const cached = getCachedGallery(albumId);
   if (cached) {
