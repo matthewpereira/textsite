@@ -139,7 +139,8 @@ const GalleryImage = ({ image, type, width, height, isPrivate, isHighlighted }: 
           muted={true}
           style={{ "maxWidth": "100%" }}
         >
-          <source src={image.link} type="video/mp4" />
+          {/* Some album metadata records video URLs as .jpg even though the R2 object is .mp4 */}
+          <source src={image.link.replace(/\.jpe?g$/i, '.mp4')} type="video/mp4" />
         </video>
       </div>
     );
