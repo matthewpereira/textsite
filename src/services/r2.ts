@@ -29,6 +29,12 @@ interface R2Image {
   height: number;
   datetime: number;
   animated?: boolean;
+  // Present iff this entry is a YouTube embed (see worker's R2ImageMetadata.embed).
+  embed?: {
+    provider: 'youtube';
+    videoId: string;
+    sourceUrl: string;
+  };
 }
 
 interface AlbumResponse {

@@ -3,6 +3,7 @@ import emojify from "node-emojify";
 import parseStringForLinks from "../helpers/textLinks.tsx";
 import decodeHtmlEntities from "../helpers/decodeHtmlEntities.ts";
 import { validateYouTubeUrl, extractYouTubeVideoId, createSafeYouTubeEmbedUrl } from "../helpers/validateYouTubeUrl";
+import YouTubeEmbed from "./YouTubeEmbed";
 import { GalleryImage } from "../types";
 
 interface GalleryImageType {
@@ -75,7 +76,34 @@ const GalleryImage = ({ image, type, width, height, isPrivate, isHighlighted }: 
     </button>
   );
 
-  // Detect and validate YouTube videos
+  // First-class YouTube embed (preferred path; new entries always take this
+  // branch). The legacy description-substring branch below stays in place for
+  // older entries until the backfill migrates them; once it has, that branch
+  // and validateYouTubeUrl.ts can be deleted.
+  if (image.embed?.provider === 'youtube') {
+    return (
+      <div
+        className={`galleryImage galleryImage_youtube${isHighlighted ? ' galleryImage--highlighted' : ''}`}
+        id={`image-${image.id}`}
+        data-image-id={image.id}
+      >
+        <ShareButton />
+        <YouTubeEmbed videoId={image.embed.videoId} title={image.title} />
+        {(image.title || image.description) && (
+          <div className="galleryImage__caption">
+            {image.title && <div className="galleryImage__headline">{emojify(decodeHtmlEntities(image.title))}</div>}
+            {image.description && (
+              <div className="galleryImage__subtitle">
+                {parseStringForLinks(decodeHtmlEntities(image.description))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // Detect and validate YouTube videos (legacy: description IS the URL)
   if (image.description && image.description.toLowerCase().indexOf("youtube") > -1) {
     // Remove spaces and validate the URL
     const potentialUrl = image.description.split(" ").join("");
