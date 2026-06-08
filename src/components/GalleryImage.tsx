@@ -182,7 +182,12 @@ const GalleryImage = ({ image, type, width, height, isPrivate, isHighlighted }: 
       data-image-id={image.id}
     >
       <ShareButton />
-      <div className="galleryImage__media">
+      <div
+        className="galleryImage__media"
+        style={image.width && image.height
+          ? { aspectRatio: `${image.width} / ${image.height}` }
+          : undefined}
+      >
         <img
           alt={decodeHtmlEntities(altText)}
           src={image.link}
