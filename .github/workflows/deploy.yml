@@ -44,6 +44,13 @@ jobs:
         run: npm run build
       - name: Setup Pages
         uses: actions/configure-pages@v5
+        with:
+          # If Pages is disabled, create the site with build_type=workflow.
+          # Without this, the action 404s on `GET /repos/.../pages`. If Pages
+          # is already enabled but pointed at "Deploy from a branch", this
+          # parameter does NOT convert the source — that has to be flipped in
+          # repo Settings → Pages by hand.
+          enablement: true
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
