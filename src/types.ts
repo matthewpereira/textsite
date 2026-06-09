@@ -18,4 +18,11 @@ export interface GalleryImage {
   animated?: boolean;
   size?: number;
   dominantColor?: string;
+  // Set when this entry is a YouTube embed rather than a hosted image/video.
+  // Mirrors the worker's R2ImageMetadata.embed shape.
+  embed?: {
+    provider: 'youtube';
+    videoId: string;
+    sourceUrl: string;
+  };
 }
