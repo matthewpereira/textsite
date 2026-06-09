@@ -400,7 +400,10 @@ nav span+span {
   position: relative;
   border: 1px solid #ddd;
   box-sizing: border-box;
-  min-height: 400px;
+  /* aspect-ratio is set inline (from image metadata) so the container is sized
+     correctly both before the image loads (placeholder fills it cleanly) and
+     after (frame matches the image exactly). A hardcoded min-height left
+     landscape images with an empty frame extending below on mobile. */
 }
 
 .galleryImage__placeholder {
