@@ -61,6 +61,61 @@ export interface R2Album {
 let albumsCache: R2Album[] | null = null;
 let albumsFetchPromise: Promise<R2Album[]> | null = null;
 
+// Cache for imgur redirect map to avoid duplicate fetches
+let imgurRedirectsCache: Record<string, string> | null = null;
+let imgurRedirectsFetchPromise: Promise<Record<string, string>> | null = null;
+
+/**
+ * Fetch the Imgur → R2 album ID redirect map from Cloudflare Worker API
+ *
+ * Uses the dedicated /api/imgur-redirects endpoint which returns the full map
+ * regardless of album privacy, because the imgurId is itself a public capability
+ * token from the Imgur era. Downstream album fetches still enforce privacy.
+ *
+ * @returns Record mapping Imgur IDs to R2 album IDs
+ */
+export async function fetchImgurRedirects(): Promise<Record<string, string>> {
+  // Return cached map if available
+  if (imgurRedirectsCache) {
+    logger.log('[R2] Returning cached imgur redirects map');
+    return imgurRedirectsCache;
+  }
+
+  // If a fetch is already in progress, wait for it
+  if (imgurRedirectsFetchPromise) {
+    logger.log('[R2] Waiting for in-progress imgur redirects fetch');
+    return imgurRedirectsFetchPromise;
+  }
+
+  // Start a new fetch
+  imgurRedirectsFetchPromise = (async () => {
+    try {
+      logger.log('[R2] Fetching imgur redirects map from Worker API');
+
+      const response = await fetch(`${R2_API_URL}/api/imgur-redirects`);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        logger.error(`[R2] Worker API error (${response.status}):`, errorText);
+        throw new Error(`Failed to fetch imgur redirects: ${response.status} ${response.statusText}`);
+      }
+
+      const data: { redirects: Record<string, string> } = await response.json();
+      logger.log(`[R2] Successfully loaded ${Object.keys(data.redirects).length} imgur redirects`);
+
+      imgurRedirectsCache = data.redirects;
+      return data.redirects;
+    } catch (error) {
+      logger.error('[R2] Failed to fetch imgur redirects:', error);
+      return {};
+    } finally {
+      imgurRedirectsFetchPromise = null;
+    }
+  })();
+
+  return imgurRedirectsFetchPromise;
+}
+
 /**
  * Fetch list of all albums from Cloudflare Worker API
  *
