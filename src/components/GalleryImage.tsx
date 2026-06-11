@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import emojify from "node-emojify";
 import parseStringForLinks from "../helpers/textLinks.tsx";
 import decodeHtmlEntities from "../helpers/decodeHtmlEntities.ts";
-import { validateYouTubeUrl, extractYouTubeVideoId, createSafeYouTubeEmbedUrl } from "../helpers/validateYouTubeUrl";
 import YouTubeEmbed from "./YouTubeEmbed";
 import { GalleryImage } from "../types";
 
@@ -76,10 +75,9 @@ const GalleryImage = ({ image, type, width, height, isPrivate, isHighlighted }: 
     </button>
   );
 
-  // First-class YouTube embed (preferred path; new entries always take this
-  // branch). The legacy description-substring branch below stays in place for
-  // older entries until the backfill migrates them; once it has, that branch
-  // and validateYouTubeUrl.ts can be deleted.
+  // YouTube embed. All legacy "description = YT URL" rows were migrated to
+  // image.embed by the worker-side backfill (scripts/backfill-youtube-embeds.mjs),
+  // so this is the only YouTube render path now.
   if (image.embed?.provider === 'youtube') {
     return (
       <div
@@ -101,47 +99,6 @@ const GalleryImage = ({ image, type, width, height, isPrivate, isHighlighted }: 
         )}
       </div>
     );
-  }
-
-  // Detect and validate YouTube videos (legacy: description IS the URL)
-  if (image.description && image.description.toLowerCase().indexOf("youtube") > -1) {
-    // Remove spaces and validate the URL
-    const potentialUrl = image.description.split(" ").join("");
-    const validation = validateYouTubeUrl(potentialUrl);
-
-    if (validation.isValid && validation.sanitizedUrl) {
-      // Try to extract video ID for cleaner embed URL
-      const videoId = extractYouTubeVideoId(validation.sanitizedUrl);
-      const embedUrl = videoId
-        ? createSafeYouTubeEmbedUrl(videoId)
-        : validation.sanitizedUrl;
-
-      return (
-        <div
-          className={`galleryImage galleryImage_youtube${isHighlighted ? ' galleryImage--highlighted' : ''}`}
-          id={`image-${image.id}`}
-          data-image-id={image.id}
-        >
-          <ShareButton />
-          <div></div>
-          <div>
-            <iframe
-              title="Video"
-              width="1280"
-              height="720"
-              src={embedUrl}
-              frameBorder="0"
-              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
-        </div>
-      );
-    }
-
-    // Invalid YouTube URL - log warning and skip rendering
-    console.warn('Invalid YouTube URL detected in image description:', potentialUrl);
-    return null;
   }
 
   // Detect imgur videos
