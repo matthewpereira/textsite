@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import "./GalleryWrapper.css";
 import { PaginationContextProvider } from '../context/PaginationContext';
 import Menu from '../components/Menu';
@@ -24,6 +25,7 @@ interface GalleryWrapperType {
 }
 
 function GalleryWrapper({ albumCode }: GalleryWrapperType) {
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
   const [galleryObject, setGalleryObject] = useState<GalleryType>({
     captions: '',
     loadedImages: [],
@@ -41,13 +43,25 @@ function GalleryWrapper({ albumCode }: GalleryWrapperType) {
         // Resolve album ID (handles Imgur -> R2 redirects)
         const resolvedAlbumId = await resolveAlbumId(albumCode);
 
+        // Pass the Auth0 token when the user is logged in so private and
+        // unlisted albums are visible. Failure to fetch the token falls back
+        // to anonymous — same as if they were signed out.
+        let token: string | undefined;
+        if (isAuthenticated) {
+          try {
+            token = await getAccessTokenSilently();
+          } catch (err) {
+            logger.warn('Failed to get access token, falling back to anonymous:', err);
+          }
+        }
+
         // Try to fetch the album directly - if it doesn't exist, fall back to default
         let data;
         try {
-          data = await getGalleryImages(resolvedAlbumId);
+          data = await getGalleryImages(resolvedAlbumId, token);
         } catch (err) {
           logger.warn(`Album ${resolvedAlbumId} not found, falling back to default`);
-          data = await getGalleryImages("default");
+          data = await getGalleryImages("default", token);
         }
         setGalleryObject(data);
       } catch (err) {
@@ -59,7 +73,7 @@ function GalleryWrapper({ albumCode }: GalleryWrapperType) {
     }
 
     fetchGalleryObject();
-  }, [albumCode]);
+  }, [albumCode, isAuthenticated, getAccessTokenSilently]);
 
   useEffect(() => {
     const rootElement = document.getElementById("root");

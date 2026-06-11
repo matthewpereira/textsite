@@ -119,27 +119,32 @@ export async function fetchImgurRedirects(): Promise<Record<string, string>> {
 /**
  * Fetch list of all albums from Cloudflare Worker API
  *
+ * Anonymous callers see only public albums. Pass a token (from
+ * useAuth0().getAccessTokenSilently) to see private and unlisted ones too;
+ * authed responses bypass the module cache because the worker bypasses its
+ * own caches for them — caching them locally would leak across users.
+ *
+ * @param token - Optional Auth0 access token
  * @returns Array of album data with IDs, titles, and dates
  */
-export async function fetchR2Albums(): Promise<R2Album[]> {
-  // Return cached albums if available
-  if (albumsCache) {
+export async function fetchR2Albums(token?: string): Promise<R2Album[]> {
+  // Authed callers always go to the network; the cache is anonymous-only.
+  if (!token && albumsCache) {
     logger.log('[R2] Returning cached albums list');
     return albumsCache;
   }
-
-  // If a fetch is already in progress, wait for it
-  if (albumsFetchPromise) {
+  if (!token && albumsFetchPromise) {
     logger.log('[R2] Waiting for in-progress albums fetch');
     return albumsFetchPromise;
   }
 
-  // Start a new fetch
-  albumsFetchPromise = (async () => {
+  const doFetch = async (): Promise<R2Album[]> => {
     try {
-      logger.log('[R2] Fetching albums list from Worker API');
+      logger.log(`[R2] Fetching albums list from Worker API (${token ? 'authed' : 'anonymous'})`);
 
-      const response = await fetch(`${R2_API_URL}/api/albums`);
+      const response = await fetch(`${R2_API_URL}/api/albums`, {
+        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+      });
 
       if (!response.ok) {
         const errorText = await response.text();
@@ -150,16 +155,20 @@ export async function fetchR2Albums(): Promise<R2Album[]> {
       const data = await response.json();
       logger.log(`[R2] Successfully loaded ${data.albums.length} albums`);
 
-      albumsCache = data.albums;
+      // Only cache anonymous responses; authed responses are per-user.
+      if (!token) albumsCache = data.albums;
       return data.albums;
     } catch (error) {
       logger.error('[R2] Failed to fetch albums:', error);
       return [];
-    } finally {
-      albumsFetchPromise = null;
     }
-  })();
+  };
 
+  if (token) {
+    return doFetch();
+  }
+
+  albumsFetchPromise = doFetch().finally(() => { albumsFetchPromise = null; });
   return albumsFetchPromise;
 }
 
@@ -174,7 +183,8 @@ export async function fetchR2Albums(): Promise<R2Album[]> {
 export async function fetchR2Album(
   albumId: string,
   limit?: number,
-  offset: number = 0
+  offset: number = 0,
+  token?: string
 ): Promise<{
   id: string;
   title: string;
@@ -193,9 +203,11 @@ export async function fetchR2Album(
     const queryString = params.toString();
     const url = `${R2_API_URL}/api/albums/${albumId}${queryString ? `?${queryString}` : ''}`;
 
-    logger.log(`[R2] Fetching album ${albumId} from Worker API (limit: ${limit || 'all'}, offset: ${offset})`);
+    logger.log(`[R2] Fetching album ${albumId} from Worker API (limit: ${limit || 'all'}, offset: ${offset}, ${token ? 'authed' : 'anonymous'})`);
 
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+    });
 
     if (!response.ok) {
       const errorText = await response.text();

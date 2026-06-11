@@ -19,6 +19,11 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       clientId={config.clientId}
       authorizationParams={{
         redirect_uri: config.redirectUri,
+        // Without an audience, getAccessTokenSilently returns an opaque token
+        // that the worker can't verify. Including it produces a JWT keyed to
+        // the worker's AUTH0_AUDIENCE so logged-in callers see private/
+        // unlisted albums.
+        ...(config.audience ? { audience: config.audience } : {}),
       }}>
       <AppRouter />
     </Auth0Provider>
