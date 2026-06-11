@@ -85,17 +85,21 @@ const setCachedGallery = (albumId: string, data: GalleryState): void => {
   }
 };
 
-const getGalleryImages = async (albumId: string): Promise<GalleryState> => {
+const getGalleryImages = async (albumId: string, token?: string): Promise<GalleryState> => {
   // Return hardcoded default gallery without any network call
   if (albumId === 'default') {
     return defaultGalleryData;
   }
 
-  // Check cache first
-  const cached = getCachedGallery(albumId);
-  if (cached) {
-    logger.log(`Using cached data for album ${albumId}`);
-    return cached;
+  // sessionStorage cache is anonymous-only — authed responses can include
+  // private/unlisted album content that mustn't be served to a later
+  // anonymous session in the same tab.
+  if (!token) {
+    const cached = getCachedGallery(albumId);
+    if (cached) {
+      logger.log(`Using cached data for album ${albumId}`);
+      return cached;
+    }
   }
 
   // Local development mode
@@ -117,7 +121,7 @@ const getGalleryImages = async (albumId: string): Promise<GalleryState> => {
       // Fetch all images from R2 at once (now fast with parallel metadata fetching)
       logger.log(`[R2] Fetching album ${albumId} from R2`);
 
-      const r2Album = await fetchR2Album(albumId); // Fetch all images, no pagination
+      const r2Album = await fetchR2Album(albumId, undefined, 0, token); // Fetch all images, no pagination
       logger.log(`[R2] Loaded ${r2Album.images.length} images`);
 
       // Convert R2 format to GalleryData format
@@ -158,8 +162,11 @@ const getGalleryImages = async (albumId: string): Promise<GalleryState> => {
 
     const galleryState = hydrateGalleryState(data);
 
-    // Cache the successful response
-    setCachedGallery(albumId, galleryState);
+    // Cache anonymous responses only; authed responses can include
+    // private/unlisted content that mustn't be served to anonymous reads.
+    if (!token) {
+      setCachedGallery(albumId, galleryState);
+    }
 
     return galleryState;
   } catch (error) {

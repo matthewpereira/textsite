@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { STORAGE_PROVIDER } from "../config";
 import { fetchR2Albums, R2Album } from "../services/r2";
 import { formatAlbumDate, sortAlbumsByDate } from "../helpers/formatDate.ts";
@@ -8,6 +9,7 @@ import { logger } from "../utils/logger";
 
 const AlbumSelector = () => {
   const navigate = useNavigate();
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
   const [filter, setFilter] = useState("");
   const [albums, setAlbums] = useState<R2Album[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -26,9 +28,21 @@ const AlbumSelector = () => {
         logger.log('[AlbumSelector] Storage provider:', provider);
 
         if (provider === 'r2') {
+          // Authenticated users see private + unlisted; anonymous see only
+          // the public list. getAccessTokenSilently throws if the user isn't
+          // logged in, so we only call it inside the isAuthenticated branch.
+          let token: string | undefined;
+          if (isAuthenticated) {
+            try {
+              token = await getAccessTokenSilently();
+            } catch (err) {
+              logger.warn('[AlbumSelector] Failed to get access token, falling back to anonymous:', err);
+            }
+          }
+
           // Fetch albums dynamically from R2
           logger.log('[AlbumSelector] Fetching R2 albums...');
-          const r2Albums = await fetchR2Albums();
+          const r2Albums = await fetchR2Albums(token);
 
           // Ignore stale response (from React StrictMode double-invoke)
           if (ignore) return;
@@ -75,7 +89,7 @@ const AlbumSelector = () => {
     return () => {
       ignore = true;
     };
-  }, []);
+  }, [isAuthenticated, getAccessTokenSilently]);
 
   const handleAlbumClick = (albumId: string) => {
     navigate(`/a/${albumId}`);
