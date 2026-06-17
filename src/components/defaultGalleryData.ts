@@ -22,7 +22,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298260064_72dvpgxsm",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298260064_72dvpgxsm.png",
-      dominantColor: "#69392D",
       title: "Just Dreaming",
       description: "06, 2025",
       type: "image/png",
@@ -35,7 +34,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298260596_ioges4nf9",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298260596_ioges4nf9.jpg",
-      dominantColor: "#DFCDC1",
       title: "Rainbow Haven",
       description: "07, 2024",
       type: "image/jpeg",
@@ -48,7 +46,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298261207_2j9ixl24s",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298261207_2j9ixl24s.jpg",
-      dominantColor: "#797A75",
       title: "Rocha Kamasora",
       description: "06, 2024",
       type: "image/jpeg",
@@ -61,7 +58,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298261829_s86rnxd3v",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298261829_s86rnxd3v.jpg",
-      dominantColor: "#9D885D",
       title: "Angel's Trumpets",
       description: "06, 2024",
       type: "image/jpeg",
@@ -74,7 +70,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298262372_cjtwygnov",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298262372_cjtwygnov.jpg",
-      dominantColor: "#58A3CF",
       title: "Ilhéu Mole",
       description: "06, 2024",
       type: "image/jpeg",
@@ -87,7 +82,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298262945_t09gpbqxe",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298262945_t09gpbqxe.jpg",
-      dominantColor: "#B9A89C",
       title: "O Pinto",
       description: "06, 2024",
       type: "image/jpeg",
@@ -100,7 +94,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298263447_9vej2esjw",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298263447_9vej2esjw.jpg",
-      dominantColor: "#B19383",
       title: "Av. D. Manuel I",
       description: "06, 2024",
       type: "image/jpeg",
@@ -113,7 +106,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298264036_qsim3ryta",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298264036_qsim3ryta.jpg",
-      dominantColor: "#5A5F33",
       title: "Estrada Regional",
       description: "06, 2024",
       type: "image/jpeg",
@@ -126,7 +118,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298264649_vig7vlmr0",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298264649_vig7vlmr0.jpg",
-      dominantColor: "#9A908A",
       title: "Ponta do Sol",
       description: "06, 2024",
       type: "image/jpeg",
@@ -139,7 +130,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298265258_i3myagqct",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298265258_i3myagqct.jpg",
-      dominantColor: "#020406",
       title: "Humberto Delgado",
       description: "06, 2024",
       type: "image/jpeg",
@@ -152,7 +142,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298265887_qg879r363",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298265887_qg879r363.png",
-      dominantColor: "#949AA9",
       title: "",
       description: "05, 2024",
       type: "image/png",
@@ -165,7 +154,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298266600_a8vtp67c4",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298266600_a8vtp67c4.jpg",
-      dominantColor: "#BCDDEF",
       title: "",
       description: "05, 2024",
       type: "image/jpeg",
@@ -178,7 +166,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298267224_5n12qw9qe",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298267224_5n12qw9qe.jpg",
-      dominantColor: "#2F2F2F",
       title: "Bay Street",
       description: "01, 2024",
       type: "image/jpeg",
@@ -191,7 +178,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298267769_dcs8mhuqh",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298267769_dcs8mhuqh.jpg",
-      dominantColor: "#C1C1C1",
       title: "Bellevue",
       description: "12, 2023",
       type: "image/jpeg",
@@ -204,7 +190,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298268312_jgkl8r5lf",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298268312_jgkl8r5lf.jpg",
-      dominantColor: "#C9C9C9",
       title: "",
       description: "12, 2023",
       type: "image/jpeg",
@@ -217,7 +202,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298268895_a6et470ig",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298268895_a6et470ig.jpg",
-      dominantColor: "#D2D4CD",
       title: "",
       description: "10, 2023",
       type: "image/jpeg",
@@ -230,7 +214,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298269448_wx799vc4n",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298269448_wx799vc4n.jpg",
-      dominantColor: "#353B1E",
       title: "Bayside",
       description: "07, 2023",
       type: "image/jpeg",
@@ -243,7 +226,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298270146_1x1tvcr1v",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298270146_1x1tvcr1v.jpg",
-      dominantColor: "#8C97A2",
       title: "",
       description: "03, 2023",
       type: "image/jpeg",
@@ -256,7 +238,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298270762_pt8wdb32s",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298270762_pt8wdb32s.jpg",
-      dominantColor: "#171616",
       title: "Prospect Bay",
       description: "11, 2022",
       type: "image/jpeg",
@@ -269,7 +250,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298271507_ogaskswib",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298271507_ogaskswib.jpg",
-      dominantColor: "#6798BA",
       title: "MacCormack's Beach",
       description: "07, 2022",
       type: "image/jpeg",
@@ -282,7 +262,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298272143_dubgas6ew",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298272143_dubgas6ew.jpg",
-      dominantColor: "#A195A9",
       title: "",
       description: "01, 2022",
       type: "image/jpeg",
@@ -295,7 +274,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298272727_rbgqdahf9",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298272727_rbgqdahf9.jpg",
-      dominantColor: "#1F3236",
       title: "James",
       description: "12, 2021",
       type: "image/jpeg",
@@ -308,7 +286,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298273259_aw7ehemfg",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298273259_aw7ehemfg.jpg",
-      dominantColor: "#D8D7D6",
       title: "",
       description: "08, 2021",
       type: "image/jpeg",
@@ -321,7 +298,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298273884_gooomu2uk",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298273884_gooomu2uk.jpg",
-      dominantColor: "#363230",
       title: "",
       description: "08, 2021",
       type: "image/jpeg",
@@ -334,7 +310,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298274439_hjqlhhys1",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298274439_hjqlhhys1.jpg",
-      dominantColor: "#92A4B9",
       title: "",
       description: "07, 2021",
       type: "image/jpeg",
@@ -347,7 +322,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298275010_pl5q8fgms",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298275010_pl5q8fgms.jpg",
-      dominantColor: "#B19475",
       title: "Sibley Peninsula",
       description: "10, 2020",
       type: "image/jpeg",
@@ -360,7 +334,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298275561_932bsc8se",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298275561_932bsc8se.jpg",
-      dominantColor: "#557BA3",
       title: "Halfway Lake",
       description: "10, 2020",
       type: "image/jpeg",
@@ -373,7 +346,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298276137_t2wxr2fkv",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298276137_t2wxr2fkv.jpg",
-      dominantColor: "#131207",
       title: "Nightfall",
       description: "10, 2020",
       type: "image/jpeg",
@@ -386,7 +358,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298276648_z4qneelk1",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298276648_z4qneelk1.jpg",
-      dominantColor: "#82858C",
       title: "Old Woman Bay",
       description: "09, 2020",
       type: "image/jpeg",
@@ -399,7 +370,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298277287_o9gsaifxo",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298277287_o9gsaifxo.jpg",
-      dominantColor: "#7D95A8",
       title: "Rue Wargha",
       description: "02, 2020",
       type: "image/jpeg",
@@ -412,7 +382,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298277783_sozoh002u",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298277783_sozoh002u.jpg",
-      dominantColor: "#0C0A11",
       title: "Merzouga",
       description: "02, 2020",
       type: "image/jpeg",
@@ -425,7 +394,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298278390_yiq4uf4ra",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298278390_yiq4uf4ra.jpg",
-      dominantColor: "#5BA0CF",
       title: "Rue Raouachid",
       description: "02, 2020",
       type: "image/jpeg",
@@ -438,7 +406,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298279004_qqervze90",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298279004_qqervze90.jpg",
-      dominantColor: "#DFC7A6",
       title: "Citadel",
       description: "02, 2020",
       type: "image/jpeg",
@@ -451,7 +418,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298279645_iuf5tt0a6",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298279645_iuf5tt0a6.jpg",
-      dominantColor: "#CEC6B8",
       title: "El Badii",
       description: "02, 2020",
       type: "image/jpeg",
@@ -464,7 +430,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298280334_ria347ucm",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298280334_ria347ucm.jpg",
-      dominantColor: "#9BBFCD",
       title: "Port de Peche",
       description: "02, 2020",
       type: "image/jpeg",
@@ -477,7 +442,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298280950_r36dy5fl7",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298280950_r36dy5fl7.jpg",
-      dominantColor: "#162E45",
       title: "Border",
       description: "02, 2020",
       type: "image/jpeg",
@@ -490,7 +454,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298281534_gm3pcsoq9",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298281534_gm3pcsoq9.jpg",
-      dominantColor: "#C7A179",
       title: "Wet Paint",
       description: "02,2020",
       type: "image/jpeg",
@@ -503,7 +466,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298282178_x8p9xa3ko",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298282178_x8p9xa3ko.jpg",
-      dominantColor: "#373942",
       title: "Saint Alexandre",
       description: "06,2019",
       type: "image/jpeg",
@@ -516,7 +478,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298282825_gdz261xxy",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298282825_gdz261xxy.jpg",
-      dominantColor: "#AECFDF",
       title: "The Rock",
       description: "05, 2019",
       type: "image/jpeg",
@@ -529,7 +490,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298283514_l90wgyttm",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298283514_l90wgyttm.jpg",
-      dominantColor: "#5B91B1",
       title: "Golden Auto",
       description: "2019, 05",
       type: "image/jpeg",
@@ -542,7 +502,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298284177_whruht5d8",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298284177_whruht5d8.jpg",
-      dominantColor: "#060506",
       title: "Sale",
       description: "04, 2019",
       type: "image/jpeg",
@@ -555,7 +514,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298284755_jhza5yxn5",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298284755_jhza5yxn5.jpg",
-      dominantColor: "#1F4C7F",
       title: "Pirate Bay",
       description: "11, 2018",
       type: "image/jpeg",
@@ -568,7 +526,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298285352_37a6puvfs",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298285352_37a6puvfs.jpg",
-      dominantColor: "#577882",
       title: "Dorset",
       description: "08, 2018",
       type: "image/jpeg",
@@ -581,7 +538,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298285989_f0tc47zmj",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298285989_f0tc47zmj.jpg",
-      dominantColor: "#122229",
       title: "Jökulsárlón",
       description: "10, 2017",
       type: "image/jpeg",
@@ -594,7 +550,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298286471_ei9nmvq4b",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298286471_ei9nmvq4b.jpg",
-      dominantColor: "#D7D5D5",
       title: ":3",
       description: "07, 2016",
       type: "image/jpeg",
@@ -607,7 +562,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298287057_6xl3vhsne",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298287057_6xl3vhsne.jpg",
-      dominantColor: "#3B3E2F",
       title: "Avalanche",
       description: "06, 2018",
       type: "image/jpeg",
@@ -620,7 +574,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298287608_bn2nz4z4y",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298287608_bn2nz4z4y.jpg",
-      dominantColor: "#161820",
       title: "Tourists",
       description: "05, 2015",
       type: "image/jpeg",
@@ -633,7 +586,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298288096_psj9mru9q",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298288096_psj9mru9q.jpg",
-      dominantColor: "#DCEBEC",
       title: "Celeste",
       description: "10, 2017",
       type: "image/jpeg",
@@ -646,7 +598,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298288557_qh6nd83y9",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298288557_qh6nd83y9.jpg",
-      dominantColor: "#041018",
       title: "Soufriere",
       description: "01, 2017",
       type: "image/jpeg",
@@ -659,7 +610,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298289142_wpjdmab2m",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298289142_wpjdmab2m.jpg",
-      dominantColor: "#E1E4E5",
       title: "Paul",
       description: "2017, 08",
       type: "image/jpeg",
@@ -672,7 +622,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298289659_hku1nxu3h",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298289659_hku1nxu3h.jpg",
-      dominantColor: "#92A0A2",
       title: "Two Jack",
       description: "05, 2018",
       type: "image/jpeg",
@@ -685,7 +634,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298290224_5aqp5ejvq",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298290224_5aqp5ejvq.jpg",
-      dominantColor: "#D9BAB1",
       title: "Chrysanthemum",
       description: "04, 2016",
       type: "image/jpeg",
@@ -698,7 +646,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298291747_mlh8h8hi4",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298291747_mlh8h8hi4.jpg",
-      dominantColor: "#A4C2DA",
       title: "Sandbanks",
       description: "08, 2015",
       type: "image/jpeg",
@@ -711,7 +658,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298292366_hvkl4ezdy",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298292366_hvkl4ezdy.jpg",
-      dominantColor: "#BAA89F",
       title: "Xavi",
       description: "01, 2016",
       type: "image/jpeg",
@@ -724,7 +670,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298293033_6hedjzizc",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298293033_6hedjzizc.jpg",
-      dominantColor: "#877374",
       title: "Jordyn",
       description: "10, 2016",
       type: "image/jpeg",
@@ -737,7 +682,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298293669_vkg3prnpe",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298293669_vkg3prnpe.jpg",
-      dominantColor: "#BD9C46",
       title: "Þakgil",
       description: "10, 2017",
       type: "image/jpeg",
@@ -750,7 +694,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298294335_u5g48y3sa",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298294335_u5g48y3sa.jpg",
-      dominantColor: "#755F58",
       title: "Peter",
       description: "08, 2015",
       type: "image/jpeg",
@@ -763,7 +706,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298294908_zsub3d3wm",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298294908_zsub3d3wm.jpg",
-      dominantColor: "#B4D0DB",
       title: "Props",
       description: "01, 2017",
       type: "image/jpeg",
@@ -776,7 +718,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298295507_q564uk4l8",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298295507_q564uk4l8.jpg",
-      dominantColor: "#D28E5B",
       title: "Big City Nights",
       description: "07, 2016",
       type: "image/jpeg",
@@ -789,7 +730,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298295973_4zwn94xdv",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298295973_4zwn94xdv.jpg",
-      dominantColor: "#C4A489",
       title: "Britney",
       description: "06, 2015",
       type: "image/jpeg",
@@ -802,7 +742,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298296442_51v8sb775",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298296442_51v8sb775.jpg",
-      dominantColor: "#D0C8C2",
       title: "!!!",
       description: "05, 2015",
       type: "image/jpeg",
@@ -815,7 +754,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298297010_4ptto3rr0",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298297010_4ptto3rr0.jpg",
-      dominantColor: "#AC6556",
       title: "Nicole",
       description: "04, 2015",
       type: "image/jpeg",
@@ -828,7 +766,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298297511_oyneq16ew",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298297511_oyneq16ew.jpg",
-      dominantColor: "#F6F4F4",
       title: "Lemon",
       description: "04, 2016",
       type: "image/jpeg",
@@ -841,7 +778,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298297978_ffpjalj1n",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298297978_ffpjalj1n.jpg",
-      dominantColor: "#766984",
       title: "Thanksgiving",
       description: "10, 2015",
       type: "image/jpeg",
@@ -854,7 +790,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298298562_0i6uriii6",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298298562_0i6uriii6.jpg",
-      dominantColor: "#C19468",
       title: "Nicole",
       description: "05, 2016",
       type: "image/jpeg",
@@ -867,7 +802,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298299169_04uvdxdre",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298299169_04uvdxdre.jpg",
-      dominantColor: "#C8C8C8",
       title: "Steven",
       description: "09, 2015",
       type: "image/jpeg",
@@ -880,7 +814,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298299626_fnoamgtp5",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298299626_fnoamgtp5.jpg",
-      dominantColor: "#ACB3C9",
             title: "East Rails",
       description: "08, 2015",
       type: "image/jpeg",
@@ -893,7 +826,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298300102_0cscz6weu",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298300102_0cscz6weu.jpg",
-      dominantColor: "#EDD0B1",
       title: "Natayu",
       description: "06, 2015",
       type: "image/jpeg",
@@ -906,7 +838,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298300727_qt3b9mtz9",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298300727_qt3b9mtz9.jpg",
-      dominantColor: "#C38C74",
       title: "Jacob",
       description: "09, 2016",
       type: "image/jpeg",
@@ -919,7 +850,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298301276_t8penrv6j",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298301276_t8penrv6j.jpg",
-      dominantColor: "#A99685",
       title: "Des",
       description: "08, 2016",
       type: "image/jpeg",
@@ -932,7 +862,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298301889_eshhrojo5",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298301889_eshhrojo5.jpg",
-      dominantColor: "#5CA1CC",
       title: "Anse Mamin",
       description: "01, 2017",
       type: "image/jpeg",
@@ -945,7 +874,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298302463_6kghxzwog",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298302463_6kghxzwog.jpg",
-      dominantColor: "#152231",
             title: "Algonquin",
       description: "10, 2016",
       type: "image/jpeg",
@@ -958,7 +886,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298302915_dxpgl6d7h",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298302915_dxpgl6d7h.jpg",
-      dominantColor: "#D4C6C4",
       title: "Helmut",
       description: "09, 2015",
       type: "image/jpeg",
@@ -971,7 +898,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298303482_ut1t1q3s6",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298303482_ut1t1q3s6.jpg",
-      dominantColor: "#8A7E72",
       title: "<<<",
       description: "06, 2016",
       type: "image/jpeg",
@@ -984,7 +910,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298304119_pwur6h3ir",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298304119_pwur6h3ir.jpg",
-      dominantColor: "#DACABA",
       title: "▲",
       description: "06, 2016",
       type: "image/jpeg",
@@ -997,7 +922,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298304630_47ywu41kg",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298304630_47ywu41kg.jpg",
-      dominantColor: "#AB3945",
       title: "*",
       description: "06, 2016",
       type: "image/jpeg",
@@ -1010,7 +934,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298305132_v2868n2eg",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298305132_v2868n2eg.jpg",
-      dominantColor: "#2F2F2F",
             title: "Marvel vs. Streetfighter",
       description: "07, 2014",
       type: "image/jpeg",
@@ -1023,7 +946,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298305644_vx05yh66y",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298305644_vx05yh66y.jpg",
-      dominantColor: "#AA8F87",
       title: "Steve",
       description: "04, 2015",
       type: "image/jpeg",
@@ -1036,7 +958,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298306243_3ibdvc3wy",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298306243_3ibdvc3wy.jpg",
-      dominantColor: "#C3C3C3",
       title: "Charlie",
       description: "03, 2015",
       type: "image/jpeg",
@@ -1049,7 +970,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298306743_yae0js964",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298306743_yae0js964.jpg",
-      dominantColor: "#0C1B26",
       title: "Downtown",
       description: "09, 2016",
       type: "image/jpeg",
@@ -1062,7 +982,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298307198_y0k8sqt0d",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298307198_y0k8sqt0d.jpg",
-      dominantColor: "#AA8882",
       title: "Toby",
       description: "05, 2015",
       type: "image/jpeg",
@@ -1075,7 +994,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298307672_3vqqvwod5",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298307672_3vqqvwod5.jpg",
-      dominantColor: "#646464",
       title: "Asphalt",
       description: "09, 2016",
       type: "image/jpeg",
@@ -1088,7 +1006,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298308598_qlgnf288p",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298308598_qlgnf288p.jpg",
-      dominantColor: "#2896EC",
       title: "m m m",
       description: "08, 2016",
       type: "image/jpeg",
@@ -1101,7 +1018,6 @@ const defaultGalleryData: GalleryState = {
     {
       id: "img_1767298309189_4dsczkajd",
       link: "https://textsite-r2-api.matthewpereira.workers.dev/api/images/albums%2Fdefault%2Fimages%2Fimg_1767298309189_4dsczkajd.jpg",
-      dominantColor: "#888D91",
       title: "Stanzie",
       description: "03, 2006",
       type: "image/jpeg",
