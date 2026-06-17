@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import emojify from "node-emojify";
 import parseStringForLinks from "../helpers/textLinks.tsx";
 import decodeHtmlEntities from "../helpers/decodeHtmlEntities.ts";
@@ -18,25 +18,6 @@ interface GalleryImageType {
 
 const GalleryImage = ({ image, type, width, height, isPrivate, isHighlighted }: GalleryImageType) => {
   const [copySuccess, setCopySuccess] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
-  const [showPlaceholder, setShowPlaceholder] = useState(true);
-
-  // Reset loading state when image changes (e.g., when paging)
-  useEffect(() => {
-    setImageLoaded(false);
-    setShowPlaceholder(true);
-  }, [image.id, image.link]);
-
-  const handleLoad = () => setImageLoaded(true);
-
-  const handleError = () => {
-    setImageLoaded(true);
-    setShowPlaceholder(false);
-  };
-
-  const handlePlaceholderTransitionEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
-    if (e.propertyName === 'opacity') setShowPlaceholder(false);
-  };
 
   if (isPrivate) {
     return null;
@@ -168,30 +149,13 @@ const GalleryImage = ({ image, type, width, height, isPrivate, isHighlighted }: 
       data-image-id={image.id}
     >
       <ShareButton />
-      <div
-        className="galleryImage__media"
-        style={image.width && image.height
-          ? { aspectRatio: `${image.width} / ${image.height}` }
-          : undefined}
-      >
-        <img
-          alt={decodeHtmlEntities(altText)}
-          src={image.link}
-          height={image.height}
-          width={image.width}
-          onLoad={handleLoad}
-          onError={handleError}
-          className={imageLoaded ? 'galleryImage__img--loaded' : 'galleryImage__img--loading'}
-        />
-        {showPlaceholder && (
-          <div
-            className={`galleryImage__placeholder${imageLoaded ? ' galleryImage__placeholder--hidden' : ''}`}
-            onTransitionEnd={handlePlaceholderTransitionEnd}
-            style={{ backgroundColor: image.dominantColor || '#e8e8e8' }}
-          />
-        )}
-      </div>
-      {imageLoaded && <Caption />}
+      <img
+        alt={decodeHtmlEntities(altText)}
+        src={image.link}
+        height={image.height}
+        width={image.width}
+      />
+      <Caption />
     </div>
   );
 };

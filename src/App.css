@@ -134,13 +134,15 @@ nav span+span {
   opacity: 1
 }
 
-.galleryImage__media:hover ~ .galleryImage__caption {
+.galleryImage img:hover + .galleryImage__caption {
   opacity: 1;
   transition: opacity 0.5s ease-in-out;
   transition-delay: 0.75s;
 }
 
 .galleryImage img {
+  border: 1px solid #ddd;
+  background-color: #e8e8e8;
   max-height: calc(100vh - 100px);
   max-width: calc(100vw - 100px);
   width: auto;
@@ -438,52 +440,6 @@ nav span+span {
 
 @media only screen and (max-width: 600px) {
   .youtubeEmbed {
-    max-width: calc(100vw - 4px);
-  }
-}
-
-/* Image Loading States */
-
-.galleryImage__media {
-  position: relative;
-  border: 1px solid #ddd;
-  box-sizing: border-box;
-  /* aspect-ratio is set inline (from image metadata) so the container is sized
-     correctly both before the image loads (placeholder fills it cleanly) and
-     after (frame matches the image exactly). A hardcoded min-height left
-     landscape images with an empty frame extending below on mobile. */
-}
-
-.galleryImage__placeholder {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  opacity: 1;
-  transition: opacity 0.6s ease;
-  pointer-events: none;
-}
-
-.galleryImage__placeholder--hidden {
-  opacity: 0;
-}
-
-.galleryImage__img--loading {
-  position: relative;
-  z-index: 2;
-  opacity: 0;
-  transition: opacity 0.6s ease;
-  pointer-events: none;
-}
-
-.galleryImage__img--loaded {
-  position: relative;
-  z-index: 2;
-  opacity: 1;
-  transition: opacity 0.6s ease;
-}
-
-@media only screen and (max-width: 600px) {
-  .galleryImage__media {
     max-width: calc(100vw - 4px);
   }
 }
