@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import removeHashFromHashString from "../helpers/removeHashFromHashString.ts";
 
 import { IMAGES_PER_PAGE } from "../config";
+import { GalleryImageData } from '../types';
 
 interface PaginationButtonType {
   currentPage: number;
@@ -57,7 +58,7 @@ const PageNumber = ({
   pageNumber,
 }: PaginationButtonType) => {
 
-  if (pageNumber && currentPage === pageNumber || pageNumber === 1 && currentPage === 0) {
+  if ((pageNumber && currentPage === pageNumber) || (pageNumber === 1 && currentPage === 0)) {
     return (
       <div className="pagination__gallery__pageNumber__current">
         {pageNumber}
@@ -72,19 +73,22 @@ const PageNumber = ({
   );
 };
 
-const Pagination = ({ loadedImages }: any) => {
+interface PaginationProps {
+  loadedImages: GalleryImageData[];
+}
 
-  // Protects /about page and other routes that don't have loaded images
-  if (!loadedImages.loadedImages) {
-    return null;
-  }
-  
+const Pagination = ({ loadedImages }: PaginationProps) => {
   const location = useLocation();
   const [pathName, setPathName] = useState("");
 
   useEffect(() => {
     setPathName(location.pathname)
   }, [location.pathname]);
+
+  // Protects /about page and other routes that don't have loaded images
+  if (!loadedImages || loadedImages.length === 0) {
+    return null;
+  }
 
   let pageNumbers = [];
 
@@ -94,8 +98,7 @@ const Pagination = ({ loadedImages }: any) => {
 
   // Find which page contains the target photo
   const findPageForPhoto = (photoId: string): number | null => {
-    const allImages = loadedImages.loadedImages;
-    const imageIndex = allImages.findIndex((img: any) => img.id === photoId);
+    const imageIndex = loadedImages.findIndex((img: GalleryImageData) => img.id === photoId);
 
     if (imageIndex === -1) return null;
 
@@ -116,7 +119,7 @@ const Pagination = ({ loadedImages }: any) => {
     currentPage = Number(removeHashFromHashString(location.hash));
   }
 
-  const numberOfPages = Math.ceil(loadedImages.loadedImages.length / IMAGES_PER_PAGE);
+  const numberOfPages = Math.ceil(loadedImages.length / IMAGES_PER_PAGE);
 
   if (numberOfPages) {
     for (let i = 0; i < numberOfPages; i++) {
