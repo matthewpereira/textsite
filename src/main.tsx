@@ -6,7 +6,8 @@ import { getConfig } from "./config";
 
 import "./index.css";
 
-// Let Auth0 handle the redirect callback naturally
+// After login, Auth0 redirects back here. onRedirectCallback sends the user
+// to appState.returnTo (set by loginWithRedirect callers) instead of root.
 
 // Please see https://auth0.github.io/auth0-react/interfaces/Auth0ProviderOptions.html
 // for a full list of the available properties on the provider
@@ -17,6 +18,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <Auth0Provider
       domain={config.domain}
       clientId={config.clientId}
+      onRedirectCallback={(appState) => {
+        window.location.replace(appState?.returnTo ?? '/');
+      }}
       authorizationParams={{
         redirect_uri: config.redirectUri,
         // Without an audience, getAccessTokenSilently returns an opaque token
