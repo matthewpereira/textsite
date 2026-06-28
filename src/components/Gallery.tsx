@@ -11,14 +11,14 @@ import { formatAlbumDate } from '../helpers/formatDate';
 import { IMAGES_PER_PAGE } from '../config';
 
 import { useAuth0 } from "@auth0/auth0-react";
-import { GalleryImage as GalleryImageType } from '../types';
+import { GalleryImageData } from '../types';
 
 // Don't show the album name and description on default gallery
 export const isAlbumPage = (pathname: string) => (
   pathname.startsWith('/a/')
 );
 
-export const filterArrayToPage = (array: GalleryImageType[], pageNumber: number, itemsPerGroup: number) => {
+export const filterArrayToPage = (array: GalleryImageData[], pageNumber: number, itemsPerGroup: number) => {
   const startIndex = pageNumber === 0 ? 0 : pageNumber * itemsPerGroup;
   const endIndex = (pageNumber + 1) * itemsPerGroup;
 
@@ -27,7 +27,7 @@ export const filterArrayToPage = (array: GalleryImageType[], pageNumber: number,
 
 interface GalleryProps {
   galleryObject: {
-    loadedImages: GalleryImageType[];
+    loadedImages: GalleryImageData[];
     albumName: string;
     description: string;
     date?: string;
@@ -170,7 +170,7 @@ const Gallery = ({ galleryObject }: GalleryProps) => {
     return null;
   }
 
-  const handlePagination = (array: GalleryImageType[], currentPage: number, itemsPerGroup: number) => {
+  const handlePagination = (array: GalleryImageData[], currentPage: number, itemsPerGroup: number) => {
 
     return filterArrayToPage(array, currentPage, itemsPerGroup);
   }

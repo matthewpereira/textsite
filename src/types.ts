@@ -2,10 +2,10 @@ export interface Album {
   albumName: string;
   captions: "right" | "bottom";
   description: string;
-  loadedImages: GalleryImage[];
+  loadedImages: GalleryImageData[];
 }
 
-export interface GalleryImage {
+export interface GalleryImageData {
   id: string;
   link: string;
   title?: string;
