@@ -4,7 +4,7 @@ import "./GalleryWrapper.css";
 import { PaginationContextProvider } from '../context/PaginationContext';
 import Menu from '../components/Menu';
 import Gallery from '../components/Gallery';
-import getGalleryImages from "../components/getGalleryImages";
+import getGalleryImages, { NotFoundError } from "../components/getGalleryImages";
 
 import { IMAGES_PER_PAGE } from "../config";
 import { logger } from "../utils/logger";
@@ -34,11 +34,13 @@ function GalleryWrapper({ albumCode }: GalleryWrapperType) {
   });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
     async function fetchGalleryObject() {
       setIsLoading(true);
       setError(null);
+      setNotFound(false);
       try {
         // Resolve album ID (handles Imgur -> R2 redirects)
         const resolvedAlbumId = await resolveAlbumId(albumCode);
@@ -55,12 +57,18 @@ function GalleryWrapper({ albumCode }: GalleryWrapperType) {
           }
         }
 
-        // Try to fetch the album directly - if it doesn't exist, fall back to default
+        // Try to fetch the album directly - if it's not found (404), show not-found
         let data;
         try {
           data = await getGalleryImages(resolvedAlbumId, token);
         } catch (err) {
-          logger.warn(`Album ${resolvedAlbumId} not found, falling back to default`);
+          if (err instanceof NotFoundError) {
+            logger.warn(`Album ${resolvedAlbumId} not found (404)`);
+            setNotFound(true);
+            setIsLoading(false);
+            return;
+          }
+          logger.warn(`Album ${resolvedAlbumId} fetch error, falling back to default`, err);
           data = await getGalleryImages("default", token);
         }
         setGalleryObject(data);
@@ -90,8 +98,26 @@ function GalleryWrapper({ albumCode }: GalleryWrapperType) {
     );
   }
 
+  if (notFound) {
+    return (
+      <div>
+        <Menu loadedImages={{ loadedImages: [] }} />
+        <div style={{ textAlign: "center", padding: "50px" }}>
+          Album not found
+        </div>
+      </div>
+    );
+  }
+
   if (error) {
-    return <div>Error: {error}</div>;
+    return (
+      <div>
+        <Menu loadedImages={{ loadedImages: [] }} />
+        <div style={{ textAlign: "center", padding: "50px", color: "#dc3545" }}>
+          Error: {error}
+        </div>
+      </div>
+    );
   }
 
   // Use totalImages if available (for R2 with progressive loading), otherwise use loadedImages.length

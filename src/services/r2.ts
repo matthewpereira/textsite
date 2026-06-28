@@ -212,6 +212,9 @@ export async function fetchR2Album(
     if (!response.ok) {
       const errorText = await response.text();
       logger.error(`[R2] Worker API error (${response.status}):`, errorText);
+      if (response.status === 404) {
+        throw new Error(`Failed to fetch album: 404 Not Found`);
+      }
       throw new Error(`Failed to fetch album: ${response.status} ${response.statusText}`);
     }
 
@@ -241,6 +244,9 @@ export async function fetchR2Album(
     };
   } catch (error) {
     logger.error(`[R2] Failed to fetch album ${albumId}:`, error);
+    if (error instanceof Error && error.message.includes('404')) {
+      throw error;
+    }
     throw new Error(`Failed to fetch album from R2: ${albumId}`);
   }
 }

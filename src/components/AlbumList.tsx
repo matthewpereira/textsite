@@ -1,16 +1,9 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { useEffect } from "react";
 import Menu from './Menu.tsx';
 import AlbumSelector from "./AlbumSelector";
 
 const AlbumList = () => {
-  const { isAuthenticated, isLoading, loginWithRedirect } = useAuth0();
-
-  useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      loginWithRedirect();
-    }
-  }, [isLoading, isAuthenticated, loginWithRedirect]);
+  const { isLoading } = useAuth0();
 
   if (isLoading) {
     return (
@@ -18,10 +11,6 @@ const AlbumList = () => {
         Loading...
       </div>
     );
-  }
-
-  if (!isAuthenticated) {
-    return null;
   }
 
   return (

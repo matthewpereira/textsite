@@ -31,6 +31,14 @@ interface GalleryData {
   };
 }
 
+// Special error class to distinguish 404 Not Found from other errors
+class NotFoundError extends Error {
+  constructor(albumId: string) {
+    super(`Album not found: ${albumId}`);
+    this.name = 'NotFoundError';
+  }
+}
+
 interface GalleryState {
   albumName: string;
   captions: string;
@@ -121,21 +129,30 @@ const getGalleryImages = async (albumId: string, token?: string): Promise<Galler
       // Fetch all images from R2 at once (now fast with parallel metadata fetching)
       logger.log(`[R2] Fetching album ${albumId} from R2`);
 
-      const r2Album = await fetchR2Album(albumId, undefined, 0, token); // Fetch all images, no pagination
-      logger.log(`[R2] Loaded ${r2Album.images.length} images`);
+      try {
+        const r2Album = await fetchR2Album(albumId, undefined, 0, token); // Fetch all images, no pagination
+        logger.log(`[R2] Loaded ${r2Album.images.length} images`);
 
-      // Convert R2 format to GalleryData format
-      data = {
-        data: {
-          id: r2Album.id,
-          images: r2Album.images,
-          title: r2Album.title,
-          description: r2Album.description,
-          createdAt: r2Album.createdAt,
-          updatedAt: r2Album.updatedAt,
-          date: r2Album.date,
-        },
-      };
+        // Convert R2 format to GalleryData format
+        data = {
+          data: {
+            id: r2Album.id,
+            images: r2Album.images,
+            title: r2Album.title,
+            description: r2Album.description,
+            createdAt: r2Album.createdAt,
+            updatedAt: r2Album.updatedAt,
+            date: r2Album.date,
+          },
+        };
+      } catch (error) {
+        // Check if the error is a 404 from the Worker API
+        if (error instanceof Error && error.message.includes('404')) {
+          logger.log(`[R2] Album ${albumId} not found (404)`);
+          throw new NotFoundError(albumId);
+        }
+        throw error;
+      }
     } else {
       // Default to Imgur
       logger.log(`[Imgur] Fetching album ${albumId} from Imgur API`);
@@ -154,6 +171,9 @@ const getGalleryImages = async (albumId: string, token?: string): Promise<Galler
       if (!response.ok) {
         const errorBody = await response.text();
         logger.error(`[Imgur] Error response body: ${errorBody}`);
+        if (response.status === 404) {
+          throw new NotFoundError(albumId);
+        }
         throw new Error(`HTTP error! status: ${response.status}, body: ${errorBody}`);
       }
 
@@ -170,6 +190,10 @@ const getGalleryImages = async (albumId: string, token?: string): Promise<Galler
 
     return galleryState;
   } catch (error) {
+    // Re-throw NotFoundError so the caller can handle 404s differently
+    if (error instanceof NotFoundError) {
+      throw error;
+    }
     logger.error(`[${provider.toUpperCase()}] Failed to fetch gallery images:`, error);
     return hydrateGalleryState(IN_CASE_OF_ERROR);
   }
@@ -194,3 +218,4 @@ const hydrateGalleryState = (data: GalleryData): GalleryState => {
 };
 
 export default getGalleryImages;
+export { NotFoundError };
