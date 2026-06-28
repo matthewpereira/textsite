@@ -110,8 +110,8 @@ const getGalleryImages = async (albumId: string, token?: string): Promise<Galler
   }
 
   // Local development mode
-  if (window.location.hostname === 'localhost') {
-    const { default: jsonData } = await import('./galleryImagesResponse.json', { with: { type: 'json' } });
+  if (import.meta.env.DEV && window.location.hostname === 'localhost') {
+    const { default: jsonData } = await import('./galleryImagesResponse.json');
     const data = hydrateGalleryState(jsonData);
     setCachedGallery(albumId, data);
     return data;

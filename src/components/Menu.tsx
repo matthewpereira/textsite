@@ -5,10 +5,10 @@ import Shortcuts from "./Shortcuts.tsx";
 import { GalleryImageData } from '../types';
 
 interface MenuProps {
-  loadedImages: GalleryImageData[];
+  loadedImages?: GalleryImageData[];
 }
 
-const Menu = ({ loadedImages }: MenuProps) => {
+const Menu = ({ loadedImages = [] }: MenuProps) => {
 
   const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
 
