@@ -5,6 +5,8 @@ export interface Album {
   loadedImages: GalleryImage[];
 }
 
+export type GalleryImageData = GalleryImage;
+
 export interface GalleryImage {
   id: string;
   link: string;
