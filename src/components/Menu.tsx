@@ -2,8 +2,13 @@ import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import Pagination from "./Pagination.tsx";
 import Shortcuts from "./Shortcuts.tsx";
+import { GalleryImageData } from '../types';
 
-const Menu = (loadedImages: any) => {
+interface MenuProps {
+  loadedImages: GalleryImageData[];
+}
+
+const Menu = ({ loadedImages }: MenuProps) => {
 
   const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
 
@@ -22,7 +27,7 @@ const Menu = (loadedImages: any) => {
   const Logout = () => <span><a className="logoutButton" href="#" onClick={handleLogout}>Logout</a></span>;
 
   // Check if there are images to display
-  const hasImages = loadedImages?.loadedImages && loadedImages.loadedImages.length > 0;
+  const hasImages = loadedImages && loadedImages.length > 0;
 
   return (
     <nav>
