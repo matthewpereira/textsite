@@ -228,7 +228,6 @@ export async function fetchR2Album(
         ...img,
         link: img.url, // Map 'url' to 'link' for compatibility
       };
-      logger.log('[R2] Mapped image:', { id: img.id, url: img.url, link: mapped.link });
       return mapped;
     });
 
