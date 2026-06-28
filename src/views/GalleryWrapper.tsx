@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { GalleryImageData } from '../types';
 import "./GalleryWrapper.css";
 import { PaginationContextProvider } from '../context/PaginationContext';
 import Menu from '../components/Menu';
@@ -14,7 +15,7 @@ import '../App.css';
 
 interface GalleryType {
   captions: string;
-  loadedImages: any[];
+  loadedImages: GalleryImageData[];
   albumName: string;
   description: string;
   totalImages?: number;
@@ -101,7 +102,7 @@ function GalleryWrapper({ albumCode }: GalleryWrapperType) {
   if (notFound) {
     return (
       <div>
-        <Menu loadedImages={{ loadedImages: [] }} />
+        <Menu loadedImages={[]} />
         <div style={{ textAlign: "center", padding: "50px" }}>
           Album not found
         </div>
@@ -112,7 +113,7 @@ function GalleryWrapper({ albumCode }: GalleryWrapperType) {
   if (error) {
     return (
       <div>
-        <Menu loadedImages={{ loadedImages: [] }} />
+        <Menu loadedImages={[]} />
         <div style={{ textAlign: "center", padding: "50px", color: "#dc3545" }}>
           Error: {error}
         </div>

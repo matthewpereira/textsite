@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react"
 
-const ShortcutsPopup = ({ setShowShortcuts }: any) => {
+interface ShortcutsProps {
+  setShowShortcuts: (value: boolean) => void;
+}
+
+const ShortcutsPopup = ({ setShowShortcuts }: ShortcutsProps) => {
   return (
     <div className="shortcutsPopup">
       <ul>
@@ -16,7 +20,7 @@ const ShortcutsPopup = ({ setShowShortcuts }: any) => {
   )
 }
 
-const ShortcutsHint = ({ setShowShortcuts }: any) => {
+const ShortcutsHint = ({ setShowShortcuts }: ShortcutsProps) => {
   let hotkey = "^";
 
   const userAgent = window.navigator.userAgent;
@@ -49,7 +53,7 @@ const Shortcuts = () => {
     };
   }, []); // Empty dependency array ensures this effect runs once on mount
 
-  const handleShortcutKeypress = (event: KeyboardEvent, showShortcuts: any) => {
+  const handleShortcutKeypress = (event: KeyboardEvent, showShortcuts: boolean) => {
     if (!showShortcuts && event.metaKey && event.code === "KeyK") {
       setShowShortcuts((prevState) => !prevState);
     }
