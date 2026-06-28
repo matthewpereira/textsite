@@ -1,10 +1,10 @@
-import { GalleryImage } from "../types";
+import { GalleryImageData } from "../types";
 
 interface GalleryState {
   albumName: string;
   captions: string;
   description: string;
-  loadedImages: GalleryImage[];
+  loadedImages: GalleryImageData[];
   createdAt?: string;
   updatedAt?: string;
   date?: string;

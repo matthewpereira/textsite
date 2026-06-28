@@ -1,9 +1,8 @@
 import { IMGUR_AUTHORIZATION, STORAGE_PROVIDER } from '../config';
-import jsonData from './galleryImagesResponse.json' assert { type: 'json' };
 import defaultGalleryData from './defaultGalleryData';
 import { fetchR2Album } from '../services/r2';
 import { logger } from '../utils/logger';
-import { GalleryImage } from '../types';
+import { GalleryImageData } from '../types';
 
 const DEFAULTGALLERY = "6Hpyr";
 const CACHE_KEY_PREFIX = 'textsite_gallery_';
@@ -21,7 +20,7 @@ const IN_CASE_OF_ERROR: GalleryData = {
 interface GalleryData {
   data: {
     id: string;
-    images: GalleryImage[];
+    images: GalleryImageData[];
     title?: string;
     description?: string;
     createdAt?: string;
@@ -43,7 +42,7 @@ interface GalleryState {
   albumName: string;
   captions: string;
   description: string;
-  loadedImages: GalleryImage[];
+  loadedImages: GalleryImageData[];
   createdAt?: string;
   updatedAt?: string;
   date?: string;
@@ -111,8 +110,8 @@ const getGalleryImages = async (albumId: string, token?: string): Promise<Galler
   }
 
   // Local development mode
-  if (window.location.href === 'http://localhost:5173/' || window.location.href === 'https://localhost:5173/') {
-    // The browser is at localhost:5173
+  if (window.location.hostname === 'localhost') {
+    const { default: jsonData } = await import('./galleryImagesResponse.json', { with: { type: 'json' } });
     const data = hydrateGalleryState(jsonData);
     setCachedGallery(albumId, data);
     return data;
