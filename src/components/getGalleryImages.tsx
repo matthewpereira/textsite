@@ -4,13 +4,15 @@ import { fetchR2Album } from '../services/r2';
 import { logger } from '../utils/logger';
 import { GalleryImageData } from '../types';
 
-const DEFAULTGALLERY = "6Hpyr";
+// The album backing the homepage. Fetched live like any other album, with
+// defaultGalleryData as the offline fallback.
+const DEFAULT_ALBUM_ID = 'default';
 const CACHE_KEY_PREFIX = 'textsite_gallery_';
 const CACHE_EXPIRY = 30 * 60 * 1000; // 30 minutes
 
 const IN_CASE_OF_ERROR: GalleryData = {
   data: {
-    id: DEFAULTGALLERY,
+    id: '',
     images: [],
     title: "Default Gallery",
     description: "Unable to load the requested gallery."
@@ -54,10 +56,6 @@ interface CachedGallery {
   timestamp: number;
 }
 
-const styleCaptions = (albumId: string): string => {
-  return !albumId || albumId === DEFAULTGALLERY ? "right" : "bottom";
-};
-
 const getCachedGallery = (albumId: string): GalleryState | null => {
   try {
     const cacheKey = `${CACHE_KEY_PREFIX}${albumId}`;
@@ -93,11 +91,6 @@ const setCachedGallery = (albumId: string, data: GalleryState): void => {
 };
 
 const getGalleryImages = async (albumId: string, token?: string): Promise<GalleryState> => {
-  // Return hardcoded default gallery without any network call
-  if (albumId === 'default') {
-    return defaultGalleryData;
-  }
-
   // sessionStorage cache is anonymous-only — authed responses can include
   // private/unlisted album content that mustn't be served to a later
   // anonymous session in the same tab.
@@ -189,6 +182,14 @@ const getGalleryImages = async (albumId: string, token?: string): Promise<Galler
 
     return galleryState;
   } catch (error) {
+    // The homepage must always render something. When the live default album
+    // is unreachable — including a 404 — fall back to the snapshot baked in at
+    // build time rather than surfacing "Album not found" or an empty gallery.
+    if (albumId === DEFAULT_ALBUM_ID) {
+      logger.warn('Failed to fetch the default album, using the bundled snapshot:', error);
+      return defaultGalleryData;
+    }
+
     // Re-throw NotFoundError so the caller can handle 404s differently
     if (error instanceof NotFoundError) {
       throw error;
@@ -199,14 +200,13 @@ const getGalleryImages = async (albumId: string, token?: string): Promise<Galler
 };
 
 const hydrateGalleryState = (data: GalleryData): GalleryState => {
-  const captions = styleCaptions(data.data.id);
   const loadedImages = data.data.images || [];
   const description = data.data.description || "";
   const albumName = data.data.title || "Matthew Pereira";
 
   return {
     albumName,
-    captions,
+    captions: "bottom",
     description,
     loadedImages,
     createdAt: data.data.createdAt,
@@ -217,4 +217,4 @@ const hydrateGalleryState = (data: GalleryData): GalleryState => {
 };
 
 export default getGalleryImages;
-export { NotFoundError };
+export { NotFoundError, DEFAULT_ALBUM_ID };

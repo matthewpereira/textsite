@@ -5,7 +5,7 @@ import "./GalleryWrapper.css";
 import { PaginationContextProvider } from '../context/PaginationContext';
 import Menu from '../components/Menu';
 import Gallery from '../components/Gallery';
-import getGalleryImages, { NotFoundError } from "../components/getGalleryImages";
+import getGalleryImages, { NotFoundError, DEFAULT_ALBUM_ID } from "../components/getGalleryImages";
 
 import { IMAGES_PER_PAGE } from "../config";
 import { logger } from "../utils/logger";
@@ -70,7 +70,7 @@ function GalleryWrapper({ albumCode }: GalleryWrapperType) {
             return;
           }
           logger.warn(`Album ${resolvedAlbumId} fetch error, falling back to default`, err);
-          data = await getGalleryImages("default", token);
+          data = await getGalleryImages(DEFAULT_ALBUM_ID, token);
         }
         setGalleryObject(data);
       } catch (err) {
