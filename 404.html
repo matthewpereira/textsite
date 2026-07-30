@@ -33,5 +33,16 @@
     </script>
   </head>
   <body>
+    <!-- The redirect above is JS-only, so without this a non-JS visitor to any
+         deep route gets a blank page and no way out. -->
+    <noscript>
+      <div style="font-family: Sora, Inter, system-ui, sans-serif; font-size: 12px; line-height: 1.6; padding: 8px;">
+        <h1 style="font-size: 12px; font-weight: 700; margin: 0 0 19px;">Matthew Pereira</h1>
+        <p style="margin: 0;">
+          This page needs JavaScript to load.
+          <a href="/">Go to the homepage</a> for contact details and everything else.
+        </p>
+      </div>
+    </noscript>
   </body>
 </html>
