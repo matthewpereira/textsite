@@ -13,7 +13,11 @@ const Menu = ({ loadedImages = [] }: MenuProps) => {
   const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
 
   const handleLogin = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    loginWithRedirect();
+    // Auth0 always returns to the origin, so carry the current page in
+    // appState for onRedirectCallback to restore.
+    loginWithRedirect({
+      appState: { returnTo: window.location.pathname + window.location.search },
+    });
     event.preventDefault();
   }
 

@@ -4,7 +4,7 @@ import AlbumView from './views/AlbumView.tsx';
 import AboutView from './views/AboutView.tsx';
 import AlbumList from './components/AlbumList.tsx';
 
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
   {
     path: "/",
     element: <DefaultView />,
