@@ -12,6 +12,7 @@ import { IMAGES_PER_PAGE } from '../config';
 
 import { useAuth0 } from "@auth0/auth0-react";
 import { GalleryImageData } from '../types';
+import { hasPrivateTag, stripPrivateTag } from '../helpers/privateTag';
 
 // Don't show the album name and description on default gallery
 export const isAlbumPage = (pathname: string) => (
@@ -198,7 +199,7 @@ const Gallery = ({ galleryObject }: GalleryProps) => {
       {thisPageImages.map((image, index) =>
         <GalleryImage
           captions={galleryObject.captions}
-          isPrivate={!!(image.description && image.description.indexOf("[PRIVATE]") > -1 && !isAuthenticated)}
+          isPrivate={!isAuthenticated && hasPrivateTag(image.title, image.description, image.info)}
           isHighlighted={targetPhotoId === image.id}
           height={image.height}
           image={image}
@@ -222,11 +223,11 @@ const TitleCard = (props: {
 
   return (
     <div className="gallery__titlecard">
-      <div className="gallery__titlecard-albumname">{props.albumName}</div>
+      <div className="gallery__titlecard-albumname">{stripPrivateTag(props.albumName)}</div>
       {displayDate && (
         <div className="gallery__titlecard-date">{displayDate}</div>
       )}
-      <div className="gallery__titlecard-description">{props.description}</div>
+      <div className="gallery__titlecard-description">{stripPrivateTag(props.description)}</div>
     </div>
   );
 }

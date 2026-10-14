@@ -4,6 +4,7 @@ import parseStringForLinks from "../helpers/textLinks.tsx";
 import decodeHtmlEntities from "../helpers/decodeHtmlEntities.ts";
 import YouTubeEmbed from "./YouTubeEmbed";
 import { GalleryImageData } from "../types";
+import { stripPrivateTag } from "../helpers/privateTag";
 
 interface GalleryImageType {
   image: GalleryImageData;
@@ -16,12 +17,20 @@ interface GalleryImageType {
   isHighlighted?: boolean;
 }
 
-const GalleryImage = ({ image, type, width, height, isPrivate, isHighlighted }: GalleryImageType) => {
+const GalleryImage = ({ image: rawImage, type, width, height, isPrivate, isHighlighted }: GalleryImageType) => {
   const [copySuccess, setCopySuccess] = useState(false);
 
   if (isPrivate) {
     return null;
   }
+
+  // Strip the [PRIVATE] marker from every caption field before rendering
+  const image = {
+    ...rawImage,
+    title: stripPrivateTag(rawImage.title),
+    description: stripPrivateTag(rawImage.description),
+    info: stripPrivateTag(rawImage.info),
+  };
 
   const copyPermalink = async () => {
     const permalink = `${window.location.origin}${window.location.pathname}#p/${image.id}`;
@@ -93,7 +102,7 @@ const GalleryImage = ({ image, type, width, height, isPrivate, isHighlighted }: 
         <ShareButton />
         <div>
           {image.title ? <div>{decodeHtmlEntities(image.title)}</div> : null}
-          {image.description ? <div>{image.description}</div> : null}
+          {image.description ? <div>{decodeHtmlEntities(image.description)}</div> : null}
           {image.info ? <div>{image.info}</div> : null}
         </div>
         <video
@@ -112,8 +121,7 @@ const GalleryImage = ({ image, type, width, height, isPrivate, isHighlighted }: 
     );
   }
 
-  // Remove private tag from description
-  const imageCaption = image.description ? image.description.replace(/\[PRIVATE\]/gi, '').trim() : null;
+  const imageCaption = image.description;
 
   // Use description as alt text if available, then title
   const altText = imageCaption || image.title || "Photograph";
