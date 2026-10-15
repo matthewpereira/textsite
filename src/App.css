@@ -248,10 +248,6 @@ nav span+span {
   font-size: 12px;
 }
 
-.galleryImage__headline {
-  font-weight: bold;
-}
-
 .galleryImage__caption div+div {
   margin-left: 16px;
 }
