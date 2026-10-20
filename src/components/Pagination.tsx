@@ -12,7 +12,7 @@ interface PaginationButtonType {
   numberOfPages?: number;
 }
 
-const nextPagePath = (pathName: string, currentPage: number) => {
+export const nextPagePath = (pathName: string, currentPage: number) => {
   const increment = currentPage + 1;
 
   return pathName + "#" + increment;

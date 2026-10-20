@@ -100,6 +100,20 @@ nav span+span {
   padding-top: 16px;
 }
 
+.gallery__nextPageLink {
+  display: block;
+  width: fit-content;
+  margin: 48px auto 0;
+  padding-bottom: 96px;
+  color: #444;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.gallery__nextPageLink:hover {
+  text-decoration: underline;
+}
+
 .galleryImage {
   position: relative;
   width: 100vw;

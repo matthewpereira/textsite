@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import GalleryImage from './GalleryImage';
 import { usePaginationContext } from '../context/PaginationContext';
+import { nextPagePath } from './Pagination';
 
 import handleKeypress from '../helpers/handleKeypress';
 import removeHashFromHashString from '../helpers/removeHashFromHashString';
@@ -209,6 +210,14 @@ const Gallery = ({ galleryObject }: GalleryProps) => {
           width={image.width}
         />
       )}
+      {numberOfPages && currentPageNumber < numberOfPages ?
+        <Link
+          className="gallery__nextPageLink"
+          to={nextPagePath(location.pathname, currentPageNumber)}
+          onClick={() => window.scrollTo(0, 0)}
+        >
+          Next page &gt;
+        </Link> : null}
     </div>
   )
 }
