@@ -216,7 +216,7 @@ const Gallery = ({ galleryObject }: GalleryProps) => {
           to={nextPagePath(location.pathname, currentPageNumber)}
           onClick={() => window.scrollTo(0, 0)}
         >
-          Next page &gt;
+          Next page &rarr;
         </Link> : null}
     </div>
   )
